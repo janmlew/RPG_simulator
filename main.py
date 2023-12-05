@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
 creature_list = ['Balrog', 'Dragon', 'Elemental', 'Ent', 'Tree', 'Giant',
                  'Hero', 'Lycanthrope', 'Roc', 'Super Hero', 'Troll', 'Ogre',
@@ -459,5 +460,13 @@ create_more_monsters(100)
 for x in range(0, int((len(list_of_creatures)+1)/2.0)):
     combat(list_of_creatures[x], list_of_creatures[x+int(len(list_of_creatures)/2.0)])
 
+hps = []
 for x in range(0, len(list_of_creatures)):
     print(list_of_creatures[x].name, list_of_creatures[x].hp)
+    hps.append(list_of_creatures[x].hp)
+
+plt.hist(hps)
+plt.title("Number of creatures per HPs")
+plt.xlabel("HPs")
+plt.ylabel("Number of creatures")
+plt.show()
