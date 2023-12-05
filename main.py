@@ -289,6 +289,11 @@ name_list = ["Aal", "Abe", "Ad", "Ada", "Ade", "Al", "An", "Ar", "Arn", "Aro", "
              "The Hunter", "The Last One", "Thornhead", "Thunder Hawk", "Thunderclap", "Thundering Whisper", "Venom",
              "Venombite", "Voiceless Stranger", "Wi-Fire", "Wild Tornado", "Wildfire", "Wildflame", "Karma"]
 
+capitalized_name_list = []
+
+for name in name_list:
+    capitalized_name_list.append(name.capitalize())
+
 enemy_dict = {
     'Balrog': [7, 6, 10, 12, 12, 9, 11, 10, 12, 9, 10, 10, 12, 12, 7, 10],
     'Dragon': [11, 8, 10, 12, 12, 9, 12, 12, 12, 10, 12, 12, 12, 12, 9, 12],
@@ -309,8 +314,6 @@ enemy_dict = {
 }
 combat_table = pd.DataFrame(enemy_dict, index=creature_list)
 
-print(combat_table)
-
 
 class Creature:
     def __init__(self, name, hp=None, die=None, kind="Hero"):
@@ -329,13 +332,6 @@ class Creature:
 # combat_lookup returns the successful attack roll threshold
 def combat_lookup(cre1, cre2):  # cre1 is an attacker
     return combat_table.loc[cre1.kind, cre2.kind]
-
-
-bargol = Creature(name="Zły", hp=100, kind="Balrog")
-hadrian_sandberg = Creature(name="Hadrian Sandberg", hp=31, kind="Dragon")
-
-print(combat_lookup(bargol, hadrian_sandberg),
-      combat_lookup(hadrian_sandberg, bargol))
 
 
 def strike(cre1, cre2, cre1_initiative, cre2_initiative):
@@ -444,14 +440,6 @@ def combat(cre1, cre2):
               "HPs.")
 
 
-combat(hadrian_sandberg, bargol)
-
-
-capitalized_name_list = []
-
-for name in name_list:
-    capitalized_name_list.append(name.capitalize())
-
 list_of_creatures: list[Creature] = []
 
 
@@ -459,11 +447,13 @@ def create_more_monsters(size):
     # Creates a randomized list of n creatures, where n = size.
     for n in range(1, size + 1):
         kind = creature_list[np.random.randint(0, 16)]
-        hp = np.random.randint(1, 7, 4)
+        hp = sum(np.random.randint(1, 7, 4))
         creature_name = capitalized_name_list[np.random.randint(0, len(capitalized_name_list)+1)]
         list_of_creatures.append(Creature(name=creature_name, hp=hp, die=4, kind=kind))
 
 
 create_more_monsters(100)
 
-
+for x in range(0, len(list_of_creatures)):
+    for y in range(x, len(list_of_creatures)):
+        combat(list_of_creatures[x], list_of_creatures[y])
