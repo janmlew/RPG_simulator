@@ -409,6 +409,7 @@ def combat(cre1, cre2):
     # Checks whether creatures can participate in a fight.
     if not (cre1.is_alive() and cre2.is_alive()):
         print("Dead creatures cannot fight! Choose living contestants.")
+        print('-'*80)
         return None
 
     # Initiative checks. Simultaneous fight is effectively treated like an
@@ -431,14 +432,17 @@ def combat(cre1, cre2):
         print(cre1.name, "and", cre2.name, "killed themselves!")
         print(cre1.name, "has", cre1.hp, "HPs, while", cre2.name, "has", cre2.hp,
               "HPs after the fight.")
+        print('-' * 80)
     elif not cre1.is_alive():
         print(cre1.name, "killed", cre2.name + ".")
         print("After the fight,", cre1.name, "has", cre1.hp, "HPs, while", cre2.name, "has", cre2.hp,
               "HPs.")
+        print('-' * 80)
     else:
         print(cre2.name, "killed", cre1.name + ".")
         print("After the fight,", cre1.name, "has", cre1.hp, "HPs, while", cre2.name, "has", cre2.hp,
               "HPs.")
+        print('-'*80)
 
 
 list_of_creatures: list[Creature] = []
