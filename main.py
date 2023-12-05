@@ -448,12 +448,16 @@ def create_more_monsters(size):
     for n in range(1, size + 1):
         kind = creature_list[np.random.randint(0, 16)]
         hp = sum(np.random.randint(1, 7, 4))
-        creature_name = capitalized_name_list[np.random.randint(0, len(capitalized_name_list)+1)]
+        creature_name = capitalized_name_list[np.random.randint(0, len(capitalized_name_list))]
         list_of_creatures.append(Creature(name=creature_name, hp=hp, die=4, kind=kind))
 
 
+# Creates a number of creatures ready to fight.
 create_more_monsters(100)
 
+# Pits pairs of creatures in fights.
+for x in range(0, int((len(list_of_creatures)+1)/2.0)):
+    combat(list_of_creatures[x], list_of_creatures[x+int(len(list_of_creatures)/2.0)])
+
 for x in range(0, len(list_of_creatures)):
-    for y in range(x, len(list_of_creatures)):
-        combat(list_of_creatures[x], list_of_creatures[y])
+    print(list_of_creatures[x].name, list_of_creatures[x].hp)
