@@ -1,3 +1,5 @@
-import warhammer
+from warhammer40k import Creature
 
-warhammer.DiceThrow(1, 100)
+creature = Creature
+
+print(creature.roll(1, 100), creature.roll(2, 6))
