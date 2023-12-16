@@ -15,5 +15,5 @@ class Creature:
         rolls = []
         for i in range(0, dice_number):
             rolls.append(np.random.randint(1, dice_sides + 1))
-            print(self.name, "rolled", rolls[-1])
+            print(f"{self.name} rolled {rolls[-1]}.")
         return rolls
