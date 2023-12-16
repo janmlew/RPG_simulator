@@ -11,4 +11,7 @@ class DiceThrow:
         self.dice_sides = dice_sides
 
     def roll(self):
-        return np.random.randint(1, self.dice_sides + 1, self.dice_number)
+        rolls = []
+        for i in range(1, self.dice_number):
+            rolls.append(np.random.randint(1, self.dice_sides + 1))
+        return rolls
