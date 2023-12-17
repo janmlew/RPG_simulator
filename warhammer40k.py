@@ -19,7 +19,7 @@ class Creature:
     def roll(self, dice_number=1, dice_sides=6):
         for i in range(0, dice_number):
             self.rolls.append(np.random.randint(1, dice_sides + 1))
-            print(f"{self.name} rolled {self.rolls[-1]}.")
+            print(f"{self.name} rolled {self.rolls[-1]}.")  # <-- This line is here only for testing
         return self.rolls[-1 + dice_number:]
 
     @property
