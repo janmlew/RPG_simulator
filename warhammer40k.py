@@ -18,7 +18,7 @@ class Creature:
         for i in range(0, dice_number):
             self.rolls.append(np.random.randint(1, dice_sides + 1))
             print(f"{self.name} rolled {self.rolls[-1]}.")  # <-- This line is here only for testing
-        return self.rolls[-1 + dice_number:]
+        return self.rolls[-dice_number:]
 
     @property
     def roll_history(self):
@@ -26,7 +26,5 @@ class Creature:
 
     def generate_stats(self):
         for key in self.characteristics.keys():
-            two_d_tens = sum(self.roll(2, 10))
-            print(two_d_tens)
-            self.characteristics[key] = two_d_tens + 25
+            self.characteristics[key] = sum(self.roll(2, 10)) + 25
             print(key, self.characteristics[key])
