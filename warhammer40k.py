@@ -12,7 +12,9 @@ class Creature:
         self.kind = kind
         self.level = level
         self.rolls = []
-        self.characteristics = {"weapon_skill": 0, "ballistic_skill": 0, "strength": 0, "toughness": 0, "agility": 0, "intelligence": 0, "perception": 0, "will_power": 0, "fellowship":0}
+        self.characteristics = pd.DataFrame(index=["weapon_skill", "ballistic_skill", "strength", "toughness",
+                                                   "agility", "intelligence", "perception", "will_power",
+                                                   "fellowship"], columns=["characteristic", "bonus"])
 
     def roll(self, dice_number=1, dice_sides=6):
         for i in range(0, dice_number):
@@ -25,6 +27,7 @@ class Creature:
         return self.rolls
 
     def generate_stats(self):
-        for key in self.characteristics.keys():
-            self.characteristics[key] = sum(self.roll(2, 10)) + 25
-            print(key, self.characteristics[key])
+        for index in self.characteristics.index:
+            self.characteristics.loc[index, "characteristic"] = sum(self.roll(2, 10)) + 25
+            self.characteristics.loc[index, "bonus"] = np.trunc(self.characteristics.loc[index, "characteristic"]/10).astype(int)
+            print(self.characteristics.loc[index, :])
