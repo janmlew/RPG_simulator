@@ -15,6 +15,20 @@ class Creature:
         self.characteristics = pd.DataFrame(index=["weapon_skill", "ballistic_skill", "strength", "toughness",
                                                    "agility", "intelligence", "perception", "will_power",
                                                    "fellowship"], columns=["characteristic", "bonus"])
+        origins_data = [[np.NaN, "Death World", "Void Born", "Forge World", "Hive World", "Imperial World",
+                         "Noble Born", np.NaN],
+                        [np.NaN, "Scavenger", "Scapegrace", "Stubjack", "Child of the Creed", "Savant", "Vaunted",
+                         np.NaN],
+                        [np.NaN, "Tainted", "Criminal", "Renegade", "Duty Bound", "Zealot", "Chosen by Destiny",
+                         np.NaN],
+                        [np.NaN, "The Hand of War", "Press-Ganged", "Calamity", "Ship-Lorn", "Dark Voyage",
+                         "High Vendetta", np.NaN],
+                        [np.NaN, "Endurance", "Fortune", "Vengeance", "Renown", "Pride", "Prestige", np.NaN],
+                        ["Astropath Transcendent", "Arch-Mutant", "Void-Master", "Explorator", "Missionary",
+                         "Seneschal", "Navigator", "Rogue Trader"]]
+        self.origins = pd.DataFrame(index=["Home World", "Birthright", "Lure of the Void", "Trails and Travails",
+                                           "Motivation", "Career"], columns=range(0, 8), data=origins_data)
+        print(self.origins)
 
     def roll(self, dice_number=1, dice_sides=6):
         for i in range(0, dice_number):
@@ -31,3 +45,5 @@ class Creature:
             self.characteristics.loc[index, "characteristic"] = sum(self.roll(2, 10)) + 25
             self.characteristics.loc[index, "bonus"] = np.trunc(self.characteristics.loc[index, "characteristic"]/10).astype(int)
             print(self.characteristics.loc[index, :])
+        for index in self.origins.columns:
+            print(self.origins.loc[:, index])
