@@ -4,8 +4,6 @@ import numpy as np
 import pandas as pd
 
 
-# import pandas as pd
-
 class Creature:
     def __init__(self, name, kind="Human", level=0):
         self.name = name
@@ -44,6 +42,11 @@ class Creature:
         for index in self.characteristics.index:
             self.characteristics.loc[index, "characteristic"] = sum(self.roll(2, 10)) + 25
             self.characteristics.loc[index, "bonus"] = np.trunc(self.characteristics.loc[index, "characteristic"]/10).astype(int)
-            print(self.characteristics.loc[index, :])
-        for index in self.origins.columns:
-            print(self.origins.loc[:, index])
+            # print(self.characteristics.loc[index, :]) Test line.
+
+        origins_dim_x =
+        for x in range(0, len(self.origins.index)):
+            for y in range(0, len(self.origins.columns)):
+                if self.origins.iloc[x, y] == np.NaN:
+
+                print(f"{self.origins.index[x]}: {self.origins.iloc[x, y]}")
