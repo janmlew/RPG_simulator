@@ -79,6 +79,6 @@ class Creature:
                     random_origin_number -= random_step
                 # Add current row of origin:
                 self.origin.append(origins.iloc[x, random_origin_number])
+            print(origin_row)
 
-
-        print(self.origin)
+        print(f"Should return: {self.origin}")
