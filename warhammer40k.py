@@ -45,7 +45,7 @@ class Creature:
                 self.characteristics.loc[index, "characteristic"] / 10).astype(int)
             # print(self.characteristics.loc[index, :]) Test line.
 
-        df_middle: int = 0
+        df_pos: int = 0
         random_origin_number: int = 0
         random_step: int = 0
 
@@ -59,22 +59,22 @@ class Creature:
             if x == 0:
                 random_origin_number = np.random.randint(0, len(origin_row))
                 # Add first row of origin:
-                self.origin.append(origins.iloc[0, random_origin_number])
+                self.origin.append(origin_row[random_origin_number])
                 # Saves random next step for the second row:
                 if random_origin_number == 0:
-                    df_middle = -1
+                    df_pos = -1
                     random_step = np.random.randint(0, 2)
                 elif random_origin_number == len(origin_row) - 1:
-                    df_middle = 1
+                    df_pos = 1
                     random_step = np.random.randint(0, 2)
                 else:
-                    df_middle = 0
+                    df_pos = 0
                     random_step = np.random.randint(0, 3)
             elif x < origins_index:
-                if df_middle == 0:
+                if df_pos == 0:
                     random_origin_number += random_step - 1
                     random_step = np.random.randint(0, 3)
-                elif df_middle < 0:
+                elif df_pos < 0:
                     random_origin_number += random_step
                     random_step = np.random.randint(0, 2)
                 else:
