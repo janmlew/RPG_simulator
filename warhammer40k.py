@@ -61,22 +61,20 @@ class Creature:
                 old_state = np.random.randint(0, len(origin_row))
                 # Add first row of origin:
                 self.origin.append(origin_row[old_state])
-            elif x < origins_index:
+            elif x < (origins_index - 1):
                 new_state = old_state
                 if new_state == 0:
                     new_state += np.random.randint(0, 2)
                     old_state = new_state
-                    self.origin.append(origin_row[new_state])
                 elif new_state == len(origin_row) - 1:
                     new_state -= np.random.randint(0, 2)
                     old_state = new_state
-                    self.origin.append(origin_row[new_state])
                 else:
-                    new_state += np.random.randint(0, 3) - 1
+                    new_state += np.random.randint(low=-1, high=2)
                     old_state = new_state
-                    self.origin.append(origin_row[new_state])
+                self.origin.append(origin_row[new_state])
             else:
-                self.origin.append(origin_row[old_state] + np.random.randint(-1, 2))
-            print(origin_row)
+                old_state += np.random.randint(low=0, high=3)
+                self.origin.append(origin_row[old_state])
 
-        print(f"Should return: {self.origin}")
+        print(f"The new path is: {self.origin}")
