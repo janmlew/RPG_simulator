@@ -45,9 +45,10 @@ class Creature:
                 self.characteristics.loc[index, "characteristic"] / 10).astype(int)
             # print(self.characteristics.loc[index, :]) Test line.
 
-        df_pos: int = 0
-        random_origin_number: int = 0
+        random_origin: int = 0
         random_step: int = 0
+        old_state: int = 0
+        new_state: int = 0
 
         for x in range(0, origins_index):
 
@@ -57,32 +58,25 @@ class Creature:
                     origin_row.append(origins.iloc[x, y])
 
             if x == 0:
-                random_origin_number = np.random.randint(0, len(origin_row))
+                old_state = np.random.randint(0, len(origin_row))
                 # Add first row of origin:
-                self.origin.append(origin_row[random_origin_number])
-                # Saves random next step for the second row:
-                if random_origin_number == 0:
-                    df_pos = -1
-                    random_step = np.random.randint(0, 2)
-                elif random_origin_number == len(origin_row) - 1:
-                    df_pos = 1
-                    random_step = np.random.randint(0, 2)
-                else:
-                    df_pos = 0
-                    random_step = np.random.randint(0, 3)
+                self.origin.append(origin_row[old_state])
             elif x < origins_index:
-                if df_pos == 0:
-                    random_origin_number += random_step - 1
-                    # random_step = np.random.randint(0, 3)
-                elif df_pos < 0:
-                    random_origin_number += random_step
-                    # random_step = np.random.randint(0, 2)
+                new_state = old_state
+                if new_state == 0:
+                    new_state += np.random.randint(0, 2)
+                    old_state = new_state
+                    self.origin.append(origin_row[new_state])
+                elif new_state == len(origin_row) - 1:
+                    new_state -= np.random.randint(0, 2)
+                    old_state = new_state
+                    self.origin.append(origin_row[new_state])
                 else:
-                    random_origin_number -= random_step
-                    # random_step = np.random.randint(0, 2)
-                # Add current row of origin:
-                self.origin.append(origins.iloc[x, random_origin_number])
-            # print(random_origin_number, random_step)
+                    new_state += np.random.randint(0, 3) - 1
+                    old_state = new_state
+                    self.origin.append(origin_row[new_state])
+            else:
+                self.origin.append(origin_row[old_state] + np.random.randint(-1, 2))
             print(origin_row)
 
         print(f"Should return: {self.origin}")
