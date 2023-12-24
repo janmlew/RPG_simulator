@@ -25,8 +25,10 @@ class Creature:
         self.rolls: list = []
         self.characteristics = pd.DataFrame(index=["weapon_skill", "ballistic_skill", "strength", "toughness",
                                                    "agility", "intelligence", "perception", "will_power",
-                                                   "fellowship"], columns=["characteristic", "bonus"])
+                                                   "fellowship"], columns=["characteristic", "bonus", "modifier"])
         self.origin: list = []
+        self.skills: list = []
+        self.talents_traits: dict = {}
 
     def roll(self, dice_number: int = 1, dice_sides: int = 6):
         for i in range(0, dice_number):
@@ -43,9 +45,9 @@ class Creature:
             self.characteristics.loc[index, "characteristic"] = sum(self.roll(2, 10)) + 25
             self.characteristics.loc[index, "bonus"] = np.trunc(
                 self.characteristics.loc[index, "characteristic"] / 10).astype(int)
+            self.characteristics.loc[index, "modifier"]: int = 0
 
         old_state: int = 0
-
         for x in range(0, origins_index):
 
             origin_row: list = []
@@ -57,6 +59,18 @@ class Creature:
                 old_state = np.random.randint(0, len(origin_row))
                 # Add first row of origin:
                 self.origin.append(origin_row[old_state])
+                if self.origin[-1] == "Death World":
+                    self.characteristics.loc["strength", "modifier"] += 5
+                    self.characteristics.loc["toughness", "modifier"] += 5
+                    self.characteristics.loc["willpower", "modifier"] += 5
+                    self.characteristics.loc["fellowship", "modifier"] -= 5
+                    self.skills.append("Survival")
+                    if np.random.randint(0, 1) == 0:
+                        self.talents_traits["Hardened"] = "Jaded"
+                    else:
+                        self.talents_traits["Hardened"] = "Resistance (Poisons)"
+                    self.talents_traits["If It Bleeds, I Can Kill It"] = "Melee Weapon Training (Primitive)"
+                    self.talents_traits["Paranoid"] = "Resistance (Poisons)"
             elif x < (origins_index - 1):
                 new_state = old_state
                 if new_state == 0:
