@@ -73,16 +73,16 @@ class Creature:
             elif x < origins_index:
                 if df_pos == 0:
                     random_origin_number += random_step - 1
-                    random_step = np.random.randint(0, 3)
+                    # random_step = np.random.randint(0, 3)
                 elif df_pos < 0:
                     random_origin_number += random_step
-                    random_step = np.random.randint(0, 2)
+                    # random_step = np.random.randint(0, 2)
                 else:
                     random_origin_number -= random_step
-                    random_step = np.random.randint(0, 2)
+                    # random_step = np.random.randint(0, 2)
                 # Add current row of origin:
                 self.origin.append(origins.iloc[x, random_origin_number])
-                print(random_origin_number, random_step)
+            # print(random_origin_number, random_step)
             print(origin_row)
 
         print(f"Should return: {self.origin}")
