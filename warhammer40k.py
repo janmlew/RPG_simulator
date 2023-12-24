@@ -9,7 +9,7 @@ origins_data = [["Death World", "Void Born", "Forge World", "Hive World", "Imper
                 ["Tainted", "Criminal", "Renegade", "Duty Bound", "Zealot", "Chosen by Destiny"],
                 ["The Hand of War", "Press-Ganged", "Calamity", "Ship-Lorn", "Dark Voyage", "High Vendetta"],
                 ["Endurance", "Fortune", "Vengeance", "Renown", "Pride", "Prestige"],
-                ["Astropath Transcendent", "Arch-Mutant", "Void-Master", "Explorator", "Missionary", "Seneschal",
+                ["Astropath Transcendent", "Arch-Militant", "Void-Master", "Explorator", "Missionary", "Seneschal",
                  "Navigator", "Rogue Trader"]]
 origins = pd.DataFrame(index=["Home World", "Birthright", "Lure of the Void", "Trails and Travails", "Motivation",
                               "Career"], columns=range(0, 8), data=origins_data)
@@ -43,12 +43,8 @@ class Creature:
             self.characteristics.loc[index, "characteristic"] = sum(self.roll(2, 10)) + 25
             self.characteristics.loc[index, "bonus"] = np.trunc(
                 self.characteristics.loc[index, "characteristic"] / 10).astype(int)
-            # print(self.characteristics.loc[index, :]) Test line.
 
-        random_origin: int = 0
-        random_step: int = 0
         old_state: int = 0
-        new_state: int = 0
 
         for x in range(0, origins_index):
 
@@ -76,5 +72,3 @@ class Creature:
             else:
                 old_state += np.random.randint(low=0, high=3)
                 self.origin.append(origin_row[old_state])
-
-        print(f"The new path is: {self.origin}")
