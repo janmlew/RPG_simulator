@@ -215,6 +215,9 @@ class Creature:
         print(f"Origin: {self.origin}")
         print(f"Skills: {self.skills}")
         print(f"Talents and traits: {self.talents_traits}")
+        print(f"Wounds: {self.wounds}")
+        print(f"Fate: {self.fate}")
+        print(f"Initiative modifier: {self.initiative_modifier}")
         print(f"Profit factor: {self.profit_factor}")
         print(f"Dice rolls history: {self.roll_history}")
         return None
