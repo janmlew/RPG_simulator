@@ -28,11 +28,14 @@ class Creature:
                                                    "fellowship"], columns=["characteristic", "bonus", "modifier"])
         self.origin: list = []
         self.skills: list = []
+        self.talents: list = []
         self.talents_traits: dict = {}
         self.wounds: int = 0
         self.fate: int = 0
         self.initiative_modifier: int = 0
         self.profit_factor: int = 0
+        self.corruption: int = 0
+        self.insanity: int = 0
 
     def roll(self, dice_number: int = 1, dice_sides: int = 6):
         for i in range(0, dice_number):
@@ -174,34 +177,45 @@ class Creature:
                 self.fate = 4
 
     def generate_birthright_stats(self):
-        if self.origin[1] == "Noble Born":
-            self.characteristics.loc["willpower", "modifier"] -= 5
-            self.characteristics.loc["fellowship", "modifier"] += 5
-            self.skills.append("Literacy (Int) Untrained Basic Skill")
-            self.skills.append("Speak Language (High Gothic)(Int) Untrained Basic Skill")
-            self.skills.append("Speak Language (Low Gothic)(Int) Untrained Basic Skill")
-            self.talents_traits["Etiquette"] = ("+10 to Interaction Tests when dealing with authority and in "
-                                                "formal situations")
-            self.talents_traits["Legacy of Wealth"] = "+1 starting Profit Factor"
-            self.profit_factor = 1
-            # Supremely Connected Trait
-            supremely_connected = "Peer (Nobility) Talent AND Peer ("
-            supremely_connected += [
-                "Academics", "Adeptus Mechanicus", "Administratum", "Astropaths", "Ecclesiarchy", "Government",
-                "Mercantile", "Military", "Underworld"][np.random.randint(0, 9)]
-            supremely_connected += ") Talent"
-            self.talents_traits["Supremely Connected"] = supremely_connected
-            self.talents_traits["Vendetta"] = "Powerful enemies to be defined by Player & GM"
-            self.wounds += sum(self.roll(1, 5))
-            self.characteristics.loc["toughness", "bonus"] *= 2
-            # Determine fate points:
-            self.roll(1, 10)
-            if self.roll_history[-1] < 4:
-                self.fate = 2
-            elif self.roll_history[-1] < 10:
-                self.fate = 3
+        if self.origin[1] == "Scavenger":
+            if np.random.randint(0, 2) == 0:
+                self.talents.append("Unremarkable")
             else:
-                self.fate = 4
+                self.talents.append("Resistance (Fear)")
+            if np.random.randint(0, 2) == 0:
+                self.characteristics.loc["willpower", "modifier"] += 3
+            else:
+                self.characteristics.loc["agility", "modifier"] += 3
+            if np.random.randint(0, 2) == 0:
+                self.corruption += self.roll(1, 5)
+            else:
+                self.insanity += self.roll(1, 5)
+        if self.origin[1] == "Scapegrace":
+            self.skills.append("Sleight of Hand => Trained Basic Skill")
+            if np.random.randint(0, 2) == 0:
+                self.characteristics.loc["intelligence", "modifier"] += 3
+            else:
+                self.characteristics.loc["perception", "modifier"] += 3
+            if np.random.randint(0, 2) == 0:
+                self.corruption += self.roll(1, 5)
+            else:
+                self.insanity += self.roll(1, 5)
+        if self.origin[1] == "Stubjack":
+            self.talents.append("Quick Draw")
+            self.skills.append("Intimidate => Trained Basic Skill")
+            if np.random.randint(0, 2) == 0:
+                self.characteristics.loc["weapon_skill", "modifier"] += 5
+            else:
+                self.characteristics.loc["ballistic", "modifier"] += 5
+            self.characteristics.loc["fellowship", "modifier"] -= 5
+            self.insanity += self.roll(1, 5)
+        if self.origin[1] == "Child of the Creed":
+            self.talents.append("Unshakeable Faith")
+            if np.random.randint(0, 2) == 0:
+                self.characteristics.loc["willpower", "modifier"] += 3
+            else:
+                self.characteristics.loc["fellowship", "modifier"] += 3
+            self.characteristics.loc["weapon_skill", "modifier"] -= 3
 
     def generate_stats(self):
         for index in self.characteristics.index:
@@ -247,10 +261,13 @@ class Creature:
         print(f"Characteristics: {self.characteristics}")
         print(f"Origin: {self.origin}")
         print(f"Skills: {self.skills}")
+        print(f"Talents: {self.talents}")
         print(f"Talents and traits: {self.talents_traits}")
         print(f"Wounds: {self.wounds}")
         print(f"Fate: {self.fate}")
         print(f"Initiative modifier: {self.initiative_modifier}")
         print(f"Profit factor: {self.profit_factor}")
+        print(f"Corruption points: {self.corruption}")
+        print(f"Insanity points: {self.insanity}")
         print(f"Dice rolls history: {self.roll_history}")
         return None
