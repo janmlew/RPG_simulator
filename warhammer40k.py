@@ -62,7 +62,7 @@ class Creature:
             self.characteristics.loc["Willpower", "modifier"] += 5
             self.characteristics.loc["Fellowship", "modifier"] -= 5
             self.skills.append("Survival")
-            if np.random.randint(0, 1) == 0:
+            if np.random.randint(0, 2) == 0:
                 self.talents_traits["Hardened"] = "Jaded"
             else:
                 self.talents_traits["Hardened"] = "Resistance (Poisons)"
@@ -242,129 +242,151 @@ class Creature:
                 self.characteristics.loc["Fellowship", "modifier"] += 3
             self.characteristics.loc["Perception", "modifier"] -= 3
             self.corruption += self.roll(1, 5)
+    
+    def generate_mutations(self, mutant_roll):
+        if mutant_roll < 6:
+            self.mutation = mutations[0]
+            self.talents.append("-20 to Fellowship Tests to interact with \'Normals\' AND +10 to Intimidate "
+                                "Tests")
+        elif mutant_roll < 11:
+            self.mutation = mutations[1]
+            self.talents.append("Natural Armour 2")
+        elif mutant_roll < 16:
+            self.mutation = mutations[2]
+            self.talents.append("Cannot run")
+            self.characteristics.loc["Agility", "modifier"] -= sum(self.roll(2, 10))
+        elif mutant_roll < 21:
+            self.mutation = mutations[3]
+            self.talents.append("Iron Jaw")
+            self.wounds += 5
+        elif mutant_roll < 26:
+            self.mutation = mutations[4]
+            self.characteristics.loc["Strength", "modifier"] += 10
+            self.characteristics.loc["Toughness", "modifier"] += 10
+        elif mutant_roll < 31:
+            self.mutation = mutations[5]
+            self.talents.append("Dark Sight Trait")
+            self.talents.append("-10 to all Tests when in bright light unless eyes shielded & skin covered")
+        elif mutant_roll < 36:
+            self.mutation = mutations[6]
+            self.roll(4, 10)
+            rolls = self.roll_history[-4:]
+            for roll in range(-4, 0):
+                if rolls[roll] < 6:
+                    self.characteristics.iloc[roll, 2] -= sum(self.roll(1, 10))
+                elif rolls[roll] < 8:
+                    characteristic = self.characteristics.iloc[roll, 0] + self.characteristics.iloc[roll, 2]
+                    characteristic = int(characteristic / 2)
+                    self.characteristics.iloc[roll, 2] -= characteristic
+                elif rolls[roll] < 10:
+                    pass
+                else:
+                    characteristic = self.characteristics.iloc[roll, 0] + self.characteristics.iloc[roll, 2]
+                    self.characteristics.iloc[roll, 2] -= characteristic - 5
+            self.insanity += sum(self.roll(1, 10))
+        elif mutant_roll < 41:
+            self.mutation = mutations[7]
+            self.characteristics.loc["Weapon Skill", "modifier"] -= 10
+            self.characteristics.loc["Ballistic Skill", "modifier"] -= 10
+            self.talents.append("-20 to all Tests involving fine physical manipulation")
+        elif mutant_roll < 46:
+            self.mutation = mutations[8]
+            self.talents.append("+20 to Toughness Tests to resist poison")
+            self.characteristics.loc["Toughness", "modifier"] -= sum(self.roll(1, 10))
+            self.characteristics.loc["Intelligence", "modifier"] -= self.roll(1, 10)
+            self.talents.append("1d10 damage ignoring Armour & Toughness to any creature that fails a "
+                                "difficult (-10) Toughness Test when coming into contact with the Mutant's blood")
+        elif mutant_roll < 51:
+            self.mutation = mutations[9]
+            self.talents.append("Hulking Size Trait")
+            self.characteristics.loc["Strength", "modifier"] -= sum(self.roll(1, 10))
+            self.wounds += 5
+        elif mutant_roll < 56:
+            self.mutation = mutations[10]
+            self.talents.append("Psy Rating 2")
+            if self.psy >= 2:
+                # Check later how psy works! Modify if needed.
+                self.psy += 1  # Should gain "next highest Psy Rating Talent that it doesn't have."
+            # Gain TWO Psychic Techniques of his choice from the discipline of his choice.
+            #
+            # Check PSY later!
+        elif mutant_roll < 60:
+            self.mutation = mutations[11]
+            self.talents.append("Fear 1 Trait")
+        elif mutant_roll < 64:
+            self.mutation = mutations[12]
+            self.characteristics.loc["Strength", "modifier"] += 10
+            self.characteristics.loc["Agility", "modifier"] += 10
+            self.characteristics.loc["Intelligence", "modifier"] -= sum(self.roll(1, 10))
+            self.characteristics.loc["Fellowship", "modifier"] -= 10
+        elif mutant_roll < 68:
+            self.mutation = mutations[13]
+            self.characteristics.loc["Intelligence", "modifier"] -= sum(self.roll(1, 10))
+            self.characteristics.loc["Fellowship", "modifier"] -= sum(self.roll(1, 10))
+            roll = self.roll(1, 10)
+            if roll < 4:
+                self.talents.append("Frenzy")
+            elif roll < 8:
+                self.talents.append("Fearless")
+            else:
+                self.talents.append("From Beyond Trait")
+        elif mutant_roll < 71:
+            self.mutation = mutations[14]
+            ravaged_roll = sum(self.roll(1, 5))
+            for i in range(0, ravaged_roll+1):
+                mutant_roll: int = sum(self.roll(1, 100))
+                self.generate_mutations(mutant_roll=mutant_roll)
+            self.talents.append("Obvious touch of Chaos regardless of the nature of mutations")
+        elif mutant_roll < 75:
+            self.mutation = mutations[15]
+            if np.random.randint(0, 2) == 0:
+                self.talents.append("Natural Weapon 1 Trait (I damage)")
+            else:
+                self.talents.append("Natural Weapon 1 Trait (R damage)")
+        elif mutant_roll < 79:
+            self.mutation = mutations[16]
+            self.characteristics.loc["Toughness", "modifier"] += 10
+            self.talents.append("Regeneration Trait")
+            self.talents.append("Must eat copious amounts of raw meat or starve")
+        elif mutant_roll < 82:
+            self.mutation = mutations[17]
+            self.talents.append("Fear 2 for the round when critical damage was taken by the Mutant")
+        elif mutant_roll < 86:
+            self.mutation = mutations[18]
+            self.talents.append("Toxic Trait")
+        elif mutant_roll < 90:
+            self.mutation = mutations[19]
+            self.talents.append("Unnatural Strength Trait")
+        elif mutant_roll < 92:
+            self.mutation = mutations[20]
+            self.talents.append("Ambidexterous")
+            self.talents.append("Two Weapon Wielder")
+            self.talents.append("+10 Climb Tests")
+            self.talents.append("+10 Grapple Attacks") # Check grapple attacks later.
+        elif mutant_roll < 94:
+            self.mutation = mutations[21]
+        elif mutant_roll == 94:
+            self.mutation = mutations[22]
+        elif mutant_roll == 95:
+            self.mutation = mutations[23]
+        elif mutant_roll == 96:
+            self.mutation = mutations[24]
+        elif mutant_roll == 97:
+            self.mutation = mutations[25]
+        elif mutant_roll == 98:
+            self.mutation = mutations[26]
+        elif mutant_roll == 99:
+            self.mutation = mutations[27]
+        else:
+            self.mutation = mutations[-1]
 
     def generate_lure_stats(self):
         if self.origin[2] == "Tainted":
             lure_random = np.random.randint(0, 3)
             if lure_random < 1:
                 self.lure_void.append("Mutant")
-                mutant_roll = sum(self.roll(1, 100))
-                if mutant_roll < 6:
-                    self.mutation = mutations[0]
-                    self.talents.append("-20 to Fellowship Tests to interact with \'Normals\' AND +10 to Intimidate "
-                                        "Tests")
-                elif mutant_roll < 11:
-                    self.mutation = mutations[1]
-                    self.talents.append("Natural Armour 2")
-                elif mutant_roll < 16:
-                    self.mutation = mutations[2]
-                    self.talents.append("Cannot run")
-                    self.characteristics.loc["Agility", "modifier"] -= sum(self.roll(2, 10))
-                elif mutant_roll < 21:
-                    self.mutation = mutations[3]
-                    self.talents.append("Iron Jaw")
-                    self.wounds += 5
-                elif mutant_roll < 26:
-                    self.mutation = mutations[4]
-                    self.characteristics.loc["Strength", "modifier"] += 10
-                    self.characteristics.loc["Toughness", "modifier"] += 10
-                elif mutant_roll < 31:
-                    self.mutation = mutations[5]
-                    self.talents.append("Dark Sight Trait")
-                    self.talents.append("-10 to all Tests when in bright light unless eyes shielded & skin covered")
-                elif mutant_roll < 36:
-                    self.mutation = mutations[6]
-                    self.roll(4, 10)
-                    rolls = self.roll_history[-4:]
-                    for roll in range(-4, 0):
-                        if rolls[roll] < 6:
-                            self.characteristics.iloc[roll, 2] -= sum(self.roll(1, 10))
-                        elif rolls[roll] < 8:
-                            characteristic = self.characteristics.iloc[roll, 0] + self.characteristics.iloc[roll, 2]
-                            characteristic = int(characteristic / 2)
-                            self.characteristics.iloc[roll, 2] -= characteristic
-                        elif rolls[roll] < 10:
-                            pass
-                        else:
-                            characteristic = self.characteristics.iloc[roll, 0] + self.characteristics.iloc[roll, 2]
-                            self.characteristics.iloc[roll, 2] -= characteristic - 5
-                    self.insanity += sum(self.roll(1, 10))
-                elif mutant_roll < 41:
-                    self.mutation = mutations[7]
-                    self.characteristics.loc["Weapon Skill", "modifier"] -= 10
-                    self.characteristics.loc["Ballistic Skill", "modifier"] -= 10
-                    self.talents.append("-20 to all Tests involving fine physical manipulation")
-                elif mutant_roll < 46:
-                    self.mutation = mutations[8]
-                    self.talents.append("+20 to Toughness Tests to resist poison")
-                    self.characteristics.loc["Toughness", "modifier"] -= sum(self.roll(1, 10))
-                    self.characteristics.loc["Intelligence", "modifier"] -= self.roll(1, 10)
-                    self.talents.append("1d10 damage ignoring Armour & Toughness to any creature that fails a "
-                                        "difficult (-10) Toughness Test when coming into contact with Mutant's blood")
-                elif mutant_roll < 51:
-                    self.mutation = mutations[9]
-                    self.talents.append("Hulking Size Trait")
-                    self.characteristics.loc["Strength", "modifier"] -= sum(self.roll(1, 10))
-                    self.wounds += 5
-                elif mutant_roll < 56:
-                    self.mutation = mutations[10]
-                    self.talents.append("Psy Rating 2")
-                    if self.psy >= 2:
-                        # Check later how psy works! Modify if needed.
-                        self.psy += 1 # Should gain "next highest Psy Rating Talent that it doesn't have."
-                    # Gain TWO Psychic Techniques of his choice from the discipline of his choice.
-                    #
-                    # Check PSY later!
-                elif mutant_roll < 60:
-                    self.mutation = mutations[11]
-                    self.talents.append("Fear 1 Trait")
-                elif mutant_roll < 64:
-                    self.mutation = mutations[12]
-                    self.characteristics.loc["Strength", "modifier"] += 10
-                    self.characteristics.loc["Agility", "modifier"] += 10
-                    self.characteristics.loc["Intelligence", "modifier"] -= sum(self.roll(1, 10))
-                    self.characteristics.loc["Fellowship", "modifier"] -= 10
-                elif mutant_roll < 68:
-                    self.mutation = mutations[13]
-                    self.characteristics.loc["Intelligence", "modifier"] -= sum(self.roll(1, 10))
-                    self.characteristics.loc["Fellowship", "modifier"] -= sum(self.roll(1, 10))
-                    roll = self.roll(1, 10)
-                    if roll < 4:
-                        self.talents.append("Frenzy")
-                    elif roll < 8:
-                        self.talents.append("Fearless")
-                    else:
-                        self.talents.append("From Beyond Trait")
-                elif mutant_roll < 71:
-                    self.mutation = mutations[14]
-                elif mutant_roll < 75:
-                    self.mutation = mutations[15]
-                elif mutant_roll < 79:
-                    self.mutation = mutations[16]
-                elif mutant_roll < 82:
-                    self.mutation = mutations[17]
-                elif mutant_roll < 86:
-                    self.mutation = mutations[18]
-                elif mutant_roll < 90:
-                    self.mutation = mutations[19]
-                elif mutant_roll < 92:
-                    self.mutation = mutations[20]
-                elif mutant_roll < 94:
-                    self.mutation = mutations[21]
-                elif mutant_roll == 94:
-                    self.mutation = mutations[22]
-                elif mutant_roll == 95:
-                    self.mutation = mutations[23]
-                elif mutant_roll == 96:
-                    self.mutation = mutations[24]
-                elif mutant_roll == 97:
-                    self.mutation = mutations[25]
-                elif mutant_roll == 98:
-                    self.mutation = mutations[26]
-                elif mutant_roll == 99:
-                    self.mutation = mutations[27]
-                else:
-                    self.mutation = mutations[-1]
+                mutant_roll: int = sum(self.roll(1, 100))
+                self.generate_mutations(mutant_roll=mutant_roll)
             elif lure_random < 2:
                 self.lure_void.append("Insane")
             else:
