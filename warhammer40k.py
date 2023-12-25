@@ -3,7 +3,7 @@
 import numpy as np
 import pandas as pd
 
-# Global data setup.
+# Local data setup:
 origins_data = [["Death World", "Void Born", "Forge World", "Hive World", "Imperial World", "Noble Born"],
                 ["Scavenger", "Scapegrace", "Stubjack", "Child of the Creed", "Savant", "Vaunted"],
                 ["Tainted", "Criminal", "Renegade", "Duty Bound", "Zealot", "Chosen by Destiny"],
@@ -176,7 +176,7 @@ class Creature:
                     supremely_connected = "Peer (Nobility) Talent AND Peer ("
                     supremely_connected += [
                         "Academics", "Adeptus Mechanicus", "Administratum", "Astropaths", "Ecclesiarchy", "Government",
-                        "Mercantile", "Military", "Underworld"][np.random.randint(0,9)]
+                        "Mercantile", "Military", "Underworld"][np.random.randint(0, 9)]
                     supremely_connected += ") Talent"
                     self.talents_traits["Supremely Connected"] = supremely_connected
                     self.talents_traits["Vendetta"] = "Powerful enemies to be defined by Player & GM"
@@ -205,3 +205,16 @@ class Creature:
             else:
                 old_state += np.random.randint(low=0, high=3)
                 self.origin.append(origin_row[old_state])
+
+    @property
+    def show_stats(self):
+        print(f"Name: {self.name}")
+        print(f"Kind: {self.kind}")
+        print(f"Level: {self.level}")
+        print(f"Characteristics: {self.characteristics}")
+        print(f"Origin: {self.origin}")
+        print(f"Skills: {self.skills}")
+        print(f"Talents and traits: {self.talents_traits}")
+        print(f"Profit factor: {self.profit_factor}")
+        print(f"Dice rolls history: {self.roll_history}")
+        return None

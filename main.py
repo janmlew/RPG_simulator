@@ -6,3 +6,4 @@ creature = Creature(name="Ktul")
 # print(creature.roll(2, 6))
 # print(creature.roll_history)
 creature.generate_stats()
+creature.show_stats
