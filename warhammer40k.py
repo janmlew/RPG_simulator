@@ -109,16 +109,43 @@ class Creature:
                     self.talents_traits["Credo Omnissiah"] = "Technical Knock Talent"
                     self.talents_traits["Fit for Purpose"] = "+3 to a chosen Characteristic"
                     self.characteristics.iloc[np.random.randint(0, 9), 0] += 3
-                    self.talents_traits["Stranger to the Cult"] = ("("-5 to all Fellowship Tests interacting with non-void born "
-                                                         "humans")")
-                    self.wounds += sum(self.roll(1, 5))
+                    self.talents_traits["Stranger to the Cult"] = ("-10 to all Tests involving knowledge of the "
+                                                                   "Imperial Creed & -5 to all Fellowship Tests "
+                                                                   "interacting with members of Ecclesiarchy in formal "
+                                                                   "settings")
+                    self.wounds += sum(self.roll(1, 5)) + 1
                     self.characteristics.loc["toughness", "bonus"] *= 2
                     # Determine fate points:
                     self.roll(1, 10)
                     if self.roll_history[-1] < 6:
+                        self.fate = 2
+                    elif self.roll_history[-1] < 10:
                         self.fate = 3
                     else:
                         self.fate = 4
+                if self.origin[-1] == "Hive World":
+                    self.characteristics.loc["toughness", "modifier"] -= 5
+                    self.characteristics.loc["fellowship", "modifier"] += 5
+                    self.skills.append("Common Lore (Tech)(Int) => Untrained Basic Skill")
+                    self.skills.append("Common Lore (Machine Cult)(Int) => Untrained Basic Skill")
+                    self.talents_traits["Credo Omnissiah"] = "Technical Knock Talent"
+                    self.talents_traits["Fit for Purpose"] = "+3 to a chosen Characteristic"
+                    self.characteristics.iloc[np.random.randint(0, 9), 0] += 3
+                    self.talents_traits["Stranger to the Cult"] = ("-10 to all Tests involving knowledge of the "
+                                                                   "Imperial Creed & -5 to all Fellowship Tests "
+                                                                   "interacting with members of Ecclesiarchy in formal "
+                                                                   "settings")
+                    self.wounds += sum(self.roll(1, 5)) + 1
+                    self.characteristics.loc["toughness", "bonus"] *= 2
+                    # Determine fate points:
+                    self.roll(1, 10)
+                    if self.roll_history[-1] < 6:
+                        self.fate = 2
+                    elif self.roll_history[-1] < 10:
+                        self.fate = 3
+                    else:
+                        self.fate = 4
+
             elif x < (origins_index - 1):
                 new_state = old_state
                 if new_state == 0:
