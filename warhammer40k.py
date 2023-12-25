@@ -24,11 +24,13 @@ class Creature:
         self.level = level
         self.rolls: list = []
         self.characteristics = pd.DataFrame(index=["weapon_skill", "ballistic_skill", "strength", "toughness",
-                                                   "agility", "intelligence", "perception", "will_power",
+                                                   "agility", "intelligence", "perception", "willpower",
                                                    "fellowship"], columns=["characteristic", "bonus", "modifier"])
         self.origin: list = []
         self.skills: list = []
         self.talents_traits: dict = {}
+        self.wounds: int = 0
+        self.fate: int = 0
 
     def roll(self, dice_number: int = 1, dice_sides: int = 6):
         for i in range(0, dice_number):
@@ -69,8 +71,54 @@ class Creature:
                         self.talents_traits["Hardened"] = "Jaded"
                     else:
                         self.talents_traits["Hardened"] = "Resistance (Poisons)"
-                    self.talents_traits["If It Bleeds, I Can Kill It"] = "Melee Weapon Training (Primitive)"
-                    self.talents_traits["Paranoid"] = "Resistance (Poisons)"
+                    self.talents_traits["If It Bleeds, I Can Kill It"] = "Melee Weapon Training (Primitive) Talent"
+                    self.talents_traits["Paranoid"] = "-10 to all Interaction Skill Tests in formal surroundings"
+                    self.talents_traits["Survivor"] = "+10 to all Tests to resist Pinning and Shock"
+                    self.wounds += sum(self.roll(1, 5) + 2)
+                    self.characteristics.loc["toughness", "bonus"] *= 2
+                    # Determine fate points:
+                    self.roll(1, 10)
+                    if self.roll_history[-1] < 6:
+                        self.fate = 2
+                    else:
+                        self.fate = 3
+                if self.origin[-1] == "Void Born":
+                    self.characteristics.loc["strength", "modifier"] -= 5
+                    self.characteristics.loc["willpower", "modifier"] += 5
+                    self.skills.append("Speak Language (Ship Dialect)")
+                    self.talents_traits["Charmed"] = "Roll natural 9 on 1d10 when spending Fate Point => FP NOT spent"
+                    self.talents_traits["Ill-Omened"] = ("-5 to all Fellowship Tests interacting with non-void born "
+                                                         "humans")
+                    self.talents_traits["Shipwise"] = ("Navigation (Stellar)(Int) and Pilot (Spacecraft)(Ag) => "
+                                                       "Untrained Basic Skill")
+                    self.talents_traits["Void Accustomed"] = ("Immune to space travel sickness + zero- & low-gravity "
+                                                              "environments => NOT Difficult Terrain")
+                    self.wounds += sum(self.roll(1, 5))
+                    self.characteristics.loc["toughness", "bonus"] *= 2
+                    # Determine fate points:
+                    self.roll(1, 10)
+                    if self.roll_history[-1] < 6:
+                        self.fate = 3
+                    else:
+                        self.fate = 4
+                if self.origin[-1] == "Forge World":
+                    self.characteristics.loc["weapon_skill", "modifier"] -= 5
+                    self.characteristics.loc["intelligence", "modifier"] += 5
+                    self.skills.append("Common Lore (Tech)(Int) => Untrained Basic Skill")
+                    self.skills.append("Common Lore (Machine Cult)(Int) => Untrained Basic Skill")
+                    self.talents_traits["Credo Omnissiah"] = "Technical Knock Talent"
+                    self.talents_traits["Fit for Purpose"] = "+3 to a chosen Characteristic"
+                    self.characteristics.iloc[np.random.randint(0, 9), 0] += 3
+                    self.talents_traits["Stranger to the Cult"] = ("("-5 to all Fellowship Tests interacting with non-void born "
+                                                         "humans")")
+                    self.wounds += sum(self.roll(1, 5))
+                    self.characteristics.loc["toughness", "bonus"] *= 2
+                    # Determine fate points:
+                    self.roll(1, 10)
+                    if self.roll_history[-1] < 6:
+                        self.fate = 3
+                    else:
+                        self.fate = 4
             elif x < (origins_index - 1):
                 new_state = old_state
                 if new_state == 0:
