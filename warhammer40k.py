@@ -249,20 +249,39 @@ class Creature:
                 self.lure_void.append("Mutant")
                 self.roll(1, 100)
                 if self.roll_history[-1] < 6:
-                    self.talents_traits[mutations[0]] = ("-20 to Fellowship Tests to interact with \'Normals\' AND +10 "
-                                                         "to Intimidate Tests")
+                    self.mutation = mutations[0]
+                    self.talents.append("-20 to Fellowship Tests to interact with \'Normals\' AND +10 to Intimidate "
+                                        "Tests")
                 elif self.roll_history[-1] < 11:
                     self.mutation = mutations[1]
+                    self.talents.append("Natural Armour 2")
                 elif self.roll_history[-1] < 16:
                     self.mutation = mutations[2]
+                    self.talents.append("Cannot run")
+                    self.characteristics.loc["agility", "modifier"] -= sum(self.roll(2, 10))
                 elif self.roll_history[-1] < 21:
                     self.mutation = mutations[3]
+                    self.talents.append("Iron Jaw")
+                    self.wounds += 5
                 elif self.roll_history[-1] < 26:
                     self.mutation = mutations[4]
+                    self.characteristics.loc["strength", "modifier"] += 10
+                    self.characteristics.loc["toughness", "modifier"] += 10
                 elif self.roll_history[-1] < 31:
                     self.mutation = mutations[5]
+                    self.talents.append("Dark Sight Trait")
+                    self.talents.append("-10 to all Tests when in bright light unless eyes shielded & skin covered")
                 elif self.roll_history[-1] < 36:
                     self.mutation = mutations[6]
+                    self.roll(4, 10)
+                    rolls = self.roll_history[-4:]
+                    for roll in range(-4, 0):
+                        if rolls[roll] < 6:
+                            self.characteristics.iloc[roll, 2] -= sum(self.roll(1, 10))
+                        elif rolls[roll] < 8:
+                            characteristic = self.characteristics.iloc[roll, 0] + self.characteristics.iloc[roll, 2]
+                            characteristic = int(characteristic / 2)
+                            self.characteristics.iloc[roll, 2] -= characteristic
                 elif self.roll_history[-1] < 41:
                     self.mutation = mutations[7]
                 elif self.roll_history[-1] < 46:
@@ -308,9 +327,9 @@ class Creature:
                 else:
                     self.mutation = mutations[-1]
             elif temp_random < 2:
-                pass
+                self.lure_void.append("Insane")
             else:
-                pass
+                self.lure_void.append("Deviant Philosophy")
         if self.origin[2] == "Criminal":
             pass
         if self.origin[2] == "Renegade":
@@ -363,7 +382,6 @@ class Creature:
             pass
         if self.origin[5] == "x":
             pass
-
 
     def generate_stats(self):
         for index in self.characteristics.index:
