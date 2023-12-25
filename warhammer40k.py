@@ -15,6 +15,11 @@ origins = pd.DataFrame(index=["Home World", "Birthright", "Lure of the Void", "T
                               "Career"], columns=range(0, 8), data=origins_data)
 origins_index = len(origins.index)
 origins_columns = len(origins.columns)
+mutations = ["Grotesque", "Tough Hide", "Misshapen", "Feels No Pain", "Brute", "Nightsider", "Mental Regressive",
+             "Malformed Hands", "Tox Blood", "Hulking", "Wyrdling", "Vile Deformity", "Aberration", "Degenerate Mind",
+             "Ravaged Body", "Clawed/Fanged", "Necrophage", "Corrupted Flesh", "Venomous", "Hideous Strength",
+             "Multiple Appendages", "Worm", "Nightmarish", "Malleable", "Winged", "Corpulent", "Shadow Kin",
+             "Corrosive Bile", "Hellspawn"]
 
 
 class Creature:
@@ -36,6 +41,8 @@ class Creature:
         self.profit_factor: int = 0
         self.corruption: int = 0
         self.insanity: int = 0
+        self.lure_void: list = []
+        self.mutation: str = ""
 
     def roll(self, dice_number: int = 1, dice_sides: int = 6):
         for i in range(0, dice_number):
@@ -216,6 +223,147 @@ class Creature:
             else:
                 self.characteristics.loc["fellowship", "modifier"] += 3
             self.characteristics.loc["weapon_skill", "modifier"] -= 3
+        if self.origin[1] == "Savant":
+            if np.random.randint(0, 2) == 0:
+                self.skills.append("Logic (Int) => Trained Basic Skill")
+            else:
+                self.talents.append("Peer (Academic)")
+            if np.random.randint(0, 2) == 0:
+                self.characteristics.loc["intelligence", "modifier"] += 3
+            else:
+                self.characteristics.loc["fellowship", "modifier"] += 3
+            self.characteristics.loc["toughness", "modifier"] -= 3
+        if self.origin[1] == "Vaunted":
+            self.talents.append("Decadence")
+            if np.random.randint(0, 2) == 0:
+                self.characteristics.loc["agility", "modifier"] += 3
+            else:
+                self.characteristics.loc["fellowship", "modifier"] += 3
+            self.characteristics.loc["perception", "modifier"] -= 3
+            self.corruption += self.roll(1, 5)
+
+    def generate_lure_stats(self):
+        if self.origin[2] == "Tainted":
+            temp_random = np.random.randint(0, 3)
+            if temp_random < 1:
+                self.lure_void.append("Mutant")
+                self.roll(1, 100)
+                if self.roll_history[-1] < 6:
+                    self.talents_traits[mutations[0]] = ("-20 to Fellowship Tests to interact with \'Normals\' AND +10 "
+                                                         "to Intimidate Tests")
+                elif self.roll_history[-1] < 11:
+                    self.mutation = mutations[1]
+                elif self.roll_history[-1] < 16:
+                    self.mutation = mutations[2]
+                elif self.roll_history[-1] < 21:
+                    self.mutation = mutations[3]
+                elif self.roll_history[-1] < 26:
+                    self.mutation = mutations[4]
+                elif self.roll_history[-1] < 31:
+                    self.mutation = mutations[5]
+                elif self.roll_history[-1] < 36:
+                    self.mutation = mutations[6]
+                elif self.roll_history[-1] < 41:
+                    self.mutation = mutations[7]
+                elif self.roll_history[-1] < 46:
+                    self.mutation = mutations[8]
+                elif self.roll_history[-1] < 51:
+                    self.mutation = mutations[9]
+                elif self.roll_history[-1] < 56:
+                    self.mutation = mutations[10]
+                elif self.roll_history[-1] < 60:
+                    self.mutation = mutations[11]
+                elif self.roll_history[-1] < 64:
+                    self.mutation = mutations[12]
+                elif self.roll_history[-1] < 68:
+                    self.mutation = mutations[13]
+                elif self.roll_history[-1] < 71:
+                    self.mutation = mutations[14]
+                elif self.roll_history[-1] < 75:
+                    self.mutation = mutations[15]
+                elif self.roll_history[-1] < 79:
+                    self.mutation = mutations[16]
+                elif self.roll_history[-1] < 82:
+                    self.mutation = mutations[17]
+                elif self.roll_history[-1] < 86:
+                    self.mutation = mutations[18]
+                elif self.roll_history[-1] < 90:
+                    self.mutation = mutations[19]
+                elif self.roll_history[-1] < 92:
+                    self.mutation = mutations[20]
+                elif self.roll_history[-1] < 94:
+                    self.mutation = mutations[21]
+                elif self.roll_history[-1] == 94:
+                    self.mutation = mutations[22]
+                elif self.roll_history[-1] == 95:
+                    self.mutation = mutations[23]
+                elif self.roll_history[-1] == 96:
+                    self.mutation = mutations[24]
+                elif self.roll_history[-1] == 97:
+                    self.mutation = mutations[25]
+                elif self.roll_history[-1] == 98:
+                    self.mutation = mutations[26]
+                elif self.roll_history[-1] == 99:
+                    self.mutation = mutations[27]
+                else:
+                    self.mutation = mutations[-1]
+            elif temp_random < 2:
+                pass
+            else:
+                pass
+        if self.origin[2] == "Criminal":
+            pass
+        if self.origin[2] == "Renegade":
+            pass
+        if self.origin[2] == "Duty Bound":
+            pass
+        if self.origin[2] == "Zealot":
+            pass
+        if self.origin[2] == "Chosen by Destiny":
+            pass
+
+    def generate_trials_stats(self):
+        if self.origin[3] == "The Hand of War":
+            pass
+        if self.origin[3] == "Press-Ganged":
+            pass
+        if self.origin[3] == "Calamity":
+            pass
+        if self.origin[3] == "Ship-Lorn":
+            pass
+        if self.origin[3] == "Dark Voyage":
+            pass
+        if self.origin[3] == "High Vendetta":
+            pass
+
+    def generate_motivation_stats(self):
+        if self.origin[4] == "Endurance":
+            pass
+        if self.origin[4] == "Fortune":
+            pass
+        if self.origin[4] == "Vengeance":
+            pass
+        if self.origin[4] == "Renown":
+            pass
+        if self.origin[4] == "Pride":
+            pass
+        if self.origin[4] == "Prestige":
+            pass
+
+    def generate_career_stats(self):
+        if self.origin[5] == "x":
+            pass
+        if self.origin[5] == "x":
+            pass
+        if self.origin[5] == "x":
+            pass
+        if self.origin[5] == "x":
+            pass
+        if self.origin[5] == "x":
+            pass
+        if self.origin[5] == "x":
+            pass
+
 
     def generate_stats(self):
         for index in self.characteristics.index:
@@ -252,6 +400,10 @@ class Creature:
                 old_state += np.random.randint(low=0, high=3)
                 self.origin.append(origin_row[old_state])
         self.generate_home_world_stats()
+        self.generate_lure_stats()
+        self.generate_trials_stats()
+        self.generate_motivation_stats()
+        self.generate_career_stats()
 
     @property
     def show_stats(self):
@@ -269,5 +421,6 @@ class Creature:
         print(f"Profit factor: {self.profit_factor}")
         print(f"Corruption points: {self.corruption}")
         print(f"Insanity points: {self.insanity}")
+        print(f"Mutation: {self.mutation}")
         print(f"Dice rolls history: {self.roll_history}")
         return None
