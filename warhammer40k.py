@@ -242,7 +242,7 @@ class Creature:
                 self.characteristics.loc["Fellowship", "modifier"] += 3
             self.characteristics.loc["Perception", "modifier"] -= 3
             self.corruption += self.roll(1, 5)
-    
+
     def generate_mutations(self, mutant_roll):
         if mutant_roll < 6:
             self.mutation = mutations[0]
@@ -333,7 +333,7 @@ class Creature:
         elif mutant_roll < 71:
             self.mutation = mutations[14]
             ravaged_roll = sum(self.roll(1, 5))
-            for i in range(0, ravaged_roll+1):
+            for i in range(0, ravaged_roll + 1):
                 mutant_roll: int = sum(self.roll(1, 100))
                 self.generate_mutations(mutant_roll=mutant_roll)
             self.talents.append("Obvious touch of Chaos regardless of the nature of mutations")
@@ -362,15 +362,23 @@ class Creature:
             self.talents.append("Ambidexterous")
             self.talents.append("Two Weapon Wielder")
             self.talents.append("+10 Climb Tests")
-            self.talents.append("+10 Grapple Attacks") # Check grapple attacks later.
+            self.talents.append("+10 Grapple Attacks")  # Check grapple attacks later.
         elif mutant_roll < 94:
             self.mutation = mutations[21]
+            self.wounds += 5
+            self.talents.append("Crawler Trait")
         elif mutant_roll == 94:
             self.mutation = mutations[22]
+            self.talents.append("Fear 3 Trait")
         elif mutant_roll == 95:
             self.mutation = mutations[23]
+            self.characteristics.loc["Agility", "modifier"] += 10
+            self.talents.append("+20 Climb Tests")
+            self.talents.append("+20 Grapple Attacks")  # Check grapple attacks later.
+            self.talents.append("Can fit through spaces 1/4 its usual dimensions")
         elif mutant_roll == 96:
             self.mutation = mutations[24]
+            self.talents.append("Flyer Trait at a rate equal to its AB*2")  # Check what AB is...
         elif mutant_roll == 97:
             self.mutation = mutations[25]
         elif mutant_roll == 98:
