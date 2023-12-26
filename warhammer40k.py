@@ -253,7 +253,7 @@ class Creature:
             self.talents.append("Natural Armour 2")
         elif mutant_roll < 16:
             self.mutation = mutations[2]
-            self.talents.append("Cannot run")
+            self.talents.append("Cannot take Run action")
             self.characteristics.loc["Agility", "modifier"] -= sum(self.roll(2, 10))
         elif mutant_roll < 21:
             self.mutation = mutations[3]
@@ -381,12 +381,22 @@ class Creature:
             self.talents.append("Flyer Trait at a rate equal to its AB*2")  # Check what AB is...
         elif mutant_roll == 97:
             self.mutation = mutations[25]
+            self.talents.append("Unnatural Toughness Trait")
+            self.talents.append("Cannot take Run action")
         elif mutant_roll == 98:
             self.mutation = mutations[26]
+            self.talents.append("Phase Trait")
+            self.characteristics.loc["Strength", "modifier"] -= 10
+            self.characteristics.loc["Toughness", "modifier"] -= 10
         elif mutant_roll == 99:
             self.mutation = mutations[27]
+            self.talents.append("1d10+2 R (or E) Tearing Damage close combat attack using full action, attacker must "
+                                "test Ballistic Skill to use; may be dodged, but not parried")  # Check attacks
         else:
             self.mutation = mutations[-1]
+            self.talents.append("Deamonic Trait")
+            self.talents.append("Fear 2 Trait")
+            self.talents.append("From Beyond Trait")
 
     def generate_lure_stats(self):
         if self.origin[2] == "Tainted":
@@ -397,8 +407,16 @@ class Creature:
                 self.generate_mutations(mutant_roll=mutant_roll)
             elif lure_random < 2:
                 self.lure_void.append("Insane")
+                if np.random.randint(0, 2) == 0:
+                    self.characteristics.loc["Fellowship", "modifier"] -= 3
+                else:
+                    self.fate -= 1
+                self.characteristics.loc["Toughness", "modifier"] += 3
+                self.talents.append("Peer (The Insane)")
             else:
                 self.lure_void.append("Deviant Philosophy")
+                self.characteristics.loc["Willpower", "modifier"] += 3
+                self.talents.append("Enemy (Ecclesiarchy)")
         if self.origin[2] == "Criminal":
             pass
         if self.origin[2] == "Renegade":
