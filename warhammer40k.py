@@ -92,11 +92,11 @@ class Creature:
             self.traits.append("Ill-Omened")
             self.talents.append("-5 to all Fellowship Tests interacting with non-void born humans")
             self.traits.append("Shipwise")
-            self.skills.append("Navigation (Stellar)(Int) ")
+            self.skills.append("Navigation (Stellar)(Int) => Untrained Basic Skill")
             self.skills.append("Pilot (Spacecraft)(Ag) => Untrained Basic Skill")
             self.traits.append("Void Accustomed")
-            self.talents.append("Immune to space travel sickness AND zero- & low-gravity environments => NOT "
-                                "Difficult Terrain")
+            self.talents.append("Immune to space travel sickness")
+            self.talents.append("Zero- & low-gravity environments => NOT Difficult Terrain")
             self.wounds += sum(self.roll(1, 5))
             self.characteristics.loc["Toughness", "bonus_multiplier"]: float = 2.0
             # Determine fate points:
@@ -140,8 +140,8 @@ class Creature:
             self.traits.append("Caves of Steel")
             self.skills.append("Tech-Use (Int) => Untrained Basic Skill")
             self.traits.append("Hivebound")
-            self.talents.append("-10 to all Survival (Int) Tests AND -5 to all Intelligence Tests while NOT in "
-                                "\"Proper Habitat\"")
+            self.talents.append("-10 to all Survival (Int) Tests while NOT in \"Proper Habitat\"")
+            self.talents.append("-5 to all Intelligence Tests while NOT in \"Proper Habitat\"")
             self.traits.append("Wary")
             self.initiative_modifier += 1
             self.wounds += sum(self.roll(1, 5)) + 1
@@ -267,8 +267,8 @@ class Creature:
     def generate_mutations(self, mutant_roll):
         if mutant_roll < 6:
             self.mutation = mutations[0]
-            self.talents.append("-20 to Fellowship Tests to interact with \'Normals\' AND +10 to Intimidate "
-                                "Tests")
+            self.talents.append("-20 to Fellowship Tests to interact with \'Normals\'")
+            self.talents.append("+10 to Intimidate Tests")
         elif mutant_roll < 11:
             self.mutation = mutations[1]
             self.talents.append("Natural Armour 2")
