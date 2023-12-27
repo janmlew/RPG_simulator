@@ -92,9 +92,11 @@ class Creature:
             self.traits.append("Ill-Omened")
             self.talents.append("-5 to all Fellowship Tests interacting with non-void born humans")
             self.traits.append("Shipwise")
-            self.talents.append("Navigation (Stellar)(Int) & Pilot (Spacecraft)(Ag) => Untrained Basic Skill")
-            self.traits["Void Accustomed"] = ("Immune to space travel sickness AND zero- & low-gravity "
-                                                      "environments => NOT Difficult Terrain")
+            self.skills.append("Navigation (Stellar)(Int) ")
+            self.skills.append("Pilot (Spacecraft)(Ag) => Untrained Basic Skill")
+            self.traits.append("Void Accustomed")
+            self.talents.append("Immune to space travel sickness AND zero- & low-gravity environments => NOT "
+                                "Difficult Terrain")
             self.wounds += sum(self.roll(1, 5))
             self.characteristics.loc["Toughness", "bonus_multiplier"] = 2
             # Determine fate points:
@@ -108,13 +110,15 @@ class Creature:
             self.characteristics.loc["Intelligence", "characteristic"] += 5
             self.skills.append("Common Lore (Tech)(Int) => Untrained Basic Skill")
             self.skills.append("Common Lore (Machine Cult)(Int) => Untrained Basic Skill")
-            self.traits["Credo Omnissiah"] = "Technical Knock Talent"
-            self.traits["Fit for Purpose"] = "+3 to a chosen Characteristic"
-            self.characteristics.iloc[np.random.randint(0, 9), 0] += 3
-            self.traits["Stranger to the Cult"] = ("-10 to all Tests involving knowledge of the "
-                                                           "Imperial Creed AND -5 to all Fellowship Tests "
-                                                           "interacting with members of Ecclesiarchy in formal "
-                                                           "settings")
+            self.traits.append("Credo Omnissiah")
+            self.talents.append("Technical Knock")
+            self.traits.append("Fit for Purpose")
+            chosen_chr = np.random.randint(0, 9)
+            self.talents.append(f"+3 to a chosen Characteristic: {self.characteristics.index[chosen_chr]}")
+            self.characteristics.iloc[chosen_chr, 0] += 3
+            self.traits.append("Stranger to the Cult")
+            self.talents.append("-10 to all Tests involving knowledge of the Imperial Creed")
+            self.talents.append("-5 to all Fellowship Tests interacting with Ecclesiarchy in formal settings")
             self.wounds += sum(self.roll(1, 5)) + 1
             self.characteristics.loc["Toughness", "bonus_multiplier"] = 2
             # Determine fate points:
@@ -129,14 +133,17 @@ class Creature:
             self.characteristics.loc["Toughness", "characteristic"] -= 5
             self.characteristics.loc["Fellowship", "characteristic"] += 5
             self.skills.append("Speak Language (Hive Dialect)(Int) => Untrained Basic Skill")
-            self.traits["Accustomed to Crowds"] = ("Crowds => NOT Difficult Terrain AND Running or "
-                                                           "Charging through dense crowd => NO penalty to "
-                                                           "Agility Tests to keep creature's feet")
-            self.traits["Caves of Steel"] = "Tech-Use (Int) => Untrained Basic Skill"
-            self.traits["Hivebound"] = ("-10 to all Survival (Int) Tests AND -5 to all Intelligence "
-                                                "Tests while NOT in \"Proper Habitat\"")
-            self.traits["Wary"] = "+1 to Initiative rolls"
-            self.initiative_modifier = 1
+            self.traits.append("Accustomed to Crowds")
+            self.talents.append("Crowds => NOT Difficult Terrain")
+            self.talents.append("Running or Charging through dense crowd => NO penalty to Agility Tests to keep "
+                                "creature's feet")
+            self.traits.append("Caves of Steel")
+            self.skills.append("Tech-Use (Int) => Untrained Basic Skill")
+            self.traits.append("Hivebound")
+            self.talents.append("-10 to all Survival (Int) Tests AND -5 to all Intelligence Tests while NOT in "
+                                "\"Proper Habitat\"")
+            self.traits.append("Wary")
+            self.initiative_modifier += 1
             self.wounds += sum(self.roll(1, 5)) + 1
             self.characteristics.loc["Toughness", "bonus_multiplier"] = 2
             # Determine fate points:
@@ -149,11 +156,15 @@ class Creature:
                 self.fate = 4
         if self.origin[0] == "Imperial World":
             self.characteristics.loc["Willpower", "characteristic"] += 3
-            self.traits["Blessed Ignorance"] = "-5 to Forbidden Lore (Int) Tests"
-            self.traits["Hagiography"] = ("Common Lore (Imperial Creed)(Int) & Common Lore (Imperium)"
-                                                  "(Int) & Common Lore (War)(Int) => Untrained Basic Skill")
-            self.traits["Liturgical Familiarity"] = ("Literacy (Int) & Speak Language (High Gothic)"
-                                                             "(Int) => Untrained Basic Skill")
+            self.traits.append("Blessed Ignorance")
+            self.talents.append("-5 to Forbidden Lore (Int) Tests")
+            self.traits.append("Hagiography")
+            self.skills.append("Common Lore (Imperial Creed)(Int) => Untrained Basic Skill")
+            self.skills.append("Common Lore (Imperium)(Int) => Untrained Basic Skill")
+            self.skills.append("Common Lore (War)(Int) => Untrained Basic Skill")
+            self.traits.append("Liturgical Familiarity")
+            self.skills.append("Literacy (Int) => Untrained Basic Skill")
+            self.skills.append("Speak Language (High Gothic)(Int) => Untrained Basic Skill")
             self.wounds += sum(self.roll(1, 5))
             self.characteristics.loc["Toughness", "bonus_multiplier"] = 2
             # Determine fate points:
@@ -168,18 +179,21 @@ class Creature:
             self.skills.append("Literacy (Int) Untrained Basic Skill")
             self.skills.append("Speak Language (High Gothic)(Int) Untrained Basic Skill")
             self.skills.append("Speak Language (Low Gothic)(Int) Untrained Basic Skill")
-            self.traits["Etiquette"] = ("+10 to Interaction Tests when dealing with authority and in "
-                                                "formal situations")
-            self.traits["Legacy of Wealth"] = "+1 starting Profit Factor"
+            self.traits.append("Etiquette")
+            self.talents.append("+10 to Interaction Tests when dealing with authority and in formal situations")
+            self.traits.append("Legacy of Wealth")
             self.profit_factor = 1
             # Supremely Connected Trait
-            supremely_connected = "Peer (Nobility) Talent AND Peer ("
+            supremely_connected = "Peer ("
             supremely_connected += [
                 "Academics", "Adeptus Mechanicus", "Administratum", "Astropaths", "Ecclesiarchy", "Government",
                 "Mercantile", "Military", "Underworld"][np.random.randint(0, 9)]
-            supremely_connected += ") Talent"
-            self.traits["Supremely Connected"] = supremely_connected
-            self.traits["Vendetta"] = "Powerful enemies to be defined by Player & GM"
+            supremely_connected += ")"
+            self.traits.append("Supremely Connected")
+            self.talents.append("Peer (Nobility)")
+            self.talents.append(supremely_connected)
+            self.traits.append("Vendetta")
+            self.talents.append("Powerful enemies to be defined by Player & GM")
             self.wounds += sum(self.roll(1, 5))
             self.characteristics.loc["Toughness", "bonus_multiplier"] = 2
             # Determine fate points:
