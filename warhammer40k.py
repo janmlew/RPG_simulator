@@ -30,11 +30,12 @@ class Creature:
         self.rolls: list = []
         self.characteristics = pd.DataFrame(index=["Weapon Skill", "Ballistic Skill", "Strength", "Toughness",
                                                    "Agility", "Intelligence", "Perception", "Willpower",
-                                                   "Fellowship"], columns=["characteristic", "bonus", "bonus_multiplier"])
+                                                   "Fellowship"], columns=["characteristic", "bonus",
+                                                                           "bonus_multiplier"])
         self.origin: list = []
         self.skills: list = []
         self.talents: list = []
-        self.talents_traits: dict = {}
+        self.traits: list = []
         self.wounds: int = 0
         self.fate: int = 0
         self.initiative_modifier: int = 0
@@ -63,14 +64,19 @@ class Creature:
             self.characteristics.loc["Fellowship", "characteristic"] -= 5
             self.skills.append("Survival")
             if np.random.randint(0, 2) == 0:
-                self.talents_traits["Hardened"] = "Jaded"
+                self.traits.append("Hardened")
+                self.talents.append("Jaded")
             else:
-                self.talents_traits["Hardened"] = "Resistance (Poisons)"
-            self.talents_traits["If It Bleeds, I Can Kill It"] = "Melee Weapon Training (Primitive) Talent"
-            self.talents_traits["Paranoid"] = "-10 to all Interaction Skill Tests in formal surroundings"
-            self.talents_traits["Survivor"] = "+10 to all Tests to resist Pinning and Shock"
+                self.traits.append("Hardened")
+                self.talents.append("Resistance (Poisons)")
+            self.traits.append("If It Bleeds, I Can Kill It")
+            self.talents.append("Melee Weapon Training (Primitive)")
+            self.traits.append("Paranoid")
+            self.talents.append("-10 to all Interaction Skill Tests in formal surroundings")
+            self.traits.append("Survivor")
+            self.talents.append("+10 to all Tests to resist Pinning and Shock")
             self.wounds += sum(self.roll(1, 5)) + 2
-            self.characteristics.loc["Toughness", "bonus_multiplier"] += 2
+            self.characteristics.loc["Toughness", "bonus_multiplier"] = 2
             # Determine fate points:
             self.roll(1, 10)
             if self.roll_history[-1] < 6:
@@ -81,15 +87,16 @@ class Creature:
             self.characteristics.loc["Strength", "characteristic"] -= 5
             self.characteristics.loc["Willpower", "characteristic"] += 5
             self.skills.append("Speak Language (Ship Dialect)")
-            self.talents_traits["Charmed"] = "Roll natural 9 on 1d10 when spending Fate Point => FP NOT spent"
-            self.talents_traits["Ill-Omened"] = ("-5 to all Fellowship Tests interacting with non-void born "
-                                                 "humans")
-            self.talents_traits["Shipwise"] = ("Navigation (Stellar)(Int) & Pilot (Spacecraft)(Ag) => "
-                                               "Untrained Basic Skill")
-            self.talents_traits["Void Accustomed"] = ("Immune to space travel sickness AND zero- & low-gravity "
+            self.traits.append("Charmed")
+            self.talents.append("Roll natural 9 on 1d10 when spending Fate Point => FP NOT spent")
+            self.traits.append("Ill-Omened")
+            self.talents.append("-5 to all Fellowship Tests interacting with non-void born humans")
+            self.traits.append("Shipwise")
+            self.talents.append("Navigation (Stellar)(Int) & Pilot (Spacecraft)(Ag) => Untrained Basic Skill")
+            self.traits["Void Accustomed"] = ("Immune to space travel sickness AND zero- & low-gravity "
                                                       "environments => NOT Difficult Terrain")
             self.wounds += sum(self.roll(1, 5))
-            self.characteristics.loc["Toughness", "bonus_multiplier"] += 2
+            self.characteristics.loc["Toughness", "bonus_multiplier"] = 2
             # Determine fate points:
             self.roll(1, 10)
             if self.roll_history[-1] < 6:
@@ -101,15 +108,15 @@ class Creature:
             self.characteristics.loc["Intelligence", "characteristic"] += 5
             self.skills.append("Common Lore (Tech)(Int) => Untrained Basic Skill")
             self.skills.append("Common Lore (Machine Cult)(Int) => Untrained Basic Skill")
-            self.talents_traits["Credo Omnissiah"] = "Technical Knock Talent"
-            self.talents_traits["Fit for Purpose"] = "+3 to a chosen Characteristic"
+            self.traits["Credo Omnissiah"] = "Technical Knock Talent"
+            self.traits["Fit for Purpose"] = "+3 to a chosen Characteristic"
             self.characteristics.iloc[np.random.randint(0, 9), 0] += 3
-            self.talents_traits["Stranger to the Cult"] = ("-10 to all Tests involving knowledge of the "
+            self.traits["Stranger to the Cult"] = ("-10 to all Tests involving knowledge of the "
                                                            "Imperial Creed AND -5 to all Fellowship Tests "
                                                            "interacting with members of Ecclesiarchy in formal "
                                                            "settings")
             self.wounds += sum(self.roll(1, 5)) + 1
-            self.characteristics.loc["Toughness", "bonus_multiplier"] += 2
+            self.characteristics.loc["Toughness", "bonus_multiplier"] = 2
             # Determine fate points:
             self.roll(1, 10)
             if self.roll_history[-1] < 6:
@@ -122,16 +129,16 @@ class Creature:
             self.characteristics.loc["Toughness", "characteristic"] -= 5
             self.characteristics.loc["Fellowship", "characteristic"] += 5
             self.skills.append("Speak Language (Hive Dialect)(Int) => Untrained Basic Skill")
-            self.talents_traits["Accustomed to Crowds"] = ("Crowds => NOT Difficult Terrain AND Running or "
+            self.traits["Accustomed to Crowds"] = ("Crowds => NOT Difficult Terrain AND Running or "
                                                            "Charging through dense crowd => NO penalty to "
                                                            "Agility Tests to keep creature's feet")
-            self.talents_traits["Caves of Steel"] = "Tech-Use (Int) => Untrained Basic Skill"
-            self.talents_traits["Hivebound"] = ("-10 to all Survival (Int) Tests AND -5 to all Intelligence "
+            self.traits["Caves of Steel"] = "Tech-Use (Int) => Untrained Basic Skill"
+            self.traits["Hivebound"] = ("-10 to all Survival (Int) Tests AND -5 to all Intelligence "
                                                 "Tests while NOT in \"Proper Habitat\"")
-            self.talents_traits["Wary"] = "+1 to Initiative rolls"
+            self.traits["Wary"] = "+1 to Initiative rolls"
             self.initiative_modifier = 1
             self.wounds += sum(self.roll(1, 5)) + 1
-            self.characteristics.loc["Toughness", "bonus_multiplier"] += 2
+            self.characteristics.loc["Toughness", "bonus_multiplier"] = 2
             # Determine fate points:
             self.roll(1, 10)
             if self.roll_history[-1] < 6:
@@ -142,13 +149,13 @@ class Creature:
                 self.fate = 4
         if self.origin[0] == "Imperial World":
             self.characteristics.loc["Willpower", "characteristic"] += 3
-            self.talents_traits["Blessed Ignorance"] = "-5 to Forbidden Lore (Int) Tests"
-            self.talents_traits["Hagiography"] = ("Common Lore (Imperial Creed)(Int) & Common Lore (Imperium)"
+            self.traits["Blessed Ignorance"] = "-5 to Forbidden Lore (Int) Tests"
+            self.traits["Hagiography"] = ("Common Lore (Imperial Creed)(Int) & Common Lore (Imperium)"
                                                   "(Int) & Common Lore (War)(Int) => Untrained Basic Skill")
-            self.talents_traits["Liturgical Familiarity"] = ("Literacy (Int) & Speak Language (High Gothic)"
+            self.traits["Liturgical Familiarity"] = ("Literacy (Int) & Speak Language (High Gothic)"
                                                              "(Int) => Untrained Basic Skill")
             self.wounds += sum(self.roll(1, 5))
-            self.characteristics.loc["Toughness", "bonus_multiplier"] += 2
+            self.characteristics.loc["Toughness", "bonus_multiplier"] = 2
             # Determine fate points:
             self.roll(1, 10)
             if self.roll_history[-1] < 9:
@@ -161,9 +168,9 @@ class Creature:
             self.skills.append("Literacy (Int) Untrained Basic Skill")
             self.skills.append("Speak Language (High Gothic)(Int) Untrained Basic Skill")
             self.skills.append("Speak Language (Low Gothic)(Int) Untrained Basic Skill")
-            self.talents_traits["Etiquette"] = ("+10 to Interaction Tests when dealing with authority and in "
+            self.traits["Etiquette"] = ("+10 to Interaction Tests when dealing with authority and in "
                                                 "formal situations")
-            self.talents_traits["Legacy of Wealth"] = "+1 starting Profit Factor"
+            self.traits["Legacy of Wealth"] = "+1 starting Profit Factor"
             self.profit_factor = 1
             # Supremely Connected Trait
             supremely_connected = "Peer (Nobility) Talent AND Peer ("
@@ -171,10 +178,10 @@ class Creature:
                 "Academics", "Adeptus Mechanicus", "Administratum", "Astropaths", "Ecclesiarchy", "Government",
                 "Mercantile", "Military", "Underworld"][np.random.randint(0, 9)]
             supremely_connected += ") Talent"
-            self.talents_traits["Supremely Connected"] = supremely_connected
-            self.talents_traits["Vendetta"] = "Powerful enemies to be defined by Player & GM"
+            self.traits["Supremely Connected"] = supremely_connected
+            self.traits["Vendetta"] = "Powerful enemies to be defined by Player & GM"
             self.wounds += sum(self.roll(1, 5))
-            self.characteristics.loc["Toughness", "bonus_multiplier"] += 2
+            self.characteristics.loc["Toughness", "bonus_multiplier"] = 2
             # Determine fate points:
             self.roll(1, 10)
             if self.roll_history[-1] < 4:
@@ -487,7 +494,7 @@ class Creature:
             self.characteristics.loc[index, "characteristic"] = sum(self.roll(2, 10)) + 25
             self.characteristics.loc[index, "bonus"] = np.trunc(
                 self.characteristics.loc[index, "characteristic"] / 10).astype(int)
-            self.characteristics.loc[index, "bonus_multiplier"]: int = 0
+            self.characteristics.loc[index, "bonus_multiplier"]: int = 1
 
         old_state: int = 0
         for x in range(0, origins_index):
@@ -531,7 +538,7 @@ class Creature:
         print(f"Origin: {self.origin}")
         print(f"Skills: {self.skills}")
         print(f"Talents: {self.talents}")
-        print(f"Talents and traits: {self.talents_traits}")
+        print(f"Talents and traits: {self.traits}")
         print(f"Wounds: {self.wounds}")
         print(f"Fate: {self.fate}")
         print(f"Initiative modifier: {self.initiative_modifier}")
