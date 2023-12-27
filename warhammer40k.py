@@ -76,7 +76,7 @@ class Creature:
             self.traits.append("Survivor")
             self.talents.append("+10 to all Tests to resist Pinning and Shock")
             self.wounds += sum(self.roll(1, 5)) + 2
-            self.characteristics.loc["Toughness", "bonus_multiplier"] = 2
+            self.characteristics.loc["Toughness", "bonus_multiplier"]: float = 2.0
             # Determine fate points:
             self.roll(1, 10)
             if self.roll_history[-1] < 6:
@@ -98,7 +98,7 @@ class Creature:
             self.talents.append("Immune to space travel sickness AND zero- & low-gravity environments => NOT "
                                 "Difficult Terrain")
             self.wounds += sum(self.roll(1, 5))
-            self.characteristics.loc["Toughness", "bonus_multiplier"] = 2
+            self.characteristics.loc["Toughness", "bonus_multiplier"]: float = 2.0
             # Determine fate points:
             self.roll(1, 10)
             if self.roll_history[-1] < 6:
@@ -120,7 +120,7 @@ class Creature:
             self.talents.append("-10 to all Tests involving knowledge of the Imperial Creed")
             self.talents.append("-5 to all Fellowship Tests interacting with Ecclesiarchy in formal settings")
             self.wounds += sum(self.roll(1, 5)) + 1
-            self.characteristics.loc["Toughness", "bonus_multiplier"] = 2
+            self.characteristics.loc["Toughness", "bonus_multiplier"]: float = 2.0
             # Determine fate points:
             self.roll(1, 10)
             if self.roll_history[-1] < 6:
@@ -145,7 +145,7 @@ class Creature:
             self.traits.append("Wary")
             self.initiative_modifier += 1
             self.wounds += sum(self.roll(1, 5)) + 1
-            self.characteristics.loc["Toughness", "bonus_multiplier"] = 2
+            self.characteristics.loc["Toughness", "bonus_multiplier"]: float = 2.0
             # Determine fate points:
             self.roll(1, 10)
             if self.roll_history[-1] < 6:
@@ -166,7 +166,7 @@ class Creature:
             self.skills.append("Literacy (Int) => Untrained Basic Skill")
             self.skills.append("Speak Language (High Gothic)(Int) => Untrained Basic Skill")
             self.wounds += sum(self.roll(1, 5))
-            self.characteristics.loc["Toughness", "bonus_multiplier"] = 2
+            self.characteristics.loc["Toughness", "bonus_multiplier"]: float = 2.0
             # Determine fate points:
             self.roll(1, 10)
             if self.roll_history[-1] < 9:
@@ -195,7 +195,7 @@ class Creature:
             self.traits.append("Vendetta")
             self.talents.append("Powerful enemies to be defined by Player & GM")
             self.wounds += sum(self.roll(1, 5))
-            self.characteristics.loc["Toughness", "bonus_multiplier"] = 2
+            self.characteristics.loc["Toughness", "bonus_multiplier"]: float = 2.0
             # Determine fate points:
             self.roll(1, 10)
             if self.roll_history[-1] < 4:
@@ -503,12 +503,15 @@ class Creature:
         if self.origin[5] == "x":
             pass
 
+    def recalc_stats(self):
+        for index in self.characteristics.index:
+            self.characteristics.loc[index, "bonus"]: int = np.trunc(
+                self.characteristics.loc[index, "characteristic"] / 10).astype(int)
+
     def generate_stats(self):
         for index in self.characteristics.index:
             self.characteristics.loc[index, "characteristic"] = sum(self.roll(2, 10)) + 25
-            self.characteristics.loc[index, "bonus"] = np.trunc(
-                self.characteristics.loc[index, "characteristic"] / 10).astype(int)
-            self.characteristics.loc[index, "bonus_multiplier"]: int = 1
+            self.characteristics.loc[index, "bonus_multiplier"]: float = 1.0
 
         old_state: int = 0
         for x in range(0, origins_index):
@@ -542,6 +545,7 @@ class Creature:
         self.generate_trials_stats()
         self.generate_motivation_stats()
         self.generate_career_stats()
+        self.recalc_stats()
 
     @property
     def show_stats(self):
