@@ -549,21 +549,16 @@ class Creature:
 
     @property
     def show_stats(self):
-        print(f"Name: {self.name}")
-        print(f"Kind: {self.kind}")
-        print(f"Level: {self.level}")
+        print(f"Name: {self.name}, Kind: {self.kind}, Level: {self.level}")
         print(f"Characteristics: {self.characteristics}")
         print(f"Origin: {self.origin}")
         print(f"Traits: {self.traits}")
         print(f"Skills: {self.skills}")
         print(f"Talents: {self.talents}")
-        print(f"Wounds: {self.wounds}")
-        print(f"Fate: {self.fate}")
-        print(f"Initiative modifier: {self.initiative_modifier}")
-        print(f"Profit factor: {self.profit_factor}")
-        print(f"Corruption points: {self.corruption}")
-        print(f"Insanity points: {self.insanity}")
         print(f"Mutation: {self.mutation}")
-        print(f"Psy Rating: {self.psy}")
-        print(f"Dice rolls history: {self.roll_history}")
+        print(f"Wounds: {self.wounds}, Fate: {self.fate}, Initiative modifier: {self.initiative_modifier}, Psy rating: "
+              f"{self.psy}")
+        print(f"Corruption points: {self.corruption}, Insanity points: {self.insanity}")
+        print(f"Profit factor: {self.profit_factor}")
+        # print(f"Dice rolls history: {self.roll_history}")
         return None
