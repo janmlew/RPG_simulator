@@ -20,6 +20,41 @@ mutations = ["Grotesque", "Tough Hide", "Misshapen", "Feels No Pain", "Brute", "
              "Ravaged Body", "Clawed/Fanged", "Necrophage", "Corrupted Flesh", "Venomous", "Hideous Strength",
              "Multiple Appendages", "Worm", "Nightmarish", "Malleable", "Winged", "Corpulent", "Shadow Kin",
              "Corrosive Bile", "Hellspawn"]
+# Note that group skills are indicated by a " =>" string attached at the end of the name of the group of skills.
+skill_names = pd.DataFrame(index=["Acrobatics", "Awareness", "Barter", "Blather", "Carouse", "Charm", "Chem-Use",
+                                  "Ciphers =>", "Climb", "Commerce", "Command", "Common Lore =>", "Concealment",
+                                  "Contortionist", "Deceive", "Demolition", "Disguise", "Dodge", "Drive =>", "Evaluate",
+                                  "Forbidden Lore =>", "Gamble", "Inquiry", "Interrogation", "Intimidate", "Invocation",
+                                  "Literacy", "Logic", "Medicae", "Navigation =>", "Performer =>", "Pilot =>",
+                                  "Psyniscience", "Scholastic Lore =>", "Scrutiny", "Search", "Secret Tongue =>",
+                                  "Security", "Shadowing", "Silent Move", "Sleight of Hand", "Speak Language =>",
+                                  "Survival", "Swim", "Tech-Use =>", "Tracking", "Trade =>", "Wrangling"],
+                           columns=["type", "characteristic", "descriptor", "group"],
+                           data=[['Advanced', '0', '0', '0'], ['0', '0', '0', '0'],
+                                 ['0', '0', '0', '0'], ['Advanced', '0', '0', '0'],
+                                 ['0', '0', '0', '0'], ['0', '0', '0', '0'],
+                                 ['Advanced', '0', '0', '0'], ['Advanced', '1', '1', '1'],
+                                 ['0', '0', '0', '0'], ['Advanced', '0', '0', '0'],
+                                 ['0', '0', '0', '0'], ['Advanced', '1', '1', '1'],
+                                 ['0', '0', '0', '0'], ['0', '0', '0', '0'],
+                                 ['0', '0', '0', '0'], ['0', '0', '0', '0'],
+                                 ['0', '0', '0', '0'], ['0', '0', '0', '0'],
+                                 ['1', '1', '1', '1'], ['0', '0', '0', '0'],
+                                 ['1', '1', '1', '1'], ['0', '0', '0', '0'],
+                                 ['0', '0', '0', '0'], ['0', '0', '0', '0'],
+                                 ['0', '0', '0', '0'], ['0', '0', '0', '0'],
+                                 ['0', '0', '0', '0'], ['0', '0', '0', '0'],
+                                 ['0', '0', '0', '0'], ['0', '0', '0', '0'],
+                                 ['1', '1', '1', '1'], ['1', '1', '1', '1'],
+                                 ['0', '0', '0', '0'], ['1', '1', '1', '1'],
+                                 ['0', '0', '0', '0'], ['0', '0', '0', '0'],
+                                 ['1', '1', '1', '1'], ['0', '0', '0', '0'],
+                                 ['0', '0', '0', '0'], ['0', '0', '0', '0'],
+                                 ['0', '0', '0', '0'], ['1', '1', '1', '1'],
+                                 ['0', '0', '0', '0'], ['0', '0', '0', '0'],
+                                 ['1', '1', '1', '1'], ['0', '0', '0', '0'],
+                                 ['1', '1', '1', '1'], ['0', '0', '0', '0']
+                                ])
 
 
 class Creature:
@@ -449,13 +484,51 @@ class Creature:
                 self.characteristics.loc["Fellowship", "characteristic"] -= 5
                 self.talents.append("poor-Craftsmanship Bionic Limb or Implant (upgrades: -200XP/-300XP => common/good")
         if self.origin[2] == "Renegade":
-            pass
+            lure_random = np.random.randint(0, 3)
+            if lure_random < 1:
+                self.traits.append("Recidivist")
+                self.talents.append("Enemy (Adeptus Arbites)")
+                self.talents.append("Resistance (Interrogation)")
+                self.skills.append("Concealment => Trained Basic Skill")
+            elif lure_random < 2:
+                self.traits.append("")
+                pass
+            else:
+                self.traits.append("")
+                pass
         if self.origin[2] == "Duty Bound":
-            pass
+            lure_random = np.random.randint(0, 3)
+            if lure_random < 1:
+                self.traits.append("")
+                pass
+            elif lure_random < 2:
+                self.traits.append("")
+                pass
+            else:
+                self.traits.append("")
+                pass
         if self.origin[2] == "Zealot":
-            pass
+            lure_random = np.random.randint(0, 3)
+            if lure_random < 1:
+                self.traits.append("")
+                pass
+            elif lure_random < 2:
+                self.traits.append("")
+                pass
+            else:
+                self.traits.append("")
+                pass
         if self.origin[2] == "Chosen by Destiny":
-            pass
+            lure_random = np.random.randint(0, 3)
+            if lure_random < 1:
+                self.traits.append("")
+                pass
+            elif lure_random < 2:
+                self.traits.append("")
+                pass
+            else:
+                self.traits.append("")
+                pass
 
     def generate_trials_stats(self):
         if self.origin[3] == "The Hand of War":
