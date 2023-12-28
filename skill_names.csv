@@ -1,0 +1,136 @@
+;characteristic;descriptor1;descriptor2;group;type
+Acrobatics;Agility;Movement;;0;Advanced
+Awareness;Perception;Exploration;;0;Basic
+Barter;Fellowship;Interaction;;0;Basic
+Blather;Fellowship;Interaction;;0;Advanced
+Carouse;Toughness;;;0;Basic
+Charm;Fellowship;Interaction;;0;Basic
+Chem-Use;Intelligence;Crafting;Investigation;0;Advanced
+Ciphers;Intelligence;;;1;Advanced
+Ciphers (Astropath Sign);Intelligence;;;0;Advanced
+Ciphers (Mercenary Cant);Intelligence;;;0;Advanced
+Ciphers (Nobilite Family);Intelligence;;;0;Advanced
+Ciphers (Rogue Trader);Intelligence;;;0;Advanced
+Ciphers (Underworld);Intelligence;;;0;Advanced
+Climb;Strength;Movement;;0;Basic
+Command;Fellowship;Interaction;;0;Basic
+Commerce;Fellowship;;;0;Advanced
+Common Lore;Intelligence;Investigation;;1;Advanced
+Common Lore (Adeptus Arbites);Intelligence;Investigation;;0;Advanced
+Common Lore (Adeptus Astra Telepathica);Intelligence;Investigation;;0;Advanced
+Common Lore (Adeptus Mechanicus);Intelligence;Investigation;;0;Advanced
+Common Lore (Administratum);Intelligence;Investigation;;0;Advanced
+Common Lore (Ecclesiarchy);Intelligence;Investigation;;0;Advanced
+Common Lore (Imperial Creed);Intelligence;Investigation;;0;Advanced
+Common Lore (Imperial Guard);Intelligence;Investigation;;0;Advanced
+Common Lore (Imperial Navy);Intelligence;Investigation;;0;Advanced
+Common Lore (Imperium);Intelligence;Investigation;;0;Advanced
+Common Lore (Koronous Expanse);Intelligence;Investigation;;0;Advanced
+Common Lore (Navis Nobilite);Intelligence;Investigation;;0;Advanced
+Common Lore (Rogue Traders);Intelligence;Investigation;;0;Advanced
+Common Lore (Tech);Intelligence;Investigation;;0;Advanced
+Common Lore (War);Intelligence;Investigation;;0;Advanced
+Concealment;Agility;;;0;Basic
+Contortionist;Agility;Movement;;0;Basic
+Deceive;Fellowship;Interaction;;0;Basic
+Demolition;Intelligence;Crafting;;0;Advanced
+Disguise;Fellowship;;;0;Basic
+Dodge;Agility;;;0;Basic
+Drive;Agility;Operator;;1;Advanced
+Drive (Ground Vehicle);Agility;Operator;;0;Advanced
+Drive (Skimmer/Hover);Agility;Operator;;0;Advanced
+Drive (Walker);Agility;Operator;;0;Advanced
+Evaluate;Intelligence;Investigation;;0;Basic
+Forbidden Lore;Intelligence;Investigation;;1;Advanced
+Forbidden Lore (Adeptus Mechanicus);Intelligence;Investigation;;0;Advanced
+Forbidden Lore (Archeotech);Intelligence;Investigation;;0;Advanced
+Forbidden Lore (Daemonology);Intelligence;Investigation;;0;Advanced
+Forbidden Lore (Heresy);Intelligence;Investigation;;0;Advanced
+Forbidden Lore (Mutants);Intelligence;Investigation;;0;Advanced
+Forbidden Lore (Navigators);Intelligence;Investigation;;0;Advanced
+Forbidden Lore (Pirates);Intelligence;Investigation;;0;Advanced
+Forbidden Lore (Psykers);Intelligence;Investigation;;0;Advanced
+Forbidden Lore (Xenos);Intelligence;Investigation;;0;Advanced
+Forbidden Lore (the Inquisition);Intelligence;Investigation;;0;Advanced
+Forbidden Lore (the Warp);Intelligence;Investigation;;0;Advanced
+Gamble;Intelligence;;;0;Basic
+Inquiry;Fellowship;Investigation;;0;Basic
+Interrogation;Willpower;Investigation;;0;Advanced
+Intimidate;Strength;Interaction;;0;Basic
+Invocation;Willpower;;;0;Advanced
+Literacy;Intelligence;;;0;Advanced
+Logic;Intelligence;Investigation;;0;Basic
+Medicae;Intelligence;;;0;Advanced
+Navigation;Intelligence;Exploration;;1;Advanced
+Navigation (Stellar);Intelligence;Exploration;;0;Advanced
+Navigation (Surface);Intelligence;Exploration;;0;Advanced
+Navigation (Warp);Intelligence;Exploration;;0;Advanced
+Performer;Fellowship;;;1;Advanced
+Performer (Dancer);Fellowship;;;0;Advanced
+Performer (Musician);Fellowship;;;0;Advanced
+Performer (Singer);Fellowship;;;0;Advanced
+Performer (Storyteller);Fellowship;;;0;Advanced
+Pilot;Agility;Operator;;1;Advanced
+Pilot (Flyers);Agility;Operator;;0;Advanced
+Pilot (Personal);Agility;Operator;;0;Advanced
+Pilot (Space Craft);Agility;Operator;;0;Advanced
+Psyniscience;Perception;;;0;Advanced
+Scholastic Lore;Intelligence;Investigation;;1;Advanced
+Scholastic Lore (Archaic);Intelligence;Investigation;;0;Advanced
+Scholastic Lore (Astromancy);Intelligence;Investigation;;0;Advanced
+Scholastic Lore (Beasts);Intelligence;Investigation;;0;Advanced
+Scholastic Lore (Bureaucracy);Intelligence;Investigation;;0;Advanced
+Scholastic Lore (Chymistry);Intelligence;Investigation;;0;Advanced
+Scholastic Lore (Cryptology);Intelligence;Investigation;;0;Advanced
+Scholastic Lore (Heraldry);Intelligence;Investigation;;0;Advanced
+Scholastic Lore (Imperial Creed);Intelligence;Investigation;;0;Advanced
+Scholastic Lore (Imperial Warrants);Intelligence;Investigation;;0;Advanced
+Scholastic Lore (Judgement);Intelligence;Investigation;;0;Advanced
+Scholastic Lore (Legend);Intelligence;Investigation;;0;Advanced
+Scholastic Lore (Navis Nobilite);Intelligence;Investigation;;0;Advanced
+Scholastic Lore (Numerology);Intelligence;Investigation;;0;Advanced
+Scholastic Lore (Occult);Intelligence;Investigation;;0;Advanced
+Scholastic Lore (Philosophy);Intelligence;Investigation;;0;Advanced
+Scholastic Lore (Tactica Imperialis);Intelligence;Investigation;;0;Advanced
+Scrutiny;Perception;;;0;Basic
+Search;Perception;Exploration;;0;Basic
+Secret Tongue;Intelligence;;;1;Advanced
+Secret Tongue (Administratum);Intelligence;;;0;Advanced
+Secret Tongue (Ecclesiarchy);Intelligence;;;0;Advanced
+Secret Tongue (Military);Intelligence;;;0;Advanced
+Secret Tongue (Navigator);Intelligence;;;0;Advanced
+Secret Tongue (Rogue Trader);Intelligence;;;0;Advanced
+Secret Tongue (Tech);Intelligence;;;0;Advanced
+Secret Tongue (Underdeck);Intelligence;;;0;Advanced
+Security;Agility;Exploration;;0;Advanced
+Shadowing;Agility;;;0;Advanced
+Silent Move;Agility;Movement;;0;Basic
+Sleight of Hand;Agility;;;0;Advanced
+Speak Language;Intelligence;;;1;Advanced
+Speak Language (Eldar);Intelligence;;;0;Advanced
+Speak Language (Explorator Binary);Intelligence;;;0;Advanced
+Speak Language (High Gothic);Intelligence;;;0;Advanced
+Speak Language (Low Gothic);Intelligence;;;0;Advanced
+Speak Language (Ork);Intelligence;;;0;Advanced
+Speak Language (Techna-Lingua);Intelligence;;;0;Advanced
+Speak Language (Trader's Cant);Intelligence;;;0;Advanced
+Survival;Intelligence;Exploration;;0;Advanced
+Swim;Strength;Movement;;0;Basic
+Tech-Use;Intelligence;Exploration;;0;Advanced
+Tracking;Intelligence;Exploration;;0;Advanced
+Trade;Intelligence;Crafting;Exploration;1;Advanced
+Trade (Archaelogist);Intelligence;Crafting;Exploration;0;Advanced
+Trade (Armourer);Agility;Crafting;Exploration;0;Advanced
+Trade (Astrographer);Agility;Crafting;Exploration;0;Advanced
+Trade (Chymist);Intelligence;Crafting;Exploration;0;Advanced
+Trade (Cryptographer);Intelligence;Crafting;Exploration;0;Advanced
+Trade (Explorator);Intelligence;Crafting;Exploration;0;Advanced
+Trade (Linguist);Intelligence;Crafting;Exploration;0;Advanced
+Trade (Remembrancer, Ag);Agility;Crafting;Exploration;0;Advanced
+Trade (Remembrancer, Int);Intelligence;Crafting;Exploration;0;Advanced
+Trade (Shipwright);Intelligence;Crafting;Exploration;0;Advanced
+Trade (Soothsayer);Fellowship;Crafting;Exploration;0;Advanced
+Trade (Technomat);Intelligence;Crafting;Exploration;0;Advanced
+Trade (Trader);Fellowship;Crafting;Exploration;0;Advanced
+Trade (Voidfarer);Agility;Crafting;Exploration;0;Advanced
+Wrangling;Intelligence;;;0;Advanced
