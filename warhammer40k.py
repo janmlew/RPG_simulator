@@ -28,30 +28,31 @@ skill_groups = pd.DataFrame(index=["Ciphers (Rogue Trader)", "Ciphers (Mercenary
                                    "Common Lore (Administratum)", "Common Lore (Ecclesiarchy)",
                                    "Common Lore (Imperial Creed)", "Common Lore (Imperial Guard)",
                                    "Common Lore (Imperial Navy)", "Common Lore (Imperium)",
-                                   "Common Lore (Koronous Expanse)", "Common Lore (Navis Nobilite)",
-                                   "Common Lore (Rogue Traders)", "Common Lore (Tech)", "Common Lore (War)",
-                                   "Forbidden Lore (Adeptus Mechanicus)", "Forbidden Lore (Archeotech)",
-                                   "Forbidden Lore (Daemonology)", "Forbidden Lore (Heresy)",
-                                   "Forbidden Lore (the Inquisition)", "Forbidden Lore (Mutants)",
-                                   "Forbidden Lore (Navigators)", "Forbidden Lore (Pirates)",
-                                   "Forbidden Lore (Psykers)", "Forbidden Lore (the Warp)", "Forbidden Lore (Xenos)",
-                                   "Navigation (Surface)", "Navigation (Stellar)", "Navigation (Warp)",
-                                   "Performer (Dancer)", "Performer (Musician)", "Performer (Singer)",
-                                   "Performer (Storyteller)", "Pilot (Personal)", "Pilot (Flyers)",
-                                   "Pilot (Space Craft)", "Scholastic Lore (Archaic)", "Scholastic Lore (Astromancy)",
-                                   "Scholastic Lore (Beasts)", "Scholastic Lore (Bureaucracy)",
-                                   "Scholastic Lore (Chymistry)", "Scholastic Lore (Cryptology)",
-                                   "Scholastic Lore (Heraldry)", "Scholastic Lore (Imperial Warrants)",
-                                   "Scholastic Lore (Imperial Creed)", "Scholastic Lore (Judgement)",
-                                   "Scholastic Lore (Legend)", "Scholastic Lore (Navis Nobilite)",
-                                   "Scholastic Lore (Numerology)", "Scholastic Lore (Occult)",
-                                   "Scholastic Lore (Philosophy)", "Scholastic Lore (Tactica Imperialis)",
-                                   "Secret Tongue (Administratum)", "Secret Tongue (Ecclesiarchy)",
-                                   "Secret Tongue (Military)", "Secret Tongue (Navigator)",
-                                   "Secret Tongue (Rogue Trader)", "Secret Tongue (Tech)", "Secret Tongue (Underdeck)",
-                                   "Speak Language (Eldar)", "Speak Language (Explorator Binary)",
-                                   "Speak Language (High Gothic)", "Speak Language (Low Gothic)",
-                                   "Speak Language (Ork)", "Speak Language (Techna-Lingua)",
+                                   "Common Lore (Koronous Expanse)", "Common Lore (Machine Cult)",
+                                   "Common Lore (Navis Nobilite)", "Common Lore (Rogue Traders)", "Common Lore (Tech)",
+                                   "Common Lore (War)", "Forbidden Lore (Adeptus Mechanicus)",
+                                   "Forbidden Lore (Archeotech)", "Forbidden Lore (Daemonology)",
+                                   "Forbidden Lore (Heresy)", "Forbidden Lore (the Inquisition)",
+                                   "Forbidden Lore (Mutants)", "Forbidden Lore (Navigators)",
+                                   "Forbidden Lore (Pirates)", "Forbidden Lore (Psykers)", "Forbidden Lore (the Warp)",
+                                   "Forbidden Lore (Xenos)", "Navigation (Surface)", "Navigation (Stellar)",
+                                   "Navigation (Warp)", "Performer (Dancer)", "Performer (Musician)",
+                                   "Performer (Singer)", "Performer (Storyteller)", "Pilot (Personal)",
+                                   "Pilot (Flyers)", "Pilot (Spacecraft)", "Scholastic Lore (Archaic)",
+                                   "Scholastic Lore (Astromancy)", "Scholastic Lore (Beasts)",
+                                   "Scholastic Lore (Bureaucracy)", "Scholastic Lore (Chymistry)",
+                                   "Scholastic Lore (Cryptology)", "Scholastic Lore (Heraldry)",
+                                   "Scholastic Lore (Imperial Warrants)", "Scholastic Lore (Imperial Creed)",
+                                   "Scholastic Lore (Judgement)", "Scholastic Lore (Legend)",
+                                   "Scholastic Lore (Navis Nobilite)", "Scholastic Lore (Numerology)",
+                                   "Scholastic Lore (Occult)", "Scholastic Lore (Philosophy)",
+                                   "Scholastic Lore (Tactica Imperialis)", "Secret Tongue (Administratum)",
+                                   "Secret Tongue (Ecclesiarchy)", "Secret Tongue (Military)",
+                                   "Secret Tongue (Navigator)", "Secret Tongue (Rogue Trader)", "Secret Tongue (Tech)",
+                                   "Secret Tongue (Underdeck)", "Speak Language (Eldar)",
+                                   "Speak Language (Explorator Binary)", "Speak Language (High Gothic)",
+                                   "Speak Language (Low Gothic)", "Speak Language (Ork)",
+                                   "Speak Language (Ship Dialect)", "Speak Language (Techna-Lingua)",
                                    "Speak Language (Trader's Cant)", "Trade (Archaelogist)", "Trade (Armourer)",
                                    "Trade (Astrographer)", "Trade (Chymist)", "Trade (Cryptographer)",
                                    "Trade (Explorator)", "Trade (Linguist)", "Trade (Remembrancer, Ag)",
@@ -91,6 +92,7 @@ skill_groups = pd.DataFrame(index=["Ciphers (Rogue Trader)", "Ciphers (Mercenary
                                   ['Advanced', 'Intelligence', 'Investigation', None, 0],
                                   ['Advanced', 'Intelligence', 'Investigation', None, 0],
                                   ['Advanced', 'Intelligence', 'Investigation', None, 0],
+                                  ['Advanced', 'Intelligence', 'Investigation', None, 0],
                                   ['Advanced', 'Intelligence', 'Exploration', None, 0],
                                   ['Advanced', 'Intelligence', 'Exploration', None, 0],
                                   ['Advanced', 'Intelligence', 'Exploration', None, 0],
@@ -117,6 +119,7 @@ skill_groups = pd.DataFrame(index=["Ciphers (Rogue Trader)", "Ciphers (Mercenary
                                   ['Advanced', 'Intelligence', 'Investigation', None, 0],
                                   ['Advanced', 'Intelligence', 'Investigation', None, 0],
                                   ['Advanced', 'Intelligence', 'Investigation', None, 0],
+                                  ['Advanced', 'Intelligence', None, None, 0],
                                   ['Advanced', 'Intelligence', None, None, 0],
                                   ['Advanced', 'Intelligence', None, None, 0],
                                   ['Advanced', 'Intelligence', None, None, 0],
@@ -148,63 +151,63 @@ skill_groups = pd.DataFrame(index=["Ciphers (Rogue Trader)", "Ciphers (Mercenary
                                   ])
 
 skills_table = pd.DataFrame(index=["Acrobatics", "Awareness", "Barter", "Blather", "Carouse", "Charm", "Chem-Use",
-                                  "Ciphers", "Climb", "Commerce", "Command", "Common Lore", "Concealment",
-                                  "Contortionist", "Deceive", "Demolition", "Disguise", "Dodge", "Drive", "Evaluate",
-                                  "Forbidden Lore", "Gamble", "Inquiry", "Interrogation", "Intimidate", "Invocation",
-                                  "Literacy", "Logic", "Medicae", "Navigation", "Performer", "Pilot",
-                                  "Psyniscience", "Scholastic Lore", "Scrutiny", "Search", "Secret Tongue",
-                                  "Security", "Shadowing", "Silent Move", "Sleight of Hand", "Speak Language",
-                                  "Survival", "Swim", "Tech-Use", "Tracking", "Trade", "Wrangling"],
+                                   "Ciphers", "Climb", "Commerce", "Command", "Common Lore", "Concealment",
+                                   "Contortionist", "Deceive", "Demolition", "Disguise", "Dodge", "Drive", "Evaluate",
+                                   "Forbidden Lore", "Gamble", "Inquiry", "Interrogation", "Intimidate", "Invocation",
+                                   "Literacy", "Logic", "Medicae", "Navigation", "Performer", "Pilot",
+                                   "Psyniscience", "Scholastic Lore", "Scrutiny", "Search", "Secret Tongue",
+                                   "Security", "Shadowing", "Silent Move", "Sleight of Hand", "Speak Language",
+                                   "Survival", "Swim", "Tech-Use", "Tracking", "Trade", "Wrangling"],
                             columns=["type", "characteristic", "descriptor1", "descriptor2", "group"],
                             data=[['Advanced', 'Agility', 'Movement', None, 0],
-                                 ['Basic', 'Perception', 'Exploration', None, 0],
-                                 ['Basic', 'Fellowship', 'Interaction', None, 0],
-                                 ['Advanced', 'Fellowship', 'Interaction', None, 0],
-                                 ['Basic', 'Toughness', None, None, 0],
-                                 ['Basic', 'Fellowship', 'Interaction', None, 0],
-                                 ['Advanced', 'Intelligence', 'Crafting', 'Investigation', 0],
-                                 ['Advanced', 'Intelligence', None, None, 1],
-                                 ['Basic', 'Strength', 'Movement', None, 0],
-                                 ['Advanced', 'Fellowship', None, None, 0],
-                                 ['Basic', 'Fellowship', 'Interaction', None, 0],
-                                 ['Advanced', 'Intelligence', 'Investigation', None, 1],
-                                 ['Basic', 'Agility', None, None, 0],
-                                 ['Basic', 'Agility', 'Movement', None, 0],
-                                 ['Basic', 'Fellowship', 'Interaction', None, 0],
-                                 ['Advanced', 'Intelligence', 'Crafting', None, 0],
-                                 ['Basic', 'Fellowship', None, None, 0],
-                                 ['Basic', 'Agility', None, None, 0],
-                                 ['Advanced', 'Agility', 'Operator', None, 1],
-                                 ['Basic', 'Intelligence', 'Investigation', None, 0],
-                                 ['Advanced', 'Intelligence', 'Investigation', None, 1],
-                                 ['Basic', 'Intelligence', None, None, 0],
-                                 ['Basic', 'Fellowship', 'Investigation', None, 0],
-                                 ['Advanced', 'Willpower', 'Investigation', None, 0],
-                                 ['Basic', 'Strength', 'Interaction', None, 0],
-                                 ['Advanced', 'Willpower', None, None, 0],
-                                 ['Advanced', 'Intelligence', None, None, 0],
-                                 ['Basic', 'Intelligence', 'Investigation', None, 0],
-                                 ['Advanced', 'Intelligence', None, None, 0],
-                                 ['Advanced', 'Intelligence', 'Exploration', None, 1],
-                                 ['Advanced', 'Fellowship', None, None, 1],
-                                 ['Advanced', 'Agility', 'Operator', None, 1],
-                                 ['Advanced', 'Perception', None, None, 0],
-                                 ['Advanced', 'Intelligence', 'Investigation', None, 1],
-                                 ['Basic', 'Perception', None, None, 0],
-                                 ['Basic', 'Perception', 'Exploration', None, 0],
-                                 ['Advanced', 'Intelligence', None, None, 1],
-                                 ['Advanced', 'Agility', 'Exploration', None, 0],
-                                 ['Advanced', 'Agility', None, None, 0],
-                                 ['Basic', 'Agility', 'Movement', None, 0],
-                                 ['Advanced', 'Agility', None, None, 0],
-                                 ['Advanced', 'Intelligence', None, None, 1],
-                                 ['Advanced', 'Intelligence', 'Exploration', None, 0],
-                                 ['Basic', 'Strength', 'Movement', None, 0],
-                                 ['Advanced', 'Intelligence', 'Exploration', None, 0],
-                                 ['Advanced', 'Intelligence', 'Exploration', None, 0],
-                                 ['Advanced', 'Intelligence', 'Crafting', 'Exploration', 1],
-                                 ['Advanced', 'Intelligence', None, None, 0]
-                                 ])
+                                  ['Basic', 'Perception', 'Exploration', None, 0],
+                                  ['Basic', 'Fellowship', 'Interaction', None, 0],
+                                  ['Advanced', 'Fellowship', 'Interaction', None, 0],
+                                  ['Basic', 'Toughness', None, None, 0],
+                                  ['Basic', 'Fellowship', 'Interaction', None, 0],
+                                  ['Advanced', 'Intelligence', 'Crafting', 'Investigation', 0],
+                                  ['Advanced', 'Intelligence', None, None, 1],
+                                  ['Basic', 'Strength', 'Movement', None, 0],
+                                  ['Advanced', 'Fellowship', None, None, 0],
+                                  ['Basic', 'Fellowship', 'Interaction', None, 0],
+                                  ['Advanced', 'Intelligence', 'Investigation', None, 1],
+                                  ['Basic', 'Agility', None, None, 0],
+                                  ['Basic', 'Agility', 'Movement', None, 0],
+                                  ['Basic', 'Fellowship', 'Interaction', None, 0],
+                                  ['Advanced', 'Intelligence', 'Crafting', None, 0],
+                                  ['Basic', 'Fellowship', None, None, 0],
+                                  ['Basic', 'Agility', None, None, 0],
+                                  ['Advanced', 'Agility', 'Operator', None, 1],
+                                  ['Basic', 'Intelligence', 'Investigation', None, 0],
+                                  ['Advanced', 'Intelligence', 'Investigation', None, 1],
+                                  ['Basic', 'Intelligence', None, None, 0],
+                                  ['Basic', 'Fellowship', 'Investigation', None, 0],
+                                  ['Advanced', 'Willpower', 'Investigation', None, 0],
+                                  ['Basic', 'Strength', 'Interaction', None, 0],
+                                  ['Advanced', 'Willpower', None, None, 0],
+                                  ['Advanced', 'Intelligence', None, None, 0],
+                                  ['Basic', 'Intelligence', 'Investigation', None, 0],
+                                  ['Advanced', 'Intelligence', None, None, 0],
+                                  ['Advanced', 'Intelligence', 'Exploration', None, 1],
+                                  ['Advanced', 'Fellowship', None, None, 1],
+                                  ['Advanced', 'Agility', 'Operator', None, 1],
+                                  ['Advanced', 'Perception', None, None, 0],
+                                  ['Advanced', 'Intelligence', 'Investigation', None, 1],
+                                  ['Basic', 'Perception', None, None, 0],
+                                  ['Basic', 'Perception', 'Exploration', None, 0],
+                                  ['Advanced', 'Intelligence', None, None, 1],
+                                  ['Advanced', 'Agility', 'Exploration', None, 0],
+                                  ['Advanced', 'Agility', None, None, 0],
+                                  ['Basic', 'Agility', 'Movement', None, 0],
+                                  ['Advanced', 'Agility', None, None, 0],
+                                  ['Advanced', 'Intelligence', None, None, 1],
+                                  ['Advanced', 'Intelligence', 'Exploration', None, 0],
+                                  ['Basic', 'Strength', 'Movement', None, 0],
+                                  ['Advanced', 'Intelligence', 'Exploration', None, 0],
+                                  ['Advanced', 'Intelligence', 'Exploration', None, 0],
+                                  ['Advanced', 'Intelligence', 'Crafting', 'Exploration', 1],
+                                  ['Advanced', 'Intelligence', None, None, 0]
+                                  ])
 skills_table = pd.concat([skills_table, skill_groups], sort=True)
 skills_table.sort_index(inplace=True)
 
@@ -247,7 +250,9 @@ class Creature:
             self.characteristics.loc["Toughness", "characteristic"] += 5
             self.characteristics.loc["Willpower", "characteristic"] += 5
             self.characteristics.loc["Fellowship", "characteristic"] -= 5
-            pd.concat([self.skills, pd.DataFrame(index=["Survival"], columns=['training', 'type', 'level'], data=None)])
+            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Survival"],
+                                                               columns=['training', 'type', 'level'],
+                                                               data=[skills_table.loc['Survival', ['type']]])])
             if np.random.randint(0, 2) == 0:
                 self.traits.append("Hardened")
                 self.talents.append("Jaded")
@@ -271,14 +276,25 @@ class Creature:
         if self.origin[0] == "Void Born":
             self.characteristics.loc["Strength", "characteristic"] -= 5
             self.characteristics.loc["Willpower", "characteristic"] += 5
-            pd.concat([self.skills, pd.DataFrame(index=["Speak Language (Ship Dialect)"], columns=['training', 'type', 'level'], data=None)])
+            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Speak Language (Ship Dialect)"],
+                                                               columns=['training', 'type', 'level'],
+                                                               data=[skills_table.loc['Speak Language (Ship Dialect)',
+                                                               ['type']]])])
             self.traits.append("Charmed")
             self.talents.append("Roll natural 9 on 1d10 when spending Fate Point => FP NOT spent")
             self.traits.append("Ill-Omened")
             self.talents.append("-5 to all Fellowship Tests interacting with non-void born humans")
             self.traits.append("Shipwise")
-            pd.concat([self.skills, pd.DataFrame(index=["Navigation (Stellar)(Int) => Untrained Basic Skill"], columns=['training', 'type', 'level'], data=None)])
-            pd.concat([self.skills, pd.DataFrame(index=["Pilot (Spacecraft)(Ag) => Untrained Basic Skill"], columns=['training', 'type', 'level'], data=None)])
+            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Navigation (Stellar)"],
+                                                               columns=['training', 'type', 'level'],
+                                                               data=[['Untrained',
+                                                                     skills_table.loc['Navigation (Stellar)', ['type']],
+                                                                     'Basic']])])
+            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Pilot (Spacecraft) => Untrained Basic Skill"],
+                                                               columns=['training', 'type', 'level'],
+                                                               data=[['Untrained',
+                                                                     skills_table.loc['Pilot (Spacecraft)', ['type']],
+                                                                     'Basic']])])
             self.traits.append("Void Accustomed")
             self.talents.append("Immune to space travel sickness")
             self.talents.append("Zero- & low-gravity environments => NOT Difficult Terrain")
@@ -293,8 +309,16 @@ class Creature:
         if self.origin[0] == "Forge World":
             self.characteristics.loc["Weapon Skill", "characteristic"] -= 5
             self.characteristics.loc["Intelligence", "characteristic"] += 5
-            pd.concat([self.skills, pd.DataFrame(index=["Common Lore (Tech)(Int) => Untrained Basic Skill"], columns=['training', 'type', 'level'], data=None)])
-            pd.concat([self.skills, pd.DataFrame(index=["Common Lore (Machine Cult)(Int) => Untrained Basic Skill"], columns=['training', 'type', 'level'], data=None)])
+            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Common Lore (Tech)"],
+                                                               columns=['training', 'type', 'level'],
+                                                               data=[['Untrained',
+                                                                      skills_table.loc['Common Lore (Tech)', ['type']],
+                                                                     'Basic']])])
+            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Common Lore (Machine Cult)"],
+                                                               columns=['training', 'type', 'level'],
+                                                               data=[['Untrained',
+                                                                      skills_table.loc['Common Lore (Machine Cult)',
+                                                                      ['type']], 'Basic']])])
             self.traits.append("Credo Omnissiah")
             self.talents.append("Technical Knock")
             self.traits.append("Fit for Purpose")
@@ -317,13 +341,13 @@ class Creature:
         if self.origin[0] == "Hive World":
             self.characteristics.loc["Toughness", "characteristic"] -= 5
             self.characteristics.loc["Fellowship", "characteristic"] += 5
-            pd.concat([self.skills, pd.DataFrame(index=["Speak Language (Hive Dialect)(Int) => Untrained Basic Skill"], columns=['training', 'type', 'level'], data=None)])
+            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Speak Language (Hive Dialect)(Int) => Untrained Basic Skill"], columns=['training', 'type', 'level'], data=None)])
             self.traits.append("Accustomed to Crowds")
             self.talents.append("Crowds => NOT Difficult Terrain")
             self.talents.append("Running or Charging through dense crowd => NO penalty to Agility Tests to keep "
                                 "creature's feet")
             self.traits.append("Caves of Steel")
-            pd.concat([self.skills, pd.DataFrame(index=["Tech-Use (Int) => Untrained Basic Skill"], columns=['training', 'type', 'level'], data=None)])
+            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Tech-Use (Int) => Untrained Basic Skill"], columns=['training', 'type', 'level'], data=None)])
             self.traits.append("Hivebound")
             self.talents.append("-10 to all Survival (Int) Tests while NOT in \"Proper Habitat\"")
             self.talents.append("-5 to all Intelligence Tests while NOT in \"Proper Habitat\"")
@@ -344,12 +368,12 @@ class Creature:
             self.traits.append("Blessed Ignorance")
             self.talents.append("-5 to Forbidden Lore (Int) Tests")
             self.traits.append("Hagiography")
-            pd.concat([self.skills, pd.DataFrame(index=["Common Lore (Imperial Creed)(Int) => Untrained Basic Skill"], columns=['training', 'type', 'level'], data=None)])
-            pd.concat([self.skills, pd.DataFrame(index=["Common Lore (Imperium)(Int) => Untrained Basic Skill"], columns=['training', 'type', 'level'], data=None)])
-            pd.concat([self.skills, pd.DataFrame(index=["Common Lore (War)(Int) => Untrained Basic Skill"], columns=['training', 'type', 'level'], data=None)])
+            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Common Lore (Imperial Creed)(Int) => Untrained Basic Skill"], columns=['training', 'type', 'level'], data=None)])
+            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Common Lore (Imperium)(Int) => Untrained Basic Skill"], columns=['training', 'type', 'level'], data=None)])
+            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Common Lore (War)(Int) => Untrained Basic Skill"], columns=['training', 'type', 'level'], data=None)])
             self.traits.append("Liturgical Familiarity")
-            pd.concat([self.skills, pd.DataFrame(index=["Literacy (Int) => Untrained Basic Skill"], columns=['training', 'type', 'level'], data=None)])
-            pd.concat([self.skills, pd.DataFrame(index=["Speak Language (High Gothic)(Int) => Untrained Basic Skill"], columns=['training', 'type', 'level'], data=None)])
+            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Literacy (Int) => Untrained Basic Skill"], columns=['training', 'type', 'level'], data=None)])
+            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Speak Language (High Gothic)(Int) => Untrained Basic Skill"], columns=['training', 'type', 'level'], data=None)])
             self.wounds += sum(self.roll(1, 5))
             self.characteristics.loc["Toughness", "bonus_multiplier"]: float = 2.0
             # Determine fate points:
@@ -361,9 +385,10 @@ class Creature:
         if self.origin[0] == "Noble Born":
             self.characteristics.loc["Willpower", "characteristic"] -= 5
             self.characteristics.loc["Fellowship", "characteristic"] += 5
-            pd.concat([self.skills, pd.DataFrame(index=["Literacy (Int) Untrained Basic Skill"], columns=['training', 'type', 'level'], data=None)])
-            pd.concat([self.skills, pd.DataFrame(index=["Speak Language (High Gothic)(Int) Untrained Basic Skill"], columns=['training', 'type', 'level'], data=None)])
-            pd.concat([self.skills, pd.DataFrame(index=["Speak Language (Low Gothic)(Int) Untrained Basic Skill"], columns=['training', 'type', 'level'], data=None)])
+            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Literacy (Int) Untrained Basic Skill"],
+                                                               columns=['training', 'type', 'level'], data=None)])
+            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Speak Language (High Gothic)(Int) Untrained Basic Skill"], columns=['training', 'type', 'level'], data=None)])
+            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Speak Language (Low Gothic)(Int) Untrained Basic Skill"], columns=['training', 'type', 'level'], data=None)])
             self.traits.append("Etiquette")
             self.talents.append("+10 to Interaction Tests when dealing with authority and in formal situations")
             self.traits.append("Legacy of Wealth")
@@ -405,7 +430,8 @@ class Creature:
             else:
                 self.insanity += self.roll(1, 5)
         if self.origin[1] == "Scapegrace":
-            pd.concat([self.skills, pd.DataFrame(index=["Sleight of Hand => Trained Basic Skill"], columns=['training', 'type', 'level'], data=None)])
+            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Sleight of Hand => Trained Basic Skill"],
+                                                               columns=['training', 'type', 'level'], data=None)])
             if np.random.randint(0, 2) == 0:
                 self.characteristics.loc["Intelligence", "characteristic"] += 3
             else:
@@ -416,7 +442,7 @@ class Creature:
                 self.insanity += self.roll(1, 5)
         if self.origin[1] == "Stubjack":
             self.talents.append("Quick Draw")
-            pd.concat([self.skills, pd.DataFrame(index=["Intimidate => Trained Basic Skill"], columns=['training', 'type', 'level'], data=None)])
+            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Intimidate => Trained Basic Skill"], columns=['training', 'type', 'level'], data=None)])
             if np.random.randint(0, 2) == 0:
                 self.characteristics.loc["Weapon Skill", "characteristic"] += 5
             else:
@@ -432,7 +458,7 @@ class Creature:
             self.characteristics.loc["Weapon Skill", "characteristic"] -= 3
         if self.origin[1] == "Savant":
             if np.random.randint(0, 2) == 0:
-                pd.concat([self.skills, pd.DataFrame(index=["Logic (Int) => Trained Basic Skill"], columns=['training', 'type', 'level'], data=None)])
+                self.skills = pd.concat([self.skills, pd.DataFrame(index=["Logic (Int) => Trained Basic Skill"], columns=['training', 'type', 'level'], data=None)])
             else:
                 self.talents.append("Peer (Academic)")
             if np.random.randint(0, 2) == 0:
@@ -641,7 +667,7 @@ class Creature:
                 self.traits.append("Recidivist")
                 self.talents.append("Enemy (Adeptus Arbites)")
                 self.talents.append("Resistance (Interrogation)")
-                pd.concat([self.skills, pd.DataFrame(index=["Concealment => Trained Basic Skill"], columns=['training', 'type', 'level'], data=None)])
+                self.skills = pd.concat([self.skills, pd.DataFrame(index=["Concealment => Trained Basic Skill"], columns=['training', 'type', 'level'], data=None)])
             elif lure_random < 2:
                 self.traits.append("")
                 pass
