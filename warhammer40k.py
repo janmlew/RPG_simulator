@@ -42,8 +42,6 @@ class Creature:
         self.profit_factor: int = 0
         self.corruption: int = 0
         self.insanity: int = 0
-        self.lure_void: list = []
-        self.mutation: str = ""
         self.psy = 0
 
     def roll(self, dice_number: int = 1, dice_sides: int = 6):
@@ -264,32 +262,33 @@ class Creature:
             self.characteristics.loc["Perception", "characteristic"] -= 3
             self.corruption += self.roll(1, 5)
 
-    def generate_mutations(self, mutant_roll):
+    def generate_mutations(self):
+        mutant_roll: int = sum(self.roll(1, 100))
         if mutant_roll < 6:
-            self.mutation = mutations[0]
+            self.traits.append(f"Mutant: {mutations[0]}")
             self.talents.append("-20 to Fellowship Tests to interact with \'Normals\'")
             self.talents.append("+10 to Intimidate Tests")
         elif mutant_roll < 11:
-            self.mutation = mutations[1]
+            self.traits.append(f"Mutant: {mutations[1]}")
             self.talents.append("Natural Armour 2")
         elif mutant_roll < 16:
-            self.mutation = mutations[2]
+            self.traits.append(f"Mutant: {mutations[2]}")
             self.talents.append("Cannot take Run action")
             self.characteristics.loc["Agility", "characteristic"] -= sum(self.roll(2, 10))
         elif mutant_roll < 21:
-            self.mutation = mutations[3]
+            self.traits.append(f"Mutant: {mutations[3]}")
             self.talents.append("Iron Jaw")
             self.wounds += 5
         elif mutant_roll < 26:
-            self.mutation = mutations[4]
+            self.traits.append(f"Mutant: {mutations[4]}")
             self.characteristics.loc["Strength", "characteristic"] += 10
             self.characteristics.loc["Toughness", "characteristic"] += 10
         elif mutant_roll < 31:
-            self.mutation = mutations[5]
+            self.traits.append(f"Mutant: {mutations[5]}")
             self.talents.append("Dark Sight Trait")
             self.talents.append("-10 to all Tests when in bright light unless eyes shielded & skin covered")
         elif mutant_roll < 36:
-            self.mutation = mutations[6]
+            self.traits.append(f"Mutant: {mutations[6]}")
             self.roll(4, 10)
             rolls = self.roll_history[-4:]
             for roll in range(-4, 0):
@@ -306,24 +305,24 @@ class Creature:
                     self.characteristics.iloc[roll, 2] -= characteristic - 5
             self.insanity += sum(self.roll(1, 10))
         elif mutant_roll < 41:
-            self.mutation = mutations[7]
+            self.traits.append(f"Mutant: {mutations[7]}")
             self.characteristics.loc["Weapon Skill", "characteristic"] -= 10
             self.characteristics.loc["Ballistic Skill", "characteristic"] -= 10
             self.talents.append("-20 to all Tests involving fine physical manipulation")
         elif mutant_roll < 46:
-            self.mutation = mutations[8]
+            self.traits.append(f"Mutant: {mutations[8]}")
             self.talents.append("+20 to Toughness Tests to resist poison")
             self.characteristics.loc["Toughness", "characteristic"] -= sum(self.roll(1, 10))
             self.characteristics.loc["Intelligence", "characteristic"] -= self.roll(1, 10)
             self.talents.append("1d10 damage ignoring Armour & Toughness to any creature that fails a "
                                 "difficult (-10) Toughness Test when coming into contact with the Mutant's blood")
         elif mutant_roll < 51:
-            self.mutation = mutations[9]
+            self.traits.append(f"Mutant: {mutations[9]}")
             self.talents.append("Hulking Size Trait")
             self.characteristics.loc["Strength", "characteristic"] -= sum(self.roll(1, 10))
             self.wounds += 5
         elif mutant_roll < 56:
-            self.mutation = mutations[10]
+            self.traits.append(f"Mutant: {mutations[10]}")
             self.talents.append("Psy Rating 2")
             if self.psy >= 2:
                 # Check later how psy works! Modify if needed.
@@ -332,16 +331,16 @@ class Creature:
             #
             # Check PSY later!
         elif mutant_roll < 60:
-            self.mutation = mutations[11]
+            self.traits.append(f"Mutant: {mutations[11]}")
             self.talents.append("Fear 1 Trait")
         elif mutant_roll < 64:
-            self.mutation = mutations[12]
+            self.traits.append(f"Mutant: {mutations[12]}")
             self.characteristics.loc["Strength", "characteristic"] += 10
             self.characteristics.loc["Agility", "characteristic"] += 10
             self.characteristics.loc["Intelligence", "characteristic"] -= sum(self.roll(1, 10))
             self.characteristics.loc["Fellowship", "characteristic"] -= 10
         elif mutant_roll < 68:
-            self.mutation = mutations[13]
+            self.traits.append(f"Mutant: {mutations[13]}")
             self.characteristics.loc["Intelligence", "characteristic"] -= sum(self.roll(1, 10))
             self.characteristics.loc["Fellowship", "characteristic"] -= sum(self.roll(1, 10))
             roll = self.roll(1, 10)
@@ -352,69 +351,68 @@ class Creature:
             else:
                 self.talents.append("From Beyond Trait")
         elif mutant_roll < 71:
-            self.mutation = mutations[14]
+            self.traits.append(f"Mutant: {mutations[14]}")
             ravaged_roll = sum(self.roll(1, 5))
             for i in range(0, ravaged_roll + 1):
-                mutant_roll: int = sum(self.roll(1, 100))
-                self.generate_mutations(mutant_roll=mutant_roll)
+                self.generate_mutations()
             self.talents.append("Obvious touch of Chaos regardless of the nature of mutations")
         elif mutant_roll < 75:
-            self.mutation = mutations[15]
+            self.traits.append(f"Mutant: {mutations[15]}")
             if np.random.randint(0, 2) == 0:
                 self.talents.append("Natural Weapon 1 Trait (I damage)")
             else:
                 self.talents.append("Natural Weapon 1 Trait (R damage)")
         elif mutant_roll < 79:
-            self.mutation = mutations[16]
+            self.traits.append(f"Mutant: {mutations[16]}")
             self.characteristics.loc["Toughness", "characteristic"] += 10
             self.talents.append("Regeneration Trait")
             self.talents.append("Must eat copious amounts of raw meat or starve")
         elif mutant_roll < 82:
-            self.mutation = mutations[17]
+            self.traits.append(f"Mutant: {mutations[17]}")
             self.talents.append("Fear 2 for the round when critical damage was taken by the Mutant")
         elif mutant_roll < 86:
-            self.mutation = mutations[18]
+            self.traits.append(f"Mutant: {mutations[18]}")
             self.talents.append("Toxic Trait")
         elif mutant_roll < 90:
-            self.mutation = mutations[19]
+            self.traits.append(f"Mutant: {mutations[19]}")
             self.talents.append("Unnatural Strength Trait")
         elif mutant_roll < 92:
-            self.mutation = mutations[20]
+            self.traits.append(f"Mutant: {mutations[20]}")
             self.talents.append("Ambidexterous")
             self.talents.append("Two Weapon Wielder")
             self.talents.append("+10 Climb Tests")
             self.talents.append("+10 Grapple Attacks")  # Check grapple attacks later.
         elif mutant_roll < 94:
-            self.mutation = mutations[21]
+            self.traits.append(f"Mutant: {mutations[21]}")
             self.wounds += 5
             self.talents.append("Crawler Trait")
         elif mutant_roll == 94:
-            self.mutation = mutations[22]
+            self.traits.append(f"Mutant: {mutations[22]}")
             self.talents.append("Fear 3 Trait")
         elif mutant_roll == 95:
-            self.mutation = mutations[23]
+            self.traits.append(f"Mutant: {mutations[23]}")
             self.characteristics.loc["Agility", "characteristic"] += 10
             self.talents.append("+20 Climb Tests")
             self.talents.append("+20 Grapple Attacks")  # Check grapple attacks later.
             self.talents.append("Can fit through spaces 1/4 its usual dimensions")
         elif mutant_roll == 96:
-            self.mutation = mutations[24]
+            self.traits.append(f"Mutant: {mutations[24]}")
             self.talents.append("Flyer Trait at a rate equal to its AB*2")  # Check what AB is...
         elif mutant_roll == 97:
-            self.mutation = mutations[25]
+            self.traits.append(f"Mutant: {mutations[25]}")
             self.talents.append("Unnatural Toughness Trait")
             self.talents.append("Cannot take Run action")
         elif mutant_roll == 98:
-            self.mutation = mutations[26]
+            self.traits.append(f"Mutant: {mutations[26]}")
             self.talents.append("Phase Trait")
             self.characteristics.loc["Strength", "characteristic"] -= 10
             self.characteristics.loc["Toughness", "characteristic"] -= 10
         elif mutant_roll == 99:
-            self.mutation = mutations[27]
+            self.traits.append(f"Mutant: {mutations[27]}")
             self.talents.append("1d10+2 R (or E) Tearing Damage close combat attack using full action, attacker must "
                                 "test Ballistic Skill to use; may be dodged, but not parried")  # Check attacks
         else:
-            self.mutation = mutations[-1]
+            self.traits.append(f"Mutant: {mutations[-1]}")
             self.talents.append("Deamonic Trait")
             self.talents.append("Fear 2 Trait")
             self.talents.append("From Beyond Trait")
@@ -423,11 +421,9 @@ class Creature:
         if self.origin[2] == "Tainted":
             lure_random = np.random.randint(0, 3)
             if lure_random < 1:
-                self.lure_void.append("Mutant")
-                mutant_roll: int = sum(self.roll(1, 100))
-                self.generate_mutations(mutant_roll=mutant_roll)
+                self.generate_mutations()
             elif lure_random < 2:
-                self.lure_void.append("Insane")
+                self.traits.append("Insane")
                 if np.random.randint(0, 2) == 0:
                     self.characteristics.loc["Fellowship", "characteristic"] -= 3
                 else:
@@ -435,21 +431,21 @@ class Creature:
                 self.characteristics.loc["Toughness", "characteristic"] += 3
                 self.talents.append("Peer (The Insane)")
             else:
-                self.lure_void.append("Deviant Philosophy")
+                self.traits.append("Deviant Philosophy")
                 self.characteristics.loc["Willpower", "characteristic"] += 3
                 self.talents.append("Enemy (Ecclesiarchy)")
         if self.origin[2] == "Criminal":
             lure_random = np.random.randint(0, 3)
             if lure_random < 1:
-                self.lure_void.append("Wanted Fugitive")
+                self.traits.append("Wanted Fugitive")
                 self.talents.append("Enemy (Ecclesiarchy)")
                 self.talents.append("Peer (Underworld)")
             elif lure_random < 2:
-                self.lure_void.append("Wanted by a Crime Baron")
+                self.traits.append("Wanted by a Crime Baron")
                 self.characteristics.loc["Perception", "characteristic"] += 3
                 self.talents.append("Enemy (Underworld)")
             else:
-                self.lure_void.append("Judged and Found Wanting")
+                self.traits.append("Judged and Found Wanting")
                 self.characteristics.loc["Fellowship", "characteristic"] -= 5
                 self.talents.append("poor-Craftsmanship Bionic Limb or Implant (upgrades: -200XP/-300XP => common/good")
         if self.origin[2] == "Renegade":
@@ -555,7 +551,6 @@ class Creature:
         print(f"Traits: {self.traits}")
         print(f"Skills: {self.skills}")
         print(f"Talents: {self.talents}")
-        print(f"Mutation: {self.mutation}")
         print(f"Wounds: {self.wounds}, Fate: {self.fate}, Initiative modifier: {self.initiative_modifier}, Psy rating: "
               f"{self.psy}")
         print(f"Corruption points: {self.corruption}, Insanity points: {self.insanity}")
