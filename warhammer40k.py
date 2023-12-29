@@ -258,7 +258,6 @@ class Creature:
                 self.skills.loc[skill_name] = ['Mastery I', skill_type]
             else:
                 self.skills.loc[skill_name] = ['Mastery II', skill_type]
-        # TODO: Finish.
 
     def generate_home_world_stats(self):
         if self.origin[0] == "Death World":
@@ -789,19 +788,61 @@ class Creature:
                         common_lore_index.append(index)
             common_random = common_lore_index[np.random.randint(0, len(common_lore_index))]
             self.add_skill(common_random)
-        self.traits.append("trait")
+            self.traits.append("Jealous Freedom")
+            self.talents.append("Prospect of imprisonment or loss of freedom results in violent reaction save "
+                                "successful Willpower Test (modified by the provocation and consequences of the "
+                                "reaction")
         if self.origin[3] == "Calamity":
-            self.traits.append("trait")
-            self.traits.append("trait")
+            self.traits.append("Inured to Adversity")
+            self.talents.append("Light Sleeper")
+            if np.random.randint(0, 2) == 0:
+                self.talents.append("Hardy")
+            else:
+                self.talents.append("Nerves of Steel")
+            self.traits.append("Echo of Hard Times")
+            self.profit_factor -= 1
         if self.origin[3] == "Ship-Lorn":
-            self.traits.append("trait")
-            self.traits.append("trait")
+            self.traits.append("Against All Odds")
+            if np.random.randint(0, 2):
+                self.add_skill("Survival")
+            else:
+                self.talents.append("Dark Soul")
+            self.talents.append("May re-roll the dice when spending Fate Points to recover Wounds, but must accept "
+                                "the result")
+            self.traits.append("Ill-Starred")
+            self.fate -= 1
+            self.talents.append("-5 on Fellowship Tests interacting with Void Born, Rogue Traders, and other "
+                                "voidfarers who are not personal friends and know the background and reputation")
         if self.origin[3] == "Dark Voyage":
-            self.traits.append("trait")
-            self.traits.append("trait")
+            self.traits.append("Things Man Was Not Meant to Know")
+            if np.random.randint(0, 2):
+                # This picks a random skill from a group of Forbidden Lore skills.
+                forbidden_index = []
+                for index in skills_table.index:
+                    n = 0
+                    if len(index) > 16:
+                        for i in range(0, 16):
+                            if index[i] == "Forbidden Lore ("[i]:
+                                n += 1
+                        if n > 14:
+                            forbidden_index.append(index)
+                forbidden_random = forbidden_index[np.random.randint(0, len(forbidden_index))]
+                self.add_skill(forbidden_random, 'Trained', 'Basic', upgrade=True)
+            else:
+                self.talents.append("Resistance (Fear)")
+            self.traits.append("Marked by Darkness")
+            self.insanity += sum(self.roll(1, 5))
         if self.origin[3] == "High Vendetta":
-            self.traits.append("trait")
-            self.traits.append("trait")
+            self.traits.append("Blood Will Have Blood")
+            if np.random.randint(0, 2):
+                self.talents.append("Die Hard")
+            else:
+                self.talents.append("Paranoia")
+            self.add_skill("Inquiry", upgrade=True)
+            self.traits.append("Brook No Insult")
+            self.talents.append("Offence to honour and person or those under creature's protection results in violent "
+                                "reaction save successful Willpower Test (modified by the provocation and "
+                                "consequences of the reaction")
 
     def generate_motivation_stats(self):
         if self.origin[4] == "Endurance":
