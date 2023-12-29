@@ -245,21 +245,19 @@ class Creature:
     def roll_history(self):
         return self.rolls
 
-    def add_skill(self, skill_name: str, training: str = 'untrained', skill_type: str = 'Basic', upgrade=False):
+    def add_skill(self, skill_name: str, training: str = 'Untrained', skill_type: str = 'Basic', upgrade=True):
         # Prevent from adding an existing skill
-        # Note: Skill progression is untrained -> trained -> mastery -> second mastery
         if skill_name not in self.skills.index:
             if upgrade:
                 print("New! Cannot upgrade its level.")
-            # skills_table.index.values.tolist()
             self.skills.loc[skill_name] = [training, skill_type]
         elif upgrade:
-            if self.skills.loc[skill_name, 'training'] == 'untrained':
+            if self.skills.loc[skill_name, 'training'] == 'Untrained':
                 self.skills.loc[skill_name] = ['trained', skill_type]
-            elif self.skills.loc[skill_name, 'training'] == 'trained':
-                self.skills.loc[skill_name] = ['mastery', skill_type]
+            elif self.skills.loc[skill_name, 'training'] == 'Trained':
+                self.skills.loc[skill_name] = ['Mastery I', skill_type]
             else:
-                self.skills.loc[skill_name] = ['second mastery', skill_type]
+                self.skills.loc[skill_name] = ['Mastery II', skill_type]
         self.skills.sort_index(inplace=True)
         # TODO: Finish.
 
@@ -270,12 +268,6 @@ class Creature:
             self.characteristics.loc["Willpower", "characteristic"] -= 5
             self.characteristics.loc["Fellowship", "characteristic"] -= 5
             self.add_skill('Survival')
-            '''
-            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Survival"],
-                                                               columns=['training', 'type', 'level'],
-                                                               data=[[None, skills_table.loc['Survival', ['type']],
-                                                                      None]])])
-            '''
             if np.random.randint(0, 2) == 0:
                 self.traits.append("Hardened")
                 self.talents.append("Jaded")
@@ -299,27 +291,14 @@ class Creature:
         if self.origin[0] == "Void Born":
             self.characteristics.loc["Strength", "characteristic"] -= 5
             self.characteristics.loc["Willpower", "characteristic"] += 5
-            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Speak Language (Ship Dialect)"],
-                                                               columns=['training', 'type', 'level'],
-                                                               data=[[None,
-                                                                      skills_table.loc['Speak Language (Ship Dialect)',
-                                                                      ['type']], None]])])
+            self.add_skill("Speak Language (Ship Dialect)")
             self.traits.append("Charmed")
             self.talents.append("Roll natural 9 on 1d10 when spending Fate Point => FP NOT spent")
             self.traits.append("Ill-Omened")
             self.talents.append("-5 to all Fellowship Tests interacting with non-void born humans")
             self.traits.append("Shipwise")
-            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Navigation (Stellar)"],
-                                                               columns=['training', 'type', 'level'],
-                                                               data=[['Untrained',
-                                                                      skills_table.loc[
-                                                                          'Navigation (Stellar)', ['type']],
-                                                                      'Basic']])])
-            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Pilot (Spacecraft)"],
-                                                               columns=['training', 'type', 'level'],
-                                                               data=[['Untrained',
-                                                                      skills_table.loc['Pilot (Spacecraft)', ['type']],
-                                                                      'Basic']])])
+            self.add_skill("Navigation (Stellar)", 'Untrained', 'Basic')
+            self.add_skill("Pilot (Spacecraft)", 'Untrained', 'Basic')
             self.traits.append("Void Accustomed")
             self.talents.append("Immune to space travel sickness")
             self.talents.append("Zero- & low-gravity environments => NOT Difficult Terrain")
@@ -334,16 +313,8 @@ class Creature:
         if self.origin[0] == "Forge World":
             self.characteristics.loc["Weapon Skill", "characteristic"] -= 5
             self.characteristics.loc["Intelligence", "characteristic"] += 5
-            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Common Lore (Tech)"],
-                                                               columns=['training', 'type', 'level'],
-                                                               data=[['Untrained',
-                                                                      skills_table.loc['Common Lore (Tech)', ['type']],
-                                                                      'Basic']])])
-            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Common Lore (Machine Cult)"],
-                                                               columns=['training', 'type', 'level'],
-                                                               data=[['Untrained',
-                                                                      skills_table.loc['Common Lore (Machine Cult)',
-                                                                      ['type']], 'Basic']])])
+            self.add_skill("Common Lore (Tech)", 'Untrained', 'Basic')
+            self.add_skill("Common Lore (Machine Cult)", 'Untrained', 'Basic')
             self.traits.append("Credo Omnissiah")
             self.talents.append("Technical Knock")
             self.traits.append("Fit for Purpose")
@@ -366,21 +337,13 @@ class Creature:
         if self.origin[0] == "Hive World":
             self.characteristics.loc["Toughness", "characteristic"] -= 5
             self.characteristics.loc["Fellowship", "characteristic"] += 5
-            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Speak Language (Hive Dialect)"],
-                                                               columns=['training', 'type', 'level'],
-                                                               data=[['Untrained',
-                                                                      skills_table.loc['Speak Language (Hive Dialect)',
-                                                                      ['type']], 'Basic']])])
+            self.add_skill("Speak Language (Hive Dialect)", 'Untrained', 'Basic')
             self.traits.append("Accustomed to Crowds")
             self.talents.append("Crowds => NOT Difficult Terrain")
             self.talents.append("Running or Charging through dense crowd => NO penalty to Agility Tests to keep "
                                 "creature's feet")
             self.traits.append("Caves of Steel")
-            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Tech-Use"],
-                                                               columns=['training', 'type', 'level'],
-                                                               data=[['Untrained',
-                                                                      skills_table.loc['Tech-Use', ['type']],
-                                                                      'Basic']])])
+            self.add_skill("Tech-Use", 'Untrained', 'Basic')
             self.traits.append("Hivebound")
             self.talents.append("-10 to all Survival (Int) Tests while NOT in \"Proper Habitat\"")
             self.talents.append("-5 to all Intelligence Tests while NOT in \"Proper Habitat\"")
@@ -401,30 +364,12 @@ class Creature:
             self.traits.append("Blessed Ignorance")
             self.talents.append("-5 to Forbidden Lore (Int) Tests")
             self.traits.append("Hagiography")
-            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Common Lore (Imperial Creed)"],
-                                                               columns=['training', 'type', 'level'],
-                                                               data=[[None,
-                                                                      skills_table.loc['Common Lore (Imperial Creed)',
-                                                                      ['type']], None]])])
-            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Common Lore (Imperium)"],
-                                                               columns=['training', 'type', 'level'],
-                                                               data=[[None, skills_table.loc['Common Lore (Imperium)',
-                                                               ['type']], None]])])
-            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Common Lore (War)"],
-                                                               columns=['training', 'type', 'level'],
-                                                               data=[[None, skills_table.loc['Common Lore (War)',
-                                                               ['type']], None]])])
+            self.add_skill("Common Lore (Imperial Creed)")
+            self.add_skill("Common Lore (Imperium)")
+            self.add_skill("Common Lore (War)")
             self.traits.append("Liturgical Familiarity")
-            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Literacy"],
-                                                               columns=['training', 'type', 'level'],
-                                                               data=[['Untrained',
-                                                                      skills_table.loc['Literacy', ['type']],
-                                                                      'Basic']])])
-            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Speak Language (High Gothic)"],
-                                                               columns=['training', 'type', 'level'],
-                                                               data=[['Untrained',
-                                                                      skills_table.loc['Speak Language (High Gothic)',
-                                                                      ['type']], 'Basic']])])
+            self.add_skill("Literacy", 'Untrained', 'Basic')
+            self.add_skill("Speak Language (High Gothic)", 'Untrained', 'Basic')
             self.wounds += sum(self.roll(1, 5))
             self.characteristics.loc["Toughness", "bonus_multiplier"]: float = 2.0
             # Determine fate points:
@@ -436,21 +381,9 @@ class Creature:
         if self.origin[0] == "Noble Born":
             self.characteristics.loc["Willpower", "characteristic"] -= 5
             self.characteristics.loc["Fellowship", "characteristic"] += 5
-            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Literacy"],
-                                                               columns=['training', 'type', 'level'],
-                                                               data=[['Untrained',
-                                                                      skills_table.loc['Literacy', ['type']],
-                                                                      'Basic']])])
-            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Speak Language (High Gothic)"],
-                                                               columns=['training', 'type', 'level'],
-                                                               data=[['Untrained',
-                                                                      skills_table.loc['Speak Language (High Gothic)',
-                                                                      ['type']], 'Basic']])])
-            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Speak Language (Low Gothic)"],
-                                                               columns=['training', 'type', 'level'],
-                                                               data=[['Untrained',
-                                                                      skills_table.loc['Speak Language (Low Gothic)',
-                                                                      ['type']], 'Basic']])])
+            self.add_skill("Literacy", 'Untrained', 'Basic')
+            self.add_skill("Speak Language (High Gothic)", 'Untrained', 'Basic')
+            self.add_skill("Speak Language (Low Gothic)", 'Untrained', 'Basic')
             self.traits.append("Etiquette")
             self.talents.append("+10 to Interaction Tests when dealing with authority and in formal situations")
             self.traits.append("Legacy of Wealth")
@@ -492,11 +425,7 @@ class Creature:
             else:
                 self.insanity += sum(self.roll(1, 5))
         if self.origin[1] == "Scapegrace":
-            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Sleight of Hand"],
-                                                               columns=['training', 'type', 'level'],
-                                                               data=[['Trained',
-                                                                      skills_table.loc['Sleight of Hand', ['type']],
-                                                                      'Basic']])])
+            self.add_skill("Sleight of Hand", 'Trained', 'Basic')
             if np.random.randint(0, 2) == 0:
                 self.characteristics.loc["Intelligence", "characteristic"] += 3
             else:
@@ -507,11 +436,7 @@ class Creature:
                 self.insanity += sum(self.roll(1, 5))
         if self.origin[1] == "Stubjack":
             self.talents.append("Quick Draw")
-            self.skills = pd.concat([self.skills, pd.DataFrame(index=["Intimidate"],
-                                                               columns=['training', 'type', 'level'],
-                                                               data=[['Trained',
-                                                                      skills_table.loc['Intimidate', ['type']],
-                                                                      'Basic']])])
+            self.add_skill("Intimidate", 'Trained', 'Basic')
             if np.random.randint(0, 2) == 0:
                 self.characteristics.loc["Weapon Skill", "characteristic"] += 5
             else:
@@ -527,11 +452,7 @@ class Creature:
             self.characteristics.loc["Weapon Skill", "characteristic"] -= 3
         if self.origin[1] == "Savant":
             if np.random.randint(0, 2) == 0:
-                self.skills = pd.concat([self.skills, pd.DataFrame(index=["Logic"],
-                                                                   columns=['training', 'type', 'level'],
-                                                                   data=[['Trained',
-                                                                          skills_table.loc['Logic', ['type']],
-                                                                          'Basic']])])
+                self.add_skill("Logic", 'Trained', 'Basic')
             else:
                 self.talents.append("Peer (Academic)")
             if np.random.randint(0, 2) == 0:
@@ -740,11 +661,7 @@ class Creature:
                 self.traits.append("Recidivist")
                 self.talents.append("Enemy (Adeptus Arbites)")
                 self.talents.append("Resistance (Interrogation)")
-                self.skills = pd.concat([self.skills, pd.DataFrame(index=["Concealment"],
-                                                                   columns=['training', 'type', 'level'],
-                                                                   data=[['Trained',
-                                                                          skills_table.loc['Concealment', ['type']],
-                                                                          'Basic']])])
+                self.add_skill("Concealment", 'Trained', 'Basic')
             elif lure_random < 2:
                 self.traits.append("Free-thinker")
                 if np.random.randint(0, 2) == 0:
@@ -769,7 +686,8 @@ class Creature:
                         if n > 14:
                             forbidden_index.append(index)
                 forbidden_random = forbidden_index[np.random.randint(0, len(forbidden_index))]
-                self.skills[forbidden_random] = ['Trained', skills_table.loc[[forbidden_random], ['type']], 'Basic']
+                self.add_skill(forbidden_random, 'Trained', 'Basic')
+                # TODO: Drawing Common Lore Skill
         if self.origin[2] == "Duty Bound":
             lure_random = np.random.randint(0, 3)
             if lure_random < 1:
@@ -860,7 +778,7 @@ class Creature:
             for index in self.skills.index.values.tolist():
                 press_ganged.remove(index)
             press_ganged = press_ganged[np.random.randint(0, len(press_ganged))]
-            self.skills.loc[press_ganged] = [None, skills_table.loc[press_ganged], None]
+            self.add_skill(press_ganged)
 
         self.traits.append("trait")
         if self.origin[3] == "Calamity":
