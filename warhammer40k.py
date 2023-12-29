@@ -466,9 +466,9 @@ class Creature:
             else:
                 self.characteristics.loc["Agility", "characteristic"] += 3
             if np.random.randint(0, 2) == 0:
-                self.corruption += self.roll(1, 5)
+                self.corruption += sum(self.roll(1, 5))
             else:
-                self.insanity += self.roll(1, 5)
+                self.insanity += sum(self.roll(1, 5))
         if self.origin[1] == "Scapegrace":
             self.skills = pd.concat([self.skills, pd.DataFrame(index=["Sleight of Hand"],
                                                                columns=['training', 'type', 'level'],
@@ -480,9 +480,9 @@ class Creature:
             else:
                 self.characteristics.loc["Perception", "characteristic"] += 3
             if np.random.randint(0, 2) == 0:
-                self.corruption += self.roll(1, 5)
+                self.corruption += sum(self.roll(1, 5))
             else:
-                self.insanity += self.roll(1, 5)
+                self.insanity += sum(self.roll(1, 5))
         if self.origin[1] == "Stubjack":
             self.talents.append("Quick Draw")
             self.skills = pd.concat([self.skills, pd.DataFrame(index=["Intimidate"],
@@ -495,7 +495,7 @@ class Creature:
             else:
                 self.characteristics.loc["Ballistic Skill", "characteristic"] += 5
             self.characteristics.loc["Fellowship", "characteristic"] -= 5
-            self.insanity += self.roll(1, 5)
+            self.insanity += sum(self.roll(1, 5))
         if self.origin[1] == "Child of the Creed":
             self.talents.append("Unshakeable Faith")
             if np.random.randint(0, 2) == 0:
@@ -524,7 +524,7 @@ class Creature:
             else:
                 self.characteristics.loc["Fellowship", "characteristic"] += 3
             self.characteristics.loc["Perception", "characteristic"] -= 3
-            self.corruption += self.roll(1, 5)
+            self.corruption += sum(self.roll(1, 5))
 
     def generate_mutations(self):
         mutant_roll: int = sum(self.roll(1, 100))
@@ -577,7 +577,7 @@ class Creature:
             self.traits.append(f"Mutant: {mutations[8]}")
             self.talents.append("+20 to Toughness Tests to resist poison")
             self.characteristics.loc["Toughness", "characteristic"] -= sum(self.roll(1, 10))
-            self.characteristics.loc["Intelligence", "characteristic"] -= self.roll(1, 10)
+            self.characteristics.loc["Intelligence", "characteristic"] -= sum(self.roll(1, 10))
             self.talents.append("1d10 damage ignoring Armour & Toughness to any creature that fails a "
                                 "difficult (-10) Toughness Test when coming into contact with the Mutant's blood")
         elif mutant_roll < 51:
@@ -732,9 +732,9 @@ class Creature:
             else:
                 self.traits.append("Dark Visionary")
                 if np.random.randint(0, 2) == 0:
-                    self.corruption += self.roll(1, 5) + 1
+                    self.corruption += sum(self.roll(1, 5)) + 1
                 else:
-                    self.insanity += self.roll(1, 5) + 1
+                    self.insanity += sum(self.roll(1, 5)) + 1
                 self.talents.append("Dark Soul")
                 # This picks a random skill from a group of Forbidden Lore skills.
                 forbidden_index = []
@@ -755,22 +755,37 @@ class Creature:
         if self.origin[2] == "Duty Bound":
             lure_random = np.random.randint(0, 3)
             if lure_random < 1:
-                self.traits.append("")
-                pass
+                self.traits.append("Duty to the Throne")
+                self.characteristics.loc['Willpower', 'characteristic'] += 3
+                if self.characteristics.loc['Willpower', 'characteristic'] >= 40:
+                    self.talents.append("Armour of Contempt")
+                self.talents.append("-10 to Interaction Skill Tests with sources outside of the Imperium")
             elif lure_random < 2:
-                self.traits.append("")
-                pass
+                self.traits.append("Duty to Humanity")
+                if np.random.randint(0, 2) == 0:
+                    self.characteristics.loc['Perception', 'characteristic'] += 3
+                else:
+                    self.characteristics.loc['Intelligence', 'characteristic'] += 3
+                self.profit_factor -= 1
             else:
-                self.traits.append("")
-                pass
+                self.traits.append("Duty to Your Dynasty")
+                self.talents.append("Rival (Rogue Trader family")
+                self.characteristics.loc['Toughness', 'characteristic'] -= 3
+                self.profit_factor += 1
         if self.origin[2] == "Zealot":
             lure_random = np.random.randint(0, 3)
             if lure_random < 1:
-                self.traits.append("")
-                pass
+                self.traits.append("Blessed Scars")
+                self.talents.append("+10 to Intimidate Tests")
+                self.talents.append("-10 to Charm Tests")
+                self.talents.append("poor-Craftsmanship Bionic Limb or Implant (upgrades: -200XP/-300XP => common/good")
             elif lure_random < 2:
-                self.traits.append("")
-                pass
+                self.traits.append("Unnerving Clarity")
+                self.characteristics.loc['Willpower', 'characteristic'] += 5
+                if np.random.randint(0, 2) == 0:
+                    self.characteristics.loc['Fellowship', 'characteristic'] -= 5
+                else:
+                    self.insanity += sum(self.roll(1, 10))
             else:
                 self.traits.append("")
                 pass
