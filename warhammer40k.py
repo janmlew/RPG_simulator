@@ -245,7 +245,7 @@ class Creature:
     def roll_history(self):
         return self.rolls
 
-    def add_skill(self, skill_name: str, training: str = 'Untrained', skill_type: str = 'Basic', upgrade=True):
+    def add_skill(self, skill_name: str, training: str = 'Untrained', skill_type=None, upgrade=True):
         # Prevent from adding an existing skill
         if skill_name not in self.skills.index:
             if upgrade:
@@ -258,7 +258,6 @@ class Creature:
                 self.skills.loc[skill_name] = ['Mastery I', skill_type]
             else:
                 self.skills.loc[skill_name] = ['Mastery II', skill_type]
-        self.skills.sort_index(inplace=True)
         # TODO: Finish.
 
     def generate_home_world_stats(self):
@@ -550,7 +549,7 @@ class Creature:
             self.traits.append(f"Mutant: {mutations[13]}")
             self.characteristics.loc["Intelligence", "characteristic"] -= sum(self.roll(1, 10))
             self.characteristics.loc["Fellowship", "characteristic"] -= sum(self.roll(1, 10))
-            roll = self.roll(1, 10)
+            roll = sum(self.roll(1, 10))
             if roll < 4:
                 self.talents.append("Frenzy")
             elif roll < 8:
@@ -560,7 +559,7 @@ class Creature:
         elif mutant_roll < 71:
             self.traits.append(f"Mutant: {mutations[14]}")
             ravaged_roll = sum(self.roll(1, 5))
-            for i in range(0, ravaged_roll + 1):
+            for i in range(0, ravaged_roll):
                 self.generate_mutations()
             self.talents.append("Obvious touch of Chaos regardless of the nature of mutations")
         elif mutant_roll < 75:
@@ -687,7 +686,6 @@ class Creature:
                             forbidden_index.append(index)
                 forbidden_random = forbidden_index[np.random.randint(0, len(forbidden_index))]
                 self.add_skill(forbidden_random, 'Trained', 'Basic')
-                # TODO: Drawing Common Lore Skill
         if self.origin[2] == "Duty Bound":
             lure_random = np.random.randint(0, 3)
             if lure_random < 1:
@@ -772,14 +770,25 @@ class Creature:
             self.talents.append("Slightest provocation from sworn enemies results in violent reaction save successful "
                                 "Willpower Test (modified by the provocation and consequences of the reaction")
         if self.origin[3] == "Press-Ganged":
-            # May gain skill if it has "no prerequisites". TODO: Check how skill prerequisites work.
+            # May gain skill if it has "no prerequisites". TODO: Add prerequisites and character progression.
             self.traits.append("Unwilling Accomplice")
             press_ganged = skills_table.index.values.tolist()
             for index in self.skills.index.values.tolist():
                 press_ganged.remove(index)
             press_ganged = press_ganged[np.random.randint(0, len(press_ganged))]
             self.add_skill(press_ganged)
-
+            # This picks a random skill from a group of Common Lore skills.
+            common_lore_index = []
+            for index in skills_table.index:
+                n = 0
+                if len(index) > 13:
+                    for i in range(0, 13):
+                        if index[i] == "Common Lore ("[i]:
+                            n += 1
+                    if n > 11:
+                        common_lore_index.append(index)
+            common_random = common_lore_index[np.random.randint(0, len(common_lore_index))]
+            self.add_skill(common_random)
         self.traits.append("trait")
         if self.origin[3] == "Calamity":
             self.traits.append("trait")
@@ -873,7 +882,7 @@ class Creature:
         print(f"Characteristics: {self.characteristics}")
         print(f"Origin: {self.origin}")
         print(f"Traits: {self.traits}")
-        print(f"Skills: {self.skills.index}")
+        print(f"Skills: {self.skills}")
         print(f"Talents: {self.talents}")
         print(f"Wounds: {self.wounds}, Fate: {self.fate}, Initiative modifier: {self.initiative_modifier}, Psy rating: "
               f"{self.psy}")
