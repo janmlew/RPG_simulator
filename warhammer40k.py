@@ -209,7 +209,7 @@ skills_table = pd.DataFrame(index=["Acrobatics", "Awareness", "Barter", "Blather
                                   ['Advanced', 'Intelligence', 'Crafting', 'Exploration', 1],
                                   ['Advanced', 'Intelligence', None, None, 0]
                                   ])
-skills_table = pd.concat([skills_table, skill_groups], sort=True)
+skills_table = pd.concat([skills_table, skill_groups])
 skills_table.sort_index(inplace=True)
 
 
@@ -245,11 +245,20 @@ class Creature:
     def roll_history(self):
         return self.rolls
 
+    def add_skill(self, skill_name:str, training:str=None, skill_type:str=None, level:str=None, upgrade=False):
+        # Prevent from adding an existing skill
+        if skill_name not in self.skills.index:
+            print("New!")
+            skills_table.index.values.tolist()
+            self.skills.loc[skill_name] = [None, skills_table.loc[skill_name], None]
+        self.skills.sort_index(inplace=True)
+        # TODO: Finish.
+
     def generate_home_world_stats(self):
         if self.origin[0] == "Death World":
             self.characteristics.loc["Strength", "characteristic"] += 5
             self.characteristics.loc["Toughness", "characteristic"] += 5
-            self.characteristics.loc["Willpower", "characteristic"] += 5
+            self.characteristics.loc["Willpower", "characteristic"] -= 5
             self.characteristics.loc["Fellowship", "characteristic"] -= 5
             self.skills = pd.concat([self.skills, pd.DataFrame(index=["Survival"],
                                                                columns=['training', 'type', 'level'],
@@ -589,7 +598,7 @@ class Creature:
             self.traits.append(f"Mutant: {mutations[10]}")
             self.talents.append("Psy Rating 2")
             if self.psy >= 2:
-                # Check later how psy works! Modify if needed.
+                # TODO: Check later how psy works! Modify if needed.
                 self.psy += 1  # Should gain "next highest Psy Rating Talent that it doesn't have."
             # Gain TWO Psychic Techniques of his choice from the discipline of his choice.
             #
@@ -645,7 +654,7 @@ class Creature:
             self.talents.append("Ambidexterous")
             self.talents.append("Two Weapon Wielder")
             self.talents.append("+10 Climb Tests")
-            self.talents.append("+10 Grapple Attacks")  # Check grapple attacks later.
+            self.talents.append("+10 Grapple Attacks")  # TODO: Check grapple attacks later.
         elif mutant_roll < 94:
             self.traits.append(f"Mutant: {mutations[21]}")
             self.wounds += 5
@@ -657,11 +666,11 @@ class Creature:
             self.traits.append(f"Mutant: {mutations[23]}")
             self.characteristics.loc["Agility", "characteristic"] += 10
             self.talents.append("+20 Climb Tests")
-            self.talents.append("+20 Grapple Attacks")  # Check grapple attacks later.
+            self.talents.append("+20 Grapple Attacks")  # TODO: Check grapple attacks later.
             self.talents.append("Can fit through spaces 1/4 its usual dimensions")
         elif mutant_roll == 96:
             self.traits.append(f"Mutant: {mutations[24]}")
-            self.talents.append("Flyer Trait at a rate equal to its AB*2")  # Check what AB is...
+            self.talents.append("Flyer Trait at a rate equal to its AB*2")  # TODO: Check what AB is...
         elif mutant_roll == 97:
             self.traits.append(f"Mutant: {mutations[25]}")
             self.talents.append("Unnatural Toughness Trait")
@@ -674,7 +683,7 @@ class Creature:
         elif mutant_roll == 99:
             self.traits.append(f"Mutant: {mutations[27]}")
             self.talents.append("1d10+2 R (or E) Tearing Damage close combat attack using full action, attacker must "
-                                "test Ballistic Skill to use; may be dodged, but not parried")  # Check attacks
+                                "test Ballistic Skill to use; may be dodged, but not parried")  # TODO: Check attacks
         else:
             self.traits.append(f"Mutant: {mutations[-1]}")
             self.talents.append("Deamonic Trait")
@@ -747,11 +756,7 @@ class Creature:
                         if n > 14:
                             forbidden_index.append(index)
                 forbidden_random = forbidden_index[np.random.randint(0, len(forbidden_index))]
-                self.skills = pd.concat([self.skills,
-                                         pd.DataFrame(index=[forbidden_random],
-                                                      columns=['training', 'type', 'level'],
-                                                      data=[['Trained', skills_table.loc[forbidden_random, ['type']],
-                                                             'Basic']])])
+                self.skills[forbidden_random] = ['Trained', skills_table.loc[[forbidden_random], ['type']], 'Basic']
         if self.origin[2] == "Duty Bound":
             lure_random = np.random.randint(0, 3)
             if lure_random < 1:
@@ -787,33 +792,76 @@ class Creature:
                 else:
                     self.insanity += sum(self.roll(1, 10))
             else:
-                self.traits.append("")
-                pass
+                self.traits.append("Favoured of the Faithful")
+                self.characteristics.loc['Fellowship', 'characteristic'] += 5
+                self.talents.append("Peer (Ecclesiarchy)")
+                self.characteristics.loc['Toughness', 'characteristic'] -= 5
         if self.origin[2] == "Chosen by Destiny":
             lure_random = np.random.randint(0, 3)
             if lure_random < 1:
-                self.traits.append("")
-                pass
+                self.traits.append("Seeker of Truth")
+                self.talents.append("Foresight")
+                self.talents.append("Enemy (Academics of Ecclesiarchy)")
+                self.characteristics.loc['Willpower', 'characteristic'] -= 3
             elif lure_random < 2:
-                self.traits.append("")
-                pass
+                self.traits.append("Xenophile")
+                self.talents.append("+10 to Fellowship Tests with alien races or cultures")
+                self.talents.append("-10 to Willpower Tests involving alien artifacts and alien psychic powers")
             else:
-                self.traits.append("")
-                pass
+                self.traits.append("Fated for Greatness")
+                self.fate += 1
+                self.insanity += sum(self.roll(1, 10))
 
     def generate_trials_stats(self):
         if self.origin[3] == "The Hand of War":
-            pass
+            self.traits.append("The Ashes of War")
+            if np.random.randint(0, 2) == 0:
+                self.talents.append("Weapon Training (choice)")  # TODO: Check these weapon training talents later.
+            else:
+                self.talents.append("The Leap Up")
+            hatred = "Hatred (against "
+            hatred_random = np.random.randint(0, 7)
+            if hatred_random == 0:
+                hatred += "Orks)"
+            elif hatred_random == 1:
+                hatred += "Eldar)"
+            elif hatred_random == 2:
+                hatred += "mutants)"
+            elif hatred_random == 3:
+                hatred += "Chaos worshipers)"
+            elif hatred_random == 4:
+                hatred += "the Imperial Guard)"
+            elif hatred_random == 5:
+                hatred += "the Imperial Navy)"
+            else:
+                hatred += "void pirates)"
+            self.talents.append(hatred)
+            self.traits.append("The Face of the Enemy")
+            self.talents.append("-10 to all Fellowship Tests involving sworn enemies")
+            self.talents.append("Slightest provocation from sworn enemies results in violent reaction save successful "
+                                "Willpower Test (modified by the provocation and consequences of the reaction")
         if self.origin[3] == "Press-Ganged":
-            pass
+            self.traits.append("Unwilling Accomplice")
+            press_ganged = skills_table.index.values.tolist()
+            for index in self.skills.index.values.tolist():
+                press_ganged.remove(index)
+            press_ganged = press_ganged[np.random.randint(0, len(press_ganged))]
+            self.skills.loc[press_ganged] = [None, skills_table.loc[press_ganged], None]
+
+
+        self.traits.append("trait")
         if self.origin[3] == "Calamity":
-            pass
+            self.traits.append("trait")
+            self.traits.append("trait")
         if self.origin[3] == "Ship-Lorn":
-            pass
+            self.traits.append("trait")
+            self.traits.append("trait")
         if self.origin[3] == "Dark Voyage":
-            pass
+            self.traits.append("trait")
+            self.traits.append("trait")
         if self.origin[3] == "High Vendetta":
-            pass
+            self.traits.append("trait")
+            self.traits.append("trait")
 
     def generate_motivation_stats(self):
         if self.origin[4] == "Endurance":
@@ -885,6 +933,7 @@ class Creature:
         self.generate_trials_stats()
         self.generate_motivation_stats()
         self.generate_career_stats()
+        self.skills.sort_index(inplace=True)
         self.recalc_stats()
 
     @property
@@ -893,7 +942,7 @@ class Creature:
         print(f"Characteristics: {self.characteristics}")
         print(f"Origin: {self.origin}")
         print(f"Traits: {self.traits}")
-        print(f"Skills: {self.skills}")
+        print(f"Skills: {self.skills.index}")
         print(f"Talents: {self.talents}")
         print(f"Wounds: {self.wounds}, Fate: {self.fate}, Initiative modifier: {self.initiative_modifier}, Psy rating: "
               f"{self.psy}")
