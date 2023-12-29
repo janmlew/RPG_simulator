@@ -221,8 +221,8 @@ class Creature:
         self.rolls: list = []
         self.characteristics = pd.DataFrame(index=["Weapon Skill", "Ballistic Skill", "Strength", "Toughness",
                                                    "Agility", "Intelligence", "Perception", "Willpower",
-                                                   "Fellowship"], columns=["characteristic", "bonus",
-                                                                           "bonus_multiplier"])
+                                                   "Fellowship"],
+                                            columns=["characteristic", "bonus", "bonus_multiplier"])
         self.origin: list = []
         self.skills = pd.DataFrame(index=None, columns=['training', 'type', 'level'])
         self.talents: list = []
@@ -348,7 +348,7 @@ class Creature:
                                                                columns=['training', 'type', 'level'],
                                                                data=[['Untrained',
                                                                       skills_table.loc['Speak Language (Hive Dialect)',
-                                                                      ['type']], 'Basic']])])
+                                                                                       ['type']], 'Basic']])])
             self.traits.append("Accustomed to Crowds")
             self.talents.append("Crowds => NOT Difficult Terrain")
             self.talents.append("Running or Charging through dense crowd => NO penalty to Agility Tests to keep "
@@ -724,11 +724,34 @@ class Creature:
                                                                          skills_table.loc['Concealment', ['type']],
                                                                          'Basic']])])
             elif lure_random < 2:
-                self.traits.append("")
-                pass
+                self.traits.append("Free-thinker")
+                if np.random.randint(0, 2) == 0:
+                    self.characteristics.loc["Intelligence", "characteristic"] += 3
+                else:
+                    self.characteristics.loc["Perception", "characteristic"] += 3
             else:
-                self.traits.append("")
-                pass
+                self.traits.append("Dark Visionary")
+                if np.random.randint(0, 2) == 0:
+                    self.corruption += self.roll(1, 5) + 1
+                else:
+                    self.insanity += self.roll(1, 5) + 1
+                self.talents.append("Dark Soul")
+                # This picks a random skill from a group of Forbidden Lore skills.
+                forbidden_index = []
+                for index in skills_table.index:
+                    n = 0
+                    if len(index) > 16:
+                        for i in range(0, 16):
+                            if index[i] == "Forbidden Lore ("[i]:
+                                n += 1
+                        if n > 14:
+                            forbidden_index.append(index)
+                forbidden_random = forbidden_index[np.random.randint(0, len(forbidden_index))]
+                self.skills = pd.concat([self.skills,
+                                         pd.DataFrame(index=[forbidden_random],
+                                                      columns=['training', 'type', 'level'],
+                                                      data=[['Trained', skills_table.loc[forbidden_random, ['type']],
+                                                             'Basic']])])
         if self.origin[2] == "Duty Bound":
             lure_random = np.random.randint(0, 3)
             if lure_random < 1:
