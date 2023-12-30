@@ -875,9 +875,6 @@ class Creature:
             self.fate += 1
         if self.origin[4] == "Vengeance":
             self.talents.append(f"Hatred ({hatred_groups[np.random.randint(0, len(hatred_groups))]})")
-            # Enter specific enemy:
-            # x = input()
-            # self.talents.append(f"Hatred ({x})")
         if self.origin[4] == "Renown":
             if np.random.randint(0, 2) == 0:
                 self.talents.append("Air of Authority")
