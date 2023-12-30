@@ -227,10 +227,13 @@ enemy_groups = ["Academics", "Adepta Sororitas", "Adeptus Arbites", "Adeptus Mec
 good_rep_groups = ["Academics", "Adeptus Arbites", "Adeptus Mechanicus", "Administratum", "Astropaths", "Ecclesiarchy",
                    "Feral Worlders", "Government", "Hivers", "Imperial Guard", "Imperial Navy", "Inquisition",
                    "Middle Classes", "Nobility", "the Insane", "Underworld", "Void Born", "Workers"]
-hatred_groups = ["Criminals", "Rogue Trader (specific)", "Pirates", "Xeno (specific", "Psykers", "Mutants"]
+hatred_groups = ["Criminals", "Rogue Trader (specific)", "Pirates", "Xeno (specific)", "Psykers", "Mutants"]
 peer_groups = ["Academics", "Adeptus Arbites", "Adeptus Mechanicus", "Administratum", "Astropaths", "Ecclesiarchy",
                "Feral Worlders", "Government", "Hivers", "Inquisition", "Middle Classes", "Military", "Nobility",
                "the Insane", "Underworld", "Void Born", "Workers"]
+rival_groups = ["Academics", "Adepta Sororitas", "Adeptus Arbites", "Adeptus Mechanicus", "Administratum", "Astropaths",
+                "Ecclesiarchy", "Government", "Imperial Guard", "Imperial Navy", "Inquisition", "Middle Classes",
+                "Military", "Navigators", "Nobility", "Rogue Traders", "Underworld", "Workers"]
 
 
 class Creature:
@@ -879,9 +882,7 @@ class Creature:
             if np.random.randint(0, 2) == 0:
                 self.talents.append("Air of Authority")
             else:
-                self.talents.append("Peer (choose one)")  # TODO: If peers are a closed list, then do the list. Else:
-                # x = input()  # TODO: Turn on string input.
-                # self.talents.append(f"Peer ({x})")
+                self.talents.append(f"Peer ({peer_groups[np.random.randint(0, len(peer_groups))]})")
         if self.origin[4] == "Pride":
             self.roll(1, 100)
             if self.roll_history[-1] < 21:
@@ -899,9 +900,7 @@ class Creature:
                 skill_names_list = skills_table.index.values.tolist()
                 self.talents.append(f"Talented ({skill_names_list[np.random.randint(0, len(skill_names_list))]})")
             else:
-                self.talents.append("Peer (choose one)")  # TODO: If peers are a closed list, then do the list. Else:
-                # x = input()  # TODO: Turn on string input.
-                # self.talents.append(f"Peer ({x})")
+                self.talents.append(f"Peer ({peer_groups[np.random.randint(0, len(peer_groups))]})")
 
     def generate_career_stats(self):
         if self.origin[5] == "x":
