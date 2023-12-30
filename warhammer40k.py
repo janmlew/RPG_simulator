@@ -888,9 +888,8 @@ class Creature:
                 self.items.loc[items_table.index[4]] = items_table.iloc[4]
         if self.origin[4] == "Prestige":
             if np.random.randint(0, 2) == 0:
-                self.talents.append("Talented (choose one)")  # TODO: If talents are a closed list, then do it. Else:
-                # x = input()  # TODO: Turn on string input.
-                # self.talents.append(f"Talented ({x})")
+                skill_names_list = skills_table.index.values.tolist()
+                self.talents.append(f"Talented ({skill_names_list[np.random.randint(0, len(skill_names_list))]})")
             else:
                 self.talents.append("Peer (choose one)")  # TODO: If peers are a closed list, then do the list. Else:
                 # x = input()  # TODO: Turn on string input.
