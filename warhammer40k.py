@@ -272,8 +272,6 @@ class Creature:
     def add_skill(self, skill_name: str, training: str = 'Untrained', skill_type=None, upgrade=True):
         # Prevent from adding an existing skill
         if skill_name not in self.skills.index:
-            if upgrade:
-                print("New! Cannot upgrade its level.")
             self.skills.loc[skill_name] = [training, skill_type]
         elif upgrade:
             if self.skills.loc[skill_name, 'training'] == 'Untrained':
@@ -918,7 +916,7 @@ class Creature:
             self.characteristics.loc[index, "bonus"]: int = np.trunc(
                 self.characteristics.loc[index, "characteristic"] / 10).astype(int)
 
-    def generate_stats(self):
+    def generate_random_stats(self):
         for index in self.characteristics.index:
             self.characteristics.loc[index, "characteristic"] = sum(self.roll(2, 10)) + 25
             self.characteristics.loc[index, "bonus_multiplier"]: float = 1.0
@@ -957,21 +955,3 @@ class Creature:
         self.generate_career_stats()
         self.skills.sort_index(inplace=True)
         self.recalc_stats()
-
-    @property
-    def show_stats(self):
-        print(f"Name: {self.name}, Kind: {self.kind}, Level: {self.level}")
-        print(f"Characteristics: {self.characteristics}")
-        print(f"Origin: {self.origin}")
-        print(f"Traits: {self.traits}")
-        print(f"Skills: {self.skills}")
-        print(f"Talents: {self.talents}")
-        print(f"Wounds: {self.wounds}, Fate: {self.fate}, Initiative modifier: {self.initiative_modifier}, Psy rating: "
-              f"{self.psy}")
-        print(f"Corruption points: {self.corruption}, Insanity points: {self.insanity}")
-        print(f"Profit factor: {self.profit_factor}")
-        print(f"Items: {self.items}")
-        # skills_table.to_csv('skills_table.csv', sep=';')
-        # print(f"Dice rolls history: {self.roll_history}")
-        # print(items_table)
-        return None
