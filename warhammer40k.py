@@ -211,6 +211,19 @@ skills_table = pd.DataFrame(index=["Acrobatics", "Awareness", "Barter", "Blather
                                   ])
 skills_table = pd.concat([skills_table, skill_groups])
 skills_table.sort_index(inplace=True)
+items_table = pd.DataFrame(
+    index=["Heirloom (Archeotech Laspistol)", "Heirloom (Angevin Era Chainsword)", "Heirloom (Ancestral Seal)",
+           "Heirloom (Saint-Blessed Carapace Armour)", "Heirloom (Reliquary of Saint Drusus)"],
+    columns=["count", "state", "description"],
+    data=[[1, 'Best-Craftsmanship', 'archeotech laspistol'],
+          [1, 'Best-Craftsmanship', 'chainsword'],
+          [1, None, '+10 to all Interaction Tests when showing the seal to Imperial citizens and organizations'],
+          [1, 'Best-Craftsmanship', 'set od carapace armour'],
+          [1, None, '+20 to all Interaction Tests when showing the reliquary to members of the Ministorum']]
+)
+talent_groups = ["Academics", "Adeptus Arbites", "Adeptus Mechanicus", "Administratum", "Astropaths", "Ecclesiarchy",
+                 "Feral Worlders", "Government", "Hivers", "Inquisition", "Middle Classes", "Military", "Nobility",
+                 "the Insane", "Underworld", "Void Born", "Workers"]
 
 
 class Creature:
@@ -234,6 +247,7 @@ class Creature:
         self.corruption: int = 0
         self.insanity: int = 0
         self.psy = 0
+        self.items = pd.DataFrame(columns=["count", "state", "description"])
 
     def roll(self, dice_number: int = 1, dice_sides: int = 6):
         for i in range(0, dice_number):
@@ -846,17 +860,41 @@ class Creature:
 
     def generate_motivation_stats(self):
         if self.origin[4] == "Endurance":
-            pass
+            self.wounds += 1
         if self.origin[4] == "Fortune":
-            pass
+            self.fate += 1
         if self.origin[4] == "Vengeance":
-            pass
+            self.talents.append("Hatred (choose one)")  #TODO: If enemies are a closed list, then do the list. Else:
+            # x = input()  # TODO: Turn on string input.
+            # self.talents.append(f"Hatred ({x})")
         if self.origin[4] == "Renown":
-            pass
+            if np.random.randint(0, 2) == 0:
+                self.talents.append("Air of Authority")
+            else:
+                self.talents.append("Peer (choose one)") #TODO: If peers are a closed list, then do the list. Else:
+                # x = input()  # TODO: Turn on string input.
+                # self.talents.append(f"Peer ({x})")
         if self.origin[4] == "Pride":
-            pass
+            self.roll(1, 100)
+            if self.roll_history[-1] < 21:
+                self.items.loc[items_table.index[0]] = items_table.iloc[0]
+            elif self.roll_history[-1] < 41:
+                self.items.loc[items_table.index[1]] = items_table.iloc[1]
+            elif self.roll_history[-1] < 61:
+                self.items.loc[items_table.index[2]] = items_table.iloc[2]
+            elif self.roll_history[-1] < 81:
+                self.items.loc[items_table.index[3]] = items_table.iloc[3]
+            else:
+                self.items.loc[items_table.index[4]] = items_table.iloc[4]
         if self.origin[4] == "Prestige":
-            pass
+            if np.random.randint(0, 2) == 0:
+                self.talents.append("Talented (choose one)")  # TODO: If talents are a closed list, then do it. Else:
+                # x = input()  # TODO: Turn on string input.
+                # self.talents.append(f"Talented ({x})")
+            else:
+                self.talents.append("Peer (choose one)")  # TODO: If peers are a closed list, then do the list. Else:
+                # x = input()  # TODO: Turn on string input.
+                # self.talents.append(f"Peer ({x})")
 
     def generate_career_stats(self):
         if self.origin[5] == "x":
@@ -929,6 +967,8 @@ class Creature:
               f"{self.psy}")
         print(f"Corruption points: {self.corruption}, Insanity points: {self.insanity}")
         print(f"Profit factor: {self.profit_factor}")
+        print(f"Items: {self.items}")
         # skills_table.to_csv('skills_table.csv', sep=';')
         # print(f"Dice rolls history: {self.roll_history}")
+        # print(items_table)
         return None
