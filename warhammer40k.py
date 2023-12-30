@@ -221,6 +221,12 @@ items_table = pd.DataFrame(
           [1, 'Best-Craftsmanship', 'set od carapace armour'],
           [1, None, '+20 to all Interaction Tests when showing the reliquary to members of the Ministorum']]
 )
+enemy_groups = ["Academics", "Adepta Sororitas", "Adeptus Arbites", "Adeptus Mechanicus", "Administratum", "Astropaths",
+                "Ecclesiarchy", "Government", "Imperial Guard", "Imperial Navy", "Inquisition", "Military",
+                "Navigators", "Nobility", "Rogue Trader", "Underworld", "Workers"]
+good_rep_groups = ["Academics", "Adeptus Arbites", "Adeptus Mechanicus", "Administratum", "Astropaths", "Ecclesiarchy",
+                   "Feral Worlders", "Government", "Hivers", "Imperial Guard", "Imperial Navy", "Inquisition",
+                   "Middle Classes", "Nobility", "the Insane", "Underworld", "Void Born", "Workers"]
 peer_groups = ["Academics", "Adeptus Arbites", "Adeptus Mechanicus", "Administratum", "Astropaths", "Ecclesiarchy",
                "Feral Worlders", "Government", "Hivers", "Inquisition", "Middle Classes", "Military", "Nobility",
                "the Insane", "Underworld", "Void Born", "Workers"]
@@ -864,8 +870,10 @@ class Creature:
         if self.origin[4] == "Fortune":
             self.fate += 1
         if self.origin[4] == "Vengeance":
-            self.talents.append("Hatred (choose one)")  #TODO: If enemies are a closed list, then do the list. Else:
-            # x = input()  # TODO: Turn on string input.
+            hatred = ["Criminals", "Rogue Trader (specific)", "Pirates", "Xeno (specific", "Psykers", "Mutants"]
+            self.talents.append(f"Hatred ({hatred[np.random.randint(0, len(hatred))]})")
+            # Enter specific enemy:
+            # x = input()
             # self.talents.append(f"Hatred ({x})")
         if self.origin[4] == "Renown":
             if np.random.randint(0, 2) == 0:
