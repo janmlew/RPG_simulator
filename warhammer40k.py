@@ -227,6 +227,7 @@ enemy_groups = ["Academics", "Adepta Sororitas", "Adeptus Arbites", "Adeptus Mec
 good_rep_groups = ["Academics", "Adeptus Arbites", "Adeptus Mechanicus", "Administratum", "Astropaths", "Ecclesiarchy",
                    "Feral Worlders", "Government", "Hivers", "Imperial Guard", "Imperial Navy", "Inquisition",
                    "Middle Classes", "Nobility", "the Insane", "Underworld", "Void Born", "Workers"]
+hatred_groups = ["Criminals", "Rogue Trader (specific)", "Pirates", "Xeno (specific", "Psykers", "Mutants"]
 peer_groups = ["Academics", "Adeptus Arbites", "Adeptus Mechanicus", "Administratum", "Astropaths", "Ecclesiarchy",
                "Feral Worlders", "Government", "Hivers", "Inquisition", "Middle Classes", "Military", "Nobility",
                "the Insane", "Underworld", "Void Born", "Workers"]
@@ -767,7 +768,7 @@ class Creature:
                 self.talents.append("Weapon Training (choice)")  # TODO: Check these weapon training talents later.
             else:
                 self.talents.append("The Leap Up")
-            hatred = "Hatred (against "
+            hatred = "Hatred ("
             hatred_random = np.random.randint(0, 7)
             if hatred_random == 0:
                 hatred += "Orks)"
@@ -870,8 +871,7 @@ class Creature:
         if self.origin[4] == "Fortune":
             self.fate += 1
         if self.origin[4] == "Vengeance":
-            hatred = ["Criminals", "Rogue Trader (specific)", "Pirates", "Xeno (specific", "Psykers", "Mutants"]
-            self.talents.append(f"Hatred ({hatred[np.random.randint(0, len(hatred))]})")
+            self.talents.append(f"Hatred ({hatred_groups[np.random.randint(0, len(hatred_groups))]})")
             # Enter specific enemy:
             # x = input()
             # self.talents.append(f"Hatred ({x})")
@@ -879,7 +879,7 @@ class Creature:
             if np.random.randint(0, 2) == 0:
                 self.talents.append("Air of Authority")
             else:
-                self.talents.append("Peer (choose one)") #TODO: If peers are a closed list, then do the list. Else:
+                self.talents.append("Peer (choose one)")  # TODO: If peers are a closed list, then do the list. Else:
                 # x = input()  # TODO: Turn on string input.
                 # self.talents.append(f"Peer ({x})")
         if self.origin[4] == "Pride":
