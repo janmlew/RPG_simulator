@@ -1079,14 +1079,12 @@ class Creature:
                     origin_row.append(origins.iloc[x, y])
             origin_len = len(origin_row)
 
-            print(origin_len, origin_row)  # Testing only. To be removed.
             if x == 0:
                 random_walk = np.random.randint(0, origin_len)  # Starting point for the random walk.
                 # Add first row of origin:
                 self.origin.append(origin_row[random_walk])
 
             elif x < (origins_index - 1):
-                print(origins_index)
                 if random_walk == 0:
                     random_walk += np.random.randint(0, 2)
                 elif random_walk == origin_len - 1:
