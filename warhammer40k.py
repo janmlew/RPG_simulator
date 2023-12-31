@@ -277,14 +277,14 @@ class Creature:
         self.sex = 'Male'
         self.name = male_names.iloc[0, 1]
         self.kind = "Human"
-        self.level = 1
+        self.rank = 1
         self.rolls: list = []
         self.characteristics = pd.DataFrame(index=["Weapon Skill", "Ballistic Skill", "Strength", "Toughness",
                                                    "Agility", "Intelligence", "Perception", "Willpower",
                                                    "Fellowship"],
                                             columns=["characteristic", "bonus", "bonus_multiplier"])
         self.origin: list = []
-        self.skills = pd.DataFrame(index=None, columns=['training', 'level'])
+        self.skills = pd.DataFrame(index=None, columns=['training', 'rank'])
         self.talents: list = []
         self.traits: list = []
         self.wounds: int = 0
