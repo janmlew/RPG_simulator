@@ -965,7 +965,18 @@ class Creature:
             else:
                 self.talents.append(f"Peer ({peer_groups[np.random.randint(0, len(peer_groups))]})")
 
+    # TODO: Selecting a Starship
+
+    # TODO: Selecting equipment
+
     def generate_career_stats(self):
+        """
+        Note: This function ignores the possibility of gaining an Elite Advance.
+        Progression possibilities:
+        1. Characteristic Advance
+        2. Rank Increase
+        3. Skill or Talent Advance
+        """
         if self.origin[5] == "x":
             pass
         if self.origin[5] == "x":
