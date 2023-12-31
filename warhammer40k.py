@@ -4,6 +4,42 @@ import numpy as np
 import pandas as pd
 
 # Local data setup:
+male_names = pd.DataFrame(
+    columns=['Roll', 'Primitive', 'Low', 'High', 'Archaic', 'Informal'],
+    data=[[7, 'Artho', 'Aubray', 'Alessaunder', 'Aestaban', 'Alt'],
+          [13, 'Bron', 'Cort', 'Aphesius', 'Casmirre', 'Blade'],
+          [19, 'Carno', 'Emil', 'Cornelius', 'Gillam', 'Cutter'],
+          [25, 'Hob', 'Harmon', 'Darrius', 'Haddon', 'Echo'],
+          [31, 'Gil', 'Jace', 'Fortunus', 'Jonstonne', 'Gant'],
+          [37, 'Jorn', 'Lucius', 'Godwinne', 'Kennoch', 'Hal'],
+          [43, 'Kerghan', 'Malakai', 'Holt', 'Mordechai', 'Jak'],
+          [49, 'Lok', 'Nathin', 'Jarrion', 'Orthesian', 'Mord'],
+          [55, 'Marn', 'Remi', 'Macharius', 'Patronius', 'Notch'],
+          [61, 'Pak', 'Roland', 'Quinilli', 'Ramirez', 'Rook'],
+          [67, 'Quinn', 'Solar', 'Regias', 'Sebastion', 'Sawyer'],
+          [73, 'Stiehr', 'Theodore', 'Sarvus', 'Siegmund', 'Serge'],
+          [79, 'Thale', 'Vorgen', 'Tristan', 'Torian', 'Stubbs'],
+          [85, 'Vir', 'Ysarille', 'Victris', 'Vendigroth', 'Torque'],
+          [91, 'Ziel', 'Zacharie', 'Xanatov', 'Yorke', 'Veche']]
+)
+female_names = pd.DataFrame(
+    columns=['Roll', 'Primitive', 'Low', 'High', 'Archaic', 'Informal'],
+    data=[[7, 'Attie', 'Barbaretta', 'Anarette', 'Anastasia', 'Astra'],
+          [13, 'Besse', 'Cynthia', 'Carnelia', 'Cymbry', 'Blur'],
+          [19, 'Flur', 'Diane', 'Dominique', 'Esailla', 'Ceile'],
+          [25, 'Halia', 'Dorath', 'Faydra', 'Iioneyse', 'Crimson'],
+          [31, 'Jessie', 'Elisabet', 'Inessa', 'Janelle', 'Flora'],
+          [37, 'Karina', 'Faye', 'Janthine', 'Lorayne', 'Guile'],
+          [43, 'Marra', 'Genevie', 'Lucretia', 'Katyaina', 'Luna'],
+          [49, 'Narine', 'Isabelle', 'Marcella', 'Miriam', 'Mia'],
+          [55, 'Ovina', 'Jayne', 'Jama', 'Nadeyse', 'Poise'],
+          [61, 'Ralle', 'Josette', 'Noradine', 'Petriam', 'Rosa'],
+          [67, 'Salia', 'Noemi', 'Regina', 'Serafina', 'Sola'],
+          [73, 'Tassa', 'Odette', 'Symonne', 'Tarvanna', 'Trenne'],
+          [79, 'Unna', 'Shandra', 'Winter', 'Undynne', 'Val'],
+          [85, 'Vyn', 'Tanda', 'Yolande', 'Victrix', 'Xandra'],
+          [91, 'Yasha', 'Zolla', 'Zamora', 'Zephyr', 'Zelle']]
+)
 origins_data = [["Death World", "Void Born", "Forge World", "Hive World", "Imperial World", "Noble Born"],
                 ["Scavenger", "Scapegrace", "Stubjack", "Child of the Creed", "Savant", "Vaunted"],
                 ["Tainted", "Criminal", "Renegade", "Duty Bound", "Zealot", "Chosen by Destiny"],
@@ -237,7 +273,7 @@ rival_groups = ["Academics", "Adepta Sororitas", "Adeptus Arbites", "Adeptus Mec
 
 
 class Creature:
-    def __init__(self, name: str, kind: str = "Human", level: int = 0):
+    def __init__(self, name: str = male_names.iloc[0, 1], kind: str = "Human", level: int = 0):
         self.name = name
         self.kind = kind
         self.level = level
@@ -268,6 +304,23 @@ class Creature:
     @property
     def roll_history(self):
         return self.rolls
+
+    def generate_random_name(self, male=True):
+        name_roll = sum(self.roll(1, 100))
+        random_col = np.random.randint(1, len(male_names.iloc[0]))
+        if male:
+            if self.roll_history[-1] > 90:
+                return self.generate_random_name(male=False)
+            else:
+                name_roll = (name_roll - 1) // 6
+                random_name = male_names.iloc[name_roll, random_col]
+        else:
+            if self.roll_history[-1] > 90:
+                return self.generate_random_name()
+            else:
+                name_roll = (name_roll - 1) // 6
+                random_name = female_names.iloc[name_roll, random_col]
+        return random_name
 
     def add_skill(self, skill_name: str, training: str = 'Untrained', skill_type=None, upgrade=True):
         # Prevent from adding an existing skill
@@ -917,6 +970,8 @@ class Creature:
                 self.characteristics.loc[index, "characteristic"] / 10).astype(int)
 
     def generate_random_stats(self):
+        self.name = self.generate_random_name(male=np.random.choice([True, False]))
+
         for index in self.characteristics.index:
             self.characteristics.loc[index, "characteristic"] = sum(self.roll(2, 10)) + 25
             self.characteristics.loc[index, "bonus_multiplier"]: float = 1.0
@@ -954,4 +1009,5 @@ class Creature:
         self.generate_motivation_stats()
         self.generate_career_stats()
         self.skills.sort_index(inplace=True)
+        self.items.sort_index(inplace=True)
         self.recalc_stats()

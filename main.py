@@ -1,7 +1,7 @@
 import warhammer40k
 from warhammer40k import Creature
 
-creature = Creature(name="Ktul")
+creature = Creature()
 
 # print(creature.roll(dice_number=1, dice_sides=100))
 # print(creature.roll(2, 6))
