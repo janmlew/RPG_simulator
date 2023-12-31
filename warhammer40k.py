@@ -1003,7 +1003,39 @@ class Creature:
         elif self.origin[5] == "Navigator":
             pass
         else:
-            pass
+            self.add_skill("Command")
+            self.add_skill("Commerce")
+            self.add_skill("Charm")
+            self.add_skill("Common Lore (Imperium")
+            self.add_skill("Evaluate")
+            self.add_skill("Literacy")
+            self.add_skill("Scholastic Lore (Astromancy)")
+            self.add_skill("Speak Language (High Gothic)")
+            self.add_skill("Speak Language (Low Gothic)")
+            self.talents.append("Air of Authority")
+            self.talents.append("Pistol Weapon Training (Universal)")
+            self.talents.append("Melee Weapon Training (Universal)")
+            weapon = np.random.choice(['laspistol', 'hand cannon', 'plasma pistol'])
+            if weapon == 'laspistol':
+                self.items["Laspistol"] = [1, 'Best-Craftsmanship', weapon]
+            elif weapon == 'hand cannon':
+                self.items["Hand Cannon"] = [1, 'Good-Craftsmanship', weapon]
+            else:
+                self.items["Plasma Pistol"] = [1, 'Common-Craftsmanship', weapon]
+            weapon = np.random.choice(['mono-sword', 'power sword'])
+            if weapon == 'mono-sword':
+                self.items["Mono-Sword"] = [1, 'Best-Craftsmanship', weapon]
+            else:
+                self.items["Power Sword"] = [1, 'Common-Craftsmanship', weapon]
+            armor = np.random.choice(['enforcer light carapace', 'storm trooper carapace'])
+            if armor == 'enforcer light carapace':
+                self.items["Enforcer Light Carapace"] = [1, 'Best-Craftsmanship', armor]
+            else:
+                self.items["Storm Trooper Carapace"] = [1, 'Best-Craftsmanship', armor]
+            self.items["Micro-Bead"] = [1, None, 'micro-bead']
+            self.items["Void Suit"] = [1, None, 'void suit']
+            self.items["Set of Fine Clothing"] = [1, None, 'clothing']
+            self.items["Xeno-Pelt Cloak"] = [1, None, 'cloak']
 
     def recalc_stats(self):
         for index in self.characteristics.index:
@@ -1037,33 +1069,36 @@ class Creature:
             self.characteristics.loc[index, "characteristic"] = self.roll(2, 10) + 25
             self.characteristics.loc[index, "bonus_multiplier"]: float = 1.0
 
-        old_state: int = 0
+        random_walk: int = 0
         for x in range(0, origins_index):
 
+            # This part creates a list of current row's contents. That's it. ;)
             origin_row: list = []
             for y in range(0, origins_columns):
                 if origins.iloc[x, y] is not None:
                     origin_row.append(origins.iloc[x, y])
+            origin_len = len(origin_row)
 
+            print(origin_len, origin_row)  # Testing only. To be removed.
             if x == 0:
-                old_state = np.random.randint(0, len(origin_row))
+                random_walk = np.random.randint(0, origin_len)  # Starting point for the random walk.
                 # Add first row of origin:
-                self.origin.append(origin_row[old_state])
+                self.origin.append(origin_row[random_walk])
+
             elif x < (origins_index - 1):
-                new_state = old_state
-                if new_state == 0:
-                    new_state += np.random.randint(0, 2)
-                    old_state = new_state
-                elif new_state == len(origin_row) - 1:
-                    new_state -= np.random.randint(0, 2)
-                    old_state = new_state
+                print(origins_index)
+                if random_walk == 0:
+                    random_walk += np.random.randint(0, 2)
+                elif random_walk == origin_len - 1:
+                    random_walk -= np.random.randint(0, 2)
                 else:
-                    new_state += np.random.randint(low=-1, high=2)
-                    old_state = new_state
-                self.origin.append(origin_row[new_state])
+                    random_walk += np.random.randint(low=-1, high=2)
+                self.origin.append(origin_row[random_walk])
+                origin_len = len(origin_row)
             else:
-                old_state += np.random.randint(low=0, high=3)
-                self.origin.append(origin_row[old_state])
+                random_walk += np.random.randint(low=0, high=3)
+                self.origin.append(origin_row[random_walk])
+
         self.generate_home_world_stats()
         self.generate_birthright_stats()
         self.generate_lure_stats()
