@@ -273,10 +273,11 @@ rival_groups = ["Academics", "Adepta Sororitas", "Adeptus Arbites", "Adeptus Mec
 
 
 class Creature:
-    def __init__(self, name: str = male_names.iloc[0, 1], kind: str = "Human", level: int = 0):
-        self.name = name
-        self.kind = kind
-        self.level = level
+    def __init__(self):
+        self.sex = 'Male'
+        self.name = male_names.iloc[0, 1]
+        self.kind = "Human"
+        self.level = 1
         self.rolls: list = []
         self.characteristics = pd.DataFrame(index=["Weapon Skill", "Ballistic Skill", "Strength", "Toughness",
                                                    "Agility", "Intelligence", "Perception", "Willpower",
@@ -305,12 +306,12 @@ class Creature:
     def roll_history(self):
         return self.rolls
 
-    def generate_random_name(self, male=True):
+    def generate_random_name(self, sex='Male'):
         name_roll = sum(self.roll(1, 100))
         random_col = np.random.randint(1, len(male_names.iloc[0]))
-        if male:
+        if sex == 'Male':
             if self.roll_history[-1] > 90:
-                return self.generate_random_name(male=False)
+                return self.generate_random_name(sex='Female')
             else:
                 name_roll = (name_roll - 1) // 6
                 random_name = male_names.iloc[name_roll, random_col]
@@ -970,7 +971,8 @@ class Creature:
                 self.characteristics.loc[index, "characteristic"] / 10).astype(int)
 
     def generate_random_stats(self):
-        self.name = self.generate_random_name(male=np.random.choice([True, False]))
+        self.sex = np.random.choice(['Male', 'Female'])
+        self.name = self.generate_random_name(sex=self.sex)
 
         for index in self.characteristics.index:
             self.characteristics.loc[index, "characteristic"] = sum(self.roll(2, 10)) + 25
