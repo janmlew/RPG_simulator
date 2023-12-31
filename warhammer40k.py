@@ -270,6 +270,21 @@ peer_groups = ["Academics", "Adeptus Arbites", "Adeptus Mechanicus", "Administra
 rival_groups = ["Academics", "Adepta Sororitas", "Adeptus Arbites", "Adeptus Mechanicus", "Administratum", "Astropaths",
                 "Ecclesiarchy", "Government", "Imperial Guard", "Imperial Navy", "Inquisition", "Middle Classes",
                 "Military", "Navigators", "Nobility", "Rogue Traders", "Underworld", "Workers"]
+demeanours = dict(Bilious="Suspicious, bitter, and angry, yet very watchful and aware.",
+                  Cardinal="Seeks careful balance in all things, yet often struggles to make a vital choice rapidly.",
+                  Choleric="Always active and taking charge, yet easy to provoke to anger.",
+                  Fixed="Solid, unyielding, and definitive in all things. Considered and settled of opinion.",
+                  Melancholic="Thoughtful, introspective, and prone to fits of gloom.",
+                  Mutable="Unpredictable, undisciplined, and rebellious, defined by opposition to ideals.",
+                  Phlegmatic="Practical and careful, yet very serious and reserved.",
+                  Sanguine="Confident and optimistic, but prone to visions and flights of whimsy.",
+                  Supine="Loyal, devout, and easily led.")
+profit_ship = pd.DataFrame(columns=['Roll', 'Profit Factor', 'Ship Points'],
+                           data=[[2, 60, 30],
+                                 [4, 50, 40],
+                                 [8, 40, 50],
+                                 [10, 30, 60],
+                                 [11, 20, 70]])
 
 
 class Creature:
@@ -287,36 +302,35 @@ class Creature:
         self.skills = pd.DataFrame(index=None, columns=['training', 'rank'])
         self.talents: list = []
         self.traits: list = []
+        self.demeanour: dict = {}
         self.wounds: int = 0
         self.fate: int = 0
         self.initiative_modifier: int = 0
         self.profit_factor: int = 0
+        self.ship_points: int = 0
         self.corruption: int = 0
         self.insanity: int = 0
         self.psy = 0
         self.items = pd.DataFrame(columns=["count", "state", "description"])
 
     def roll(self, dice_number: int = 1, dice_sides: int = 6):
+        roll = []
         for i in range(0, dice_number):
-            self.rolls.append(np.random.randint(1, dice_sides + 1))
-            # print(f"{self.name} rolled {self.rolls[-1]}.")  # <-- This line is here only for testing
-        return self.rolls[-dice_number:]
-
-    @property
-    def roll_history(self):
-        return self.rolls
+            roll.append(np.random.randint(1, dice_sides + 1))
+        self.rolls.append(roll)
+        return sum(self.rolls[-1])
 
     def generate_random_name(self, sex='Male'):
-        name_roll = sum(self.roll(1, 100))
+        name_roll = self.roll(1, 100)
         random_col = np.random.randint(1, len(male_names.iloc[0]))
         if sex == 'Male':
-            if self.roll_history[-1] > 90:
+            if name_roll > 90:
                 return self.generate_random_name(sex='Female')
             else:
                 name_roll = (name_roll - 1) // 6
                 random_name = male_names.iloc[name_roll, random_col]
         else:
-            if self.roll_history[-1] > 90:
+            if name_roll > 90:
                 return self.generate_random_name()
             else:
                 name_roll = (name_roll - 1) // 6
@@ -354,11 +368,11 @@ class Creature:
             self.talents.append("-10 to all Interaction Skill Tests in formal surroundings")
             self.traits.append("Survivor")
             self.talents.append("+10 to all Tests to resist Pinning and Shock")
-            self.wounds += sum(self.roll(1, 5)) + 2
+            self.wounds += self.roll(1, 5) + 2
             self.characteristics.loc["Toughness", "bonus_multiplier"]: float = 2.0
             # Determine fate points:
-            self.roll(1, 10)
-            if self.roll_history[-1] < 6:
+            roll = self.roll(1, 10)
+            if roll < 6:
                 self.fate = 2
             else:
                 self.fate = 3
@@ -376,11 +390,11 @@ class Creature:
             self.traits.append("Void Accustomed")
             self.talents.append("Immune to space travel sickness")
             self.talents.append("Zero- & low-gravity environments => NOT Difficult Terrain")
-            self.wounds += sum(self.roll(1, 5))
+            self.wounds += self.roll(1, 5)
             self.characteristics.loc["Toughness", "bonus_multiplier"]: float = 2.0
             # Determine fate points:
-            self.roll(1, 10)
-            if self.roll_history[-1] < 6:
+            roll = self.roll(1, 10)
+            if roll < 6:
                 self.fate = 3
             else:
                 self.fate = 4
@@ -398,13 +412,13 @@ class Creature:
             self.traits.append("Stranger to the Cult")
             self.talents.append("-10 to all Tests involving knowledge of the Imperial Creed")
             self.talents.append("-5 to all Fellowship Tests interacting with Ecclesiarchy in formal settings")
-            self.wounds += sum(self.roll(1, 5)) + 1
+            self.wounds += self.roll(1, 5) + 1
             self.characteristics.loc["Toughness", "bonus_multiplier"]: float = 2.0
             # Determine fate points:
-            self.roll(1, 10)
-            if self.roll_history[-1] < 6:
+            roll = self.roll(1, 10)
+            if roll < 6:
                 self.fate = 2
-            elif self.roll_history[-1] < 10:
+            elif roll < 10:
                 self.fate = 3
             else:
                 self.fate = 4
@@ -423,13 +437,13 @@ class Creature:
             self.talents.append("-5 to all Intelligence Tests while NOT in \"Proper Habitat\"")
             self.traits.append("Wary")
             self.initiative_modifier += 1
-            self.wounds += sum(self.roll(1, 5)) + 1
+            self.wounds += self.roll(1, 5) + 1
             self.characteristics.loc["Toughness", "bonus_multiplier"]: float = 2.0
             # Determine fate points:
-            self.roll(1, 10)
-            if self.roll_history[-1] < 6:
+            roll = self.roll(1, 10)
+            if roll < 6:
                 self.fate = 2
-            elif self.roll_history[-1] < 9:
+            elif roll < 9:
                 self.fate = 3
             else:
                 self.fate = 4
@@ -444,11 +458,11 @@ class Creature:
             self.traits.append("Liturgical Familiarity")
             self.add_skill("Literacy", 'Untrained', 'Basic')
             self.add_skill("Speak Language (High Gothic)", 'Untrained', 'Basic')
-            self.wounds += sum(self.roll(1, 5))
+            self.wounds += self.roll(1, 5)
             self.characteristics.loc["Toughness", "bonus_multiplier"]: float = 2.0
             # Determine fate points:
-            self.roll(1, 10)
-            if self.roll_history[-1] < 9:
+            roll = self.roll(1, 10)
+            if roll < 9:
                 self.fate = 3
             else:
                 self.fate = 4
@@ -461,7 +475,7 @@ class Creature:
             self.traits.append("Etiquette")
             self.talents.append("+10 to Interaction Tests when dealing with authority and in formal situations")
             self.traits.append("Legacy of Wealth")
-            self.profit_factor = 1
+            self.profit_factor += 1
             # Supremely Connected Trait
             supremely_connected = "Peer ("
             supremely_connected += [
@@ -473,13 +487,13 @@ class Creature:
             self.talents.append(supremely_connected)
             self.traits.append("Vendetta")
             self.talents.append("Powerful enemies to be defined by Player & GM")
-            self.wounds += sum(self.roll(1, 5))
+            self.wounds += self.roll(1, 5)
             self.characteristics.loc["Toughness", "bonus_multiplier"]: float = 2.0
             # Determine fate points:
-            self.roll(1, 10)
-            if self.roll_history[-1] < 4:
+            roll = self.roll(1, 10)
+            if roll < 4:
                 self.fate = 2
-            elif self.roll_history[-1] < 10:
+            elif roll < 10:
                 self.fate = 3
             else:
                 self.fate = 4
@@ -495,9 +509,9 @@ class Creature:
             else:
                 self.characteristics.loc["Agility", "characteristic"] += 3
             if np.random.randint(0, 2) == 0:
-                self.corruption += sum(self.roll(1, 5))
+                self.corruption += self.roll(1, 5)
             else:
-                self.insanity += sum(self.roll(1, 5))
+                self.insanity += self.roll(1, 5)
         if self.origin[1] == "Scapegrace":
             self.add_skill("Sleight of Hand", 'Trained', 'Basic')
             if np.random.randint(0, 2) == 0:
@@ -505,9 +519,9 @@ class Creature:
             else:
                 self.characteristics.loc["Perception", "characteristic"] += 3
             if np.random.randint(0, 2) == 0:
-                self.corruption += sum(self.roll(1, 5))
+                self.corruption += self.roll(1, 5)
             else:
-                self.insanity += sum(self.roll(1, 5))
+                self.insanity += self.roll(1, 5)
         if self.origin[1] == "Stubjack":
             self.talents.append("Quick Draw")
             self.add_skill("Intimidate", 'Trained', 'Basic')
@@ -516,7 +530,7 @@ class Creature:
             else:
                 self.characteristics.loc["Ballistic Skill", "characteristic"] += 5
             self.characteristics.loc["Fellowship", "characteristic"] -= 5
-            self.insanity += sum(self.roll(1, 5))
+            self.insanity += self.roll(1, 5)
         if self.origin[1] == "Child of the Creed":
             self.talents.append("Unshakeable Faith")
             if np.random.randint(0, 2) == 0:
@@ -541,10 +555,10 @@ class Creature:
             else:
                 self.characteristics.loc["Fellowship", "characteristic"] += 3
             self.characteristics.loc["Perception", "characteristic"] -= 3
-            self.corruption += sum(self.roll(1, 5))
+            self.corruption += self.roll(1, 5)
 
     def generate_mutations(self):
-        mutant_roll: int = sum(self.roll(1, 100))
+        mutant_roll: int = self.roll(1, 100)
         if mutant_roll < 6:
             self.traits.append(f"Mutant: {mutations[0]}")
             self.talents.append("-20 to Fellowship Tests to interact with \'Normals\'")
@@ -555,7 +569,7 @@ class Creature:
         elif mutant_roll < 16:
             self.traits.append(f"Mutant: {mutations[2]}")
             self.talents.append("Cannot take Run action")
-            self.characteristics.loc["Agility", "characteristic"] -= sum(self.roll(2, 10))
+            self.characteristics.loc["Agility", "characteristic"] -= self.roll(2, 10)
         elif mutant_roll < 21:
             self.traits.append(f"Mutant: {mutations[3]}")
             self.talents.append("Iron Jaw")
@@ -571,10 +585,10 @@ class Creature:
         elif mutant_roll < 36:
             self.traits.append(f"Mutant: {mutations[6]}")
             self.roll(4, 10)
-            rolls = self.roll_history[-4:]
-            for roll in range(-4, 0):
+            rolls = self.rolls[-1]
+            for roll in range(0, 4):
                 if rolls[roll] < 6:
-                    self.characteristics.iloc[roll, 2] -= sum(self.roll(1, 10))
+                    self.characteristics.iloc[roll, 2] -= self.roll(1, 10)
                 elif rolls[roll] < 8:
                     characteristic = self.characteristics.iloc[roll, 0] + self.characteristics.iloc[roll, 2]
                     characteristic = int(characteristic / 2)
@@ -584,7 +598,7 @@ class Creature:
                 else:
                     characteristic = self.characteristics.iloc[roll, 0] + self.characteristics.iloc[roll, 2]
                     self.characteristics.iloc[roll, 2] -= characteristic - 5
-            self.insanity += sum(self.roll(1, 10))
+            self.insanity += self.roll(1, 10)
         elif mutant_roll < 41:
             self.traits.append(f"Mutant: {mutations[7]}")
             self.characteristics.loc["Weapon Skill", "characteristic"] -= 10
@@ -593,14 +607,14 @@ class Creature:
         elif mutant_roll < 46:
             self.traits.append(f"Mutant: {mutations[8]}")
             self.talents.append("+20 to Toughness Tests to resist poison")
-            self.characteristics.loc["Toughness", "characteristic"] -= sum(self.roll(1, 10))
-            self.characteristics.loc["Intelligence", "characteristic"] -= sum(self.roll(1, 10))
+            self.characteristics.loc["Toughness", "characteristic"] -= self.roll(1, 10)
+            self.characteristics.loc["Intelligence", "characteristic"] -= self.roll(1, 10)
             self.talents.append("1d10 damage ignoring Armour & Toughness to any creature that fails a "
                                 "difficult (-10) Toughness Test when coming into contact with the Mutant's blood")
         elif mutant_roll < 51:
             self.traits.append(f"Mutant: {mutations[9]}")
             self.talents.append("Hulking Size Trait")
-            self.characteristics.loc["Strength", "characteristic"] -= sum(self.roll(1, 10))
+            self.characteristics.loc["Strength", "characteristic"] -= self.roll(1, 10)
             self.wounds += 5
         elif mutant_roll < 56:
             self.traits.append(f"Mutant: {mutations[10]}")
@@ -618,13 +632,13 @@ class Creature:
             self.traits.append(f"Mutant: {mutations[12]}")
             self.characteristics.loc["Strength", "characteristic"] += 10
             self.characteristics.loc["Agility", "characteristic"] += 10
-            self.characteristics.loc["Intelligence", "characteristic"] -= sum(self.roll(1, 10))
+            self.characteristics.loc["Intelligence", "characteristic"] -= self.roll(1, 10)
             self.characteristics.loc["Fellowship", "characteristic"] -= 10
         elif mutant_roll < 68:
             self.traits.append(f"Mutant: {mutations[13]}")
-            self.characteristics.loc["Intelligence", "characteristic"] -= sum(self.roll(1, 10))
-            self.characteristics.loc["Fellowship", "characteristic"] -= sum(self.roll(1, 10))
-            roll = sum(self.roll(1, 10))
+            self.characteristics.loc["Intelligence", "characteristic"] -= self.roll(1, 10)
+            self.characteristics.loc["Fellowship", "characteristic"] -= self.roll(1, 10)
+            roll = self.roll(1, 10)
             if roll < 4:
                 self.talents.append("Frenzy")
             elif roll < 8:
@@ -633,7 +647,7 @@ class Creature:
                 self.talents.append("From Beyond Trait")
         elif mutant_roll < 71:
             self.traits.append(f"Mutant: {mutations[14]}")
-            ravaged_roll = sum(self.roll(1, 5))
+            ravaged_roll = self.roll(1, 5)
             for i in range(0, ravaged_roll):
                 self.generate_mutations()
             self.talents.append("Obvious touch of Chaos regardless of the nature of mutations")
@@ -745,9 +759,9 @@ class Creature:
             else:
                 self.traits.append("Dark Visionary")
                 if np.random.randint(0, 2) == 0:
-                    self.corruption += sum(self.roll(1, 5)) + 1
+                    self.corruption += self.roll(1, 5) + 1
                 else:
-                    self.insanity += sum(self.roll(1, 5)) + 1
+                    self.insanity += self.roll(1, 5) + 1
                 self.talents.append("Dark Soul")
                 # This picks a random skill from a group of Forbidden Lore skills.
                 forbidden_index = []
@@ -794,7 +808,7 @@ class Creature:
                 if np.random.randint(0, 2) == 0:
                     self.characteristics.loc['Fellowship', 'characteristic'] -= 5
                 else:
-                    self.insanity += sum(self.roll(1, 10))
+                    self.insanity += self.roll(1, 10)
             else:
                 self.traits.append("Favoured of the Faithful")
                 self.characteristics.loc['Fellowship', 'characteristic'] += 5
@@ -814,7 +828,7 @@ class Creature:
             else:
                 self.traits.append("Fated for Greatness")
                 self.fate += 1
-                self.insanity += sum(self.roll(1, 10))
+                self.insanity += self.roll(1, 10)
 
     def generate_trials_stats(self):
         if self.origin[3] == "The Hand of War":
@@ -907,7 +921,7 @@ class Creature:
             else:
                 self.talents.append("Resistance (Fear)")
             self.traits.append("Marked by Darkness")
-            self.insanity += sum(self.roll(1, 5))
+            self.insanity += self.roll(1, 5)
         if self.origin[3] == "High Vendetta":
             self.traits.append("Blood Will Have Blood")
             if np.random.randint(0, 2):
@@ -933,14 +947,14 @@ class Creature:
             else:
                 self.talents.append(f"Peer ({peer_groups[np.random.randint(0, len(peer_groups))]})")
         if self.origin[4] == "Pride":
-            self.roll(1, 100)
-            if self.roll_history[-1] < 21:
+            roll = self.roll(1, 100)
+            if roll < 21:
                 self.items.loc[items_table.index[0]] = items_table.iloc[0]
-            elif self.roll_history[-1] < 41:
+            elif roll < 41:
                 self.items.loc[items_table.index[1]] = items_table.iloc[1]
-            elif self.roll_history[-1] < 61:
+            elif roll < 61:
                 self.items.loc[items_table.index[2]] = items_table.iloc[2]
-            elif self.roll_history[-1] < 81:
+            elif roll < 81:
                 self.items.loc[items_table.index[3]] = items_table.iloc[3]
             else:
                 self.items.loc[items_table.index[4]] = items_table.iloc[4]
@@ -973,9 +987,28 @@ class Creature:
     def generate_random_stats(self):
         self.sex = np.random.choice(['Male', 'Female'])
         self.name = self.generate_random_name(sex=self.sex)
+        self.demeanour = demeanours[np.random.choice(["Bilious", "Cardinal", "Choleric", "Fixed", "Melancholic",
+                                                      "Mutable", "Phlegmatic", "Sanguine", "Supine"])]
+
+        roll = self.roll(1, 10)
+        if roll < profit_ship.iloc[0, 0]:
+            self.profit_factor += profit_ship.iloc[0, 1]
+            self.ship_points += profit_ship.iloc[0, 2]
+        elif roll < profit_ship.iloc[1, 0]:
+            self.profit_factor += profit_ship.iloc[1, 1]
+            self.ship_points += profit_ship.iloc[1, 2]
+        elif roll < profit_ship.iloc[2, 0]:
+            self.profit_factor += profit_ship.iloc[2, 1]
+            self.ship_points += profit_ship.iloc[2, 2]
+        elif roll < profit_ship.iloc[3, 0]:
+            self.profit_factor += profit_ship.iloc[3, 1]
+            self.ship_points += profit_ship.iloc[3, 2]
+        else:
+            self.profit_factor += profit_ship.iloc[4, 1]
+            self.ship_points += profit_ship.iloc[4, 2]
 
         for index in self.characteristics.index:
-            self.characteristics.loc[index, "characteristic"] = sum(self.roll(2, 10)) + 25
+            self.characteristics.loc[index, "characteristic"] = self.roll(2, 10) + 25
             self.characteristics.loc[index, "bonus_multiplier"]: float = 1.0
 
         old_state: int = 0
@@ -1010,6 +1043,7 @@ class Creature:
         self.generate_trials_stats()
         self.generate_motivation_stats()
         self.generate_career_stats()
+
         self.skills.sort_index(inplace=True)
         self.items.sort_index(inplace=True)
         self.recalc_stats()
