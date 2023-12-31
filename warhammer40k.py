@@ -312,6 +312,7 @@ class Creature:
         self.insanity: int = 0
         self.psy = 0
         self.items = pd.DataFrame(columns=["count", "state", "description"])
+        self.xp = 5000
 
     def roll(self, dice_number: int = 1, dice_sides: int = 6):
         roll = []
@@ -376,7 +377,7 @@ class Creature:
                 self.fate = 2
             else:
                 self.fate = 3
-        if self.origin[0] == "Void Born":
+        elif self.origin[0] == "Void Born":
             self.characteristics.loc["Strength", "characteristic"] -= 5
             self.characteristics.loc["Willpower", "characteristic"] += 5
             self.add_skill("Speak Language (Ship Dialect)")
@@ -398,7 +399,7 @@ class Creature:
                 self.fate = 3
             else:
                 self.fate = 4
-        if self.origin[0] == "Forge World":
+        elif self.origin[0] == "Forge World":
             self.characteristics.loc["Weapon Skill", "characteristic"] -= 5
             self.characteristics.loc["Intelligence", "characteristic"] += 5
             self.add_skill("Common Lore (Tech)", 'Untrained', 'Basic')
@@ -422,7 +423,7 @@ class Creature:
                 self.fate = 3
             else:
                 self.fate = 4
-        if self.origin[0] == "Hive World":
+        elif self.origin[0] == "Hive World":
             self.characteristics.loc["Toughness", "characteristic"] -= 5
             self.characteristics.loc["Fellowship", "characteristic"] += 5
             self.add_skill("Speak Language (Hive Dialect)", 'Untrained', 'Basic')
@@ -447,7 +448,7 @@ class Creature:
                 self.fate = 3
             else:
                 self.fate = 4
-        if self.origin[0] == "Imperial World":
+        elif self.origin[0] == "Imperial World":
             self.characteristics.loc["Willpower", "characteristic"] += 3
             self.traits.append("Blessed Ignorance")
             self.talents.append("-5 to Forbidden Lore (Int) Tests")
@@ -466,7 +467,7 @@ class Creature:
                 self.fate = 3
             else:
                 self.fate = 4
-        if self.origin[0] == "Noble Born":
+        else:
             self.characteristics.loc["Willpower", "characteristic"] -= 5
             self.characteristics.loc["Fellowship", "characteristic"] += 5
             self.add_skill("Literacy", 'Untrained', 'Basic')
@@ -512,7 +513,7 @@ class Creature:
                 self.corruption += self.roll(1, 5)
             else:
                 self.insanity += self.roll(1, 5)
-        if self.origin[1] == "Scapegrace":
+        elif self.origin[1] == "Scapegrace":
             self.add_skill("Sleight of Hand", 'Trained', 'Basic')
             if np.random.randint(0, 2) == 0:
                 self.characteristics.loc["Intelligence", "characteristic"] += 3
@@ -522,7 +523,7 @@ class Creature:
                 self.corruption += self.roll(1, 5)
             else:
                 self.insanity += self.roll(1, 5)
-        if self.origin[1] == "Stubjack":
+        elif self.origin[1] == "Stubjack":
             self.talents.append("Quick Draw")
             self.add_skill("Intimidate", 'Trained', 'Basic')
             if np.random.randint(0, 2) == 0:
@@ -531,14 +532,14 @@ class Creature:
                 self.characteristics.loc["Ballistic Skill", "characteristic"] += 5
             self.characteristics.loc["Fellowship", "characteristic"] -= 5
             self.insanity += self.roll(1, 5)
-        if self.origin[1] == "Child of the Creed":
+        elif self.origin[1] == "Child of the Creed":
             self.talents.append("Unshakeable Faith")
             if np.random.randint(0, 2) == 0:
                 self.characteristics.loc["Willpower", "characteristic"] += 3
             else:
                 self.characteristics.loc["Fellowship", "characteristic"] += 3
             self.characteristics.loc["Weapon Skill", "characteristic"] -= 3
-        if self.origin[1] == "Savant":
+        elif self.origin[1] == "Savant":
             if np.random.randint(0, 2) == 0:
                 self.add_skill("Logic", 'Trained', 'Basic')
             else:
@@ -548,7 +549,7 @@ class Creature:
             else:
                 self.characteristics.loc["Fellowship", "characteristic"] += 3
             self.characteristics.loc["Toughness", "characteristic"] -= 3
-        if self.origin[1] == "Vaunted":
+        else:
             self.talents.append("Decadence")
             if np.random.randint(0, 2) == 0:
                 self.characteristics.loc["Agility", "characteristic"] += 3
@@ -729,7 +730,7 @@ class Creature:
                 self.traits.append("Deviant Philosophy")
                 self.characteristics.loc["Willpower", "characteristic"] += 3
                 self.talents.append("Enemy (Ecclesiarchy)")
-        if self.origin[2] == "Criminal":
+        elif self.origin[2] == "Criminal":
             lure_random = np.random.randint(0, 3)
             if lure_random < 1:
                 self.traits.append("Wanted Fugitive")
@@ -743,7 +744,7 @@ class Creature:
                 self.traits.append("Judged and Found Wanting")
                 self.characteristics.loc["Fellowship", "characteristic"] -= 5
                 self.talents.append("poor-Craftsmanship Bionic Limb or Implant (upgrades: -200XP/-300XP => common/good")
-        if self.origin[2] == "Renegade":
+        elif self.origin[2] == "Renegade":
             lure_random = np.random.randint(0, 3)
             if lure_random < 1:
                 self.traits.append("Recidivist")
@@ -775,7 +776,7 @@ class Creature:
                             forbidden_index.append(index)
                 forbidden_random = forbidden_index[np.random.randint(0, len(forbidden_index))]
                 self.add_skill(forbidden_random, 'Trained', 'Basic')
-        if self.origin[2] == "Duty Bound":
+        elif self.origin[2] == "Duty Bound":
             lure_random = np.random.randint(0, 3)
             if lure_random < 1:
                 self.traits.append("Duty to the Throne")
@@ -795,7 +796,7 @@ class Creature:
                 self.talents.append("Rival (Rogue Trader family")
                 self.characteristics.loc['Toughness', 'characteristic'] -= 3
                 self.profit_factor += 1
-        if self.origin[2] == "Zealot":
+        elif self.origin[2] == "Zealot":
             lure_random = np.random.randint(0, 3)
             if lure_random < 1:
                 self.traits.append("Blessed Scars")
@@ -814,7 +815,7 @@ class Creature:
                 self.characteristics.loc['Fellowship', 'characteristic'] += 5
                 self.talents.append("Peer (Ecclesiarchy)")
                 self.characteristics.loc['Toughness', 'characteristic'] -= 5
-        if self.origin[2] == "Chosen by Destiny":
+        else:
             lure_random = np.random.randint(0, 3)
             if lure_random < 1:
                 self.traits.append("Seeker of Truth")
@@ -858,7 +859,7 @@ class Creature:
             self.talents.append("-10 to all Fellowship Tests involving sworn enemies")
             self.talents.append("Slightest provocation from sworn enemies results in violent reaction save successful "
                                 "Willpower Test (modified by the provocation and consequences of the reaction")
-        if self.origin[3] == "Press-Ganged":
+        elif self.origin[3] == "Press-Ganged":
             # May gain skill if it has "no prerequisites". TODO: Add prerequisites and character progression.
             self.traits.append("Unwilling Accomplice")
             press_ganged = skills_table.index.values.tolist()
@@ -882,7 +883,7 @@ class Creature:
             self.talents.append("Prospect of imprisonment or loss of freedom results in violent reaction save "
                                 "successful Willpower Test (modified by the provocation and consequences of the "
                                 "reaction")
-        if self.origin[3] == "Calamity":
+        elif self.origin[3] == "Calamity":
             self.traits.append("Inured to Adversity")
             self.talents.append("Light Sleeper")
             if np.random.randint(0, 2) == 0:
@@ -891,7 +892,7 @@ class Creature:
                 self.talents.append("Nerves of Steel")
             self.traits.append("Echo of Hard Times")
             self.profit_factor -= 1
-        if self.origin[3] == "Ship-Lorn":
+        elif self.origin[3] == "Ship-Lorn":
             self.traits.append("Against All Odds")
             if np.random.randint(0, 2):
                 self.add_skill("Survival")
@@ -903,7 +904,7 @@ class Creature:
             self.fate -= 1
             self.talents.append("-5 on Fellowship Tests interacting with Void Born, Rogue Traders, and other "
                                 "voidfarers who are not personal friends and know the background and reputation")
-        if self.origin[3] == "Dark Voyage":
+        elif self.origin[3] == "Dark Voyage":
             self.traits.append("Things Man Was Not Meant to Know")
             if np.random.randint(0, 2):
                 # This picks a random skill from a group of Forbidden Lore skills.
@@ -922,7 +923,7 @@ class Creature:
                 self.talents.append("Resistance (Fear)")
             self.traits.append("Marked by Darkness")
             self.insanity += self.roll(1, 5)
-        if self.origin[3] == "High Vendetta":
+        else:
             self.traits.append("Blood Will Have Blood")
             if np.random.randint(0, 2):
                 self.talents.append("Die Hard")
@@ -937,16 +938,16 @@ class Creature:
     def generate_motivation_stats(self):
         if self.origin[4] == "Endurance":
             self.wounds += 1
-        if self.origin[4] == "Fortune":
+        elif self.origin[4] == "Fortune":
             self.fate += 1
-        if self.origin[4] == "Vengeance":
+        elif self.origin[4] == "Vengeance":
             self.talents.append(f"Hatred ({hatred_groups[np.random.randint(0, len(hatred_groups))]})")
-        if self.origin[4] == "Renown":
+        elif self.origin[4] == "Renown":
             if np.random.randint(0, 2) == 0:
                 self.talents.append("Air of Authority")
             else:
                 self.talents.append(f"Peer ({peer_groups[np.random.randint(0, len(peer_groups))]})")
-        if self.origin[4] == "Pride":
+        elif self.origin[4] == "Pride":
             roll = self.roll(1, 100)
             if roll < 21:
                 self.items.loc[items_table.index[0]] = items_table.iloc[0]
@@ -958,7 +959,7 @@ class Creature:
                 self.items.loc[items_table.index[3]] = items_table.iloc[3]
             else:
                 self.items.loc[items_table.index[4]] = items_table.iloc[4]
-        if self.origin[4] == "Prestige":
+        else:
             if np.random.randint(0, 2) == 0:
                 skill_names_list = skills_table.index.values.tolist()
                 self.talents.append(f"Talented ({skill_names_list[np.random.randint(0, len(skill_names_list))]})")
@@ -973,21 +974,35 @@ class Creature:
         """
         Note: This function ignores the possibility of gaining an Elite Advance.
         Progression possibilities:
-        1. Characteristic Advance
-        2. Rank Increase
+        1. Characteristic Advance (+5 to the characteristic each):
+           Simple (250 xp) -> Intermediate (500 xp) -> Trained (750 xp) -> Expert (1000 xp)
+        2. Rank Increase:
+           Rank xp level
+           1    5000-6999
+           2    7000-9999
+           3    10000-12999
+           4    13000-16999
+           5    17000-20999
+           6    21000-24999
+           7    25000-29999
+           8    30000-34999
         3. Skill or Talent Advance
         """
-        if self.origin[5] == "x":
+        if self.origin[5] == "Astropath Transcendent":
             pass
-        if self.origin[5] == "x":
+        elif self.origin[5] == "Arch-Militant":
             pass
-        if self.origin[5] == "x":
+        elif self.origin[5] == "Void-Master":
             pass
-        if self.origin[5] == "x":
+        elif self.origin[5] == "Explorator":
             pass
-        if self.origin[5] == "x":
+        elif self.origin[5] == "Missionary":
             pass
-        if self.origin[5] == "x":
+        elif self.origin[5] == "Seneschal":
+            pass
+        elif self.origin[5] == "Navigator":
+            pass
+        else:
             pass
 
     def recalc_stats(self):
@@ -1050,6 +1065,7 @@ class Creature:
                 old_state += np.random.randint(low=0, high=3)
                 self.origin.append(origin_row[old_state])
         self.generate_home_world_stats()
+        self.generate_birthright_stats()
         self.generate_lure_stats()
         self.generate_trials_stats()
         self.generate_motivation_stats()
