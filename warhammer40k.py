@@ -312,7 +312,7 @@ class Creature:
         self.insanity: int = 0
         self.psy = 0
         self.items = pd.DataFrame(columns=["count", "state", "description"])
-        self.xp = 5000
+        self.xp = dict(left=5000, spent=0)
 
     def roll(self, dice_number: int = 1, dice_sides: int = 6):
         roll = []

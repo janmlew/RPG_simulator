@@ -8,7 +8,8 @@ creature = Creature()
 # print(creature.roll_history)
 creature.generate_random_stats()
 
-print(f"Name: {creature.name}, Kind: {creature.kind}, Sex: {creature.sex}, Rank: {creature.rank}")
+print(f"Name: {creature.name}, Kind: {creature.kind}, Sex: {creature.sex}, Rank: {creature.rank}, Current xp: "
+      f"{creature.xp['left']}, Spent xp: {creature.xp['spent']}")
 print(f"Characteristics: {creature.characteristics}")
 print(f"Demeanour: {creature.demeanour}")
 print(f"Origin: {creature.origin}")
