@@ -338,7 +338,7 @@ class Creature:
                 random_name = female_names.iloc[name_roll, random_col]
         return random_name
 
-    def add_skill(self, skill_name: str, training: str = 'Untrained', skill_type=None, upgrade=True):
+    def add_skill(self, skill_name: str, training: str = 'Trained', skill_type=None, upgrade=True):
         # Prevent from adding an existing skill
         if skill_name not in self.skills.index:
             self.skills.loc[skill_name] = [training, skill_type]
