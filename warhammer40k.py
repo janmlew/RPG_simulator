@@ -1037,7 +1037,7 @@ class Creature:
             else:
                 self.items.loc["Bolt Pistol"] = [2, 'Best-Craftsmanship', weapon]
             self.items.loc["Primitive Melee Weapon (of choice)"] = [1, 'Good-Craftsmanship',
-                                                                'primitive melee weapon + mono upgrade']
+                                                                    'primitive melee weapon + mono upgrade']
             loot = np.random.choice(['wanted bounties', 'arms coffer', 'stimm'])
             if loot == 'wanted bounties':
                 self.items.loc["Data-Slate Full of Wanted Bounties"] = [1, None, 'lots of wanted bounties']
