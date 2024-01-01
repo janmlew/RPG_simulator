@@ -989,24 +989,89 @@ class Creature:
         3. Skill or Talent Advance
         """
         if self.origin[5] == "Astropath Transcendent":
-            pass
+            self.add_skill("Awareness")
+            self.add_skill("Common Lore (Adeptus Astra Telepathica)")
+            self.add_skill("Forbidden Lore (Psykers)")
+            self.add_skill("Invocation")
+            self.add_skill("Psyniscience")
+            self.add_skill("Scholastic Lore (Cryptology)")
+            self.add_skill("Speak Language (High Gothic)")
+            self.add_skill("Speak Language (Low Gothic)")
+            self.talents.append("Pistol Weapon Training (Universal)")
+            self.talents.append("Heightened Senses")
+            self.talents.append("Melee Weapon Training (Universal)")
+            self.psy += 2
+            weapon = np.random.choice(['laspistol', 'stub automatic'])
+            if weapon == 'laspistol':
+                self.items.loc["Laspistol"] = [1, 'Best-Craftsmanship', weapon]
+            else:
+                self.items.loc["Stub Automatic"] = [1, 'Best-Craftsmanship', weapon]
+            weapon = np.random.choice(['mono-sword', 'shock staff'])
+            if weapon == 'mono-sword':
+                self.items.loc["Mono-Sword"] = [1, 'Best-Craftsmanship', weapon]
+            else:
+                self.items.loc["Shock Staff"] = [1, 'Common-Craftsmanship', weapon]
+            self.items.loc["Guard Flak Armour"] = [1, None, 'guard flak armour']
+            self.items.loc["Charm"] = [1, None, 'charm']
+            self.items.loc["Void Suit"] = [1, None, 'void suit']
+            self.items.loc["Micro-Bead"] = [1, None, 'micro-bead']
+            self.items.loc["Psy-Focus"] = [1, None, 'psy-focus']
+
         elif self.origin[5] == "Arch-Militant":
-            pass
+            self.add_skill("Common Lore (War)")
+            self.add_skill("Dodge")
+            self.add_skill("Intimidate")
+            self.add_skill("Scholastic Lore (Tactica Imperialis)")
+            self.add_skill("Secret Tongue (Military)")
+            self.add_skill("Speak Language (Low Gothic)")
+            self.talents.append("Basic Weapon Training (Universal)")
+            self.talents.append("Pistol Weapon Training (Universal)")
+            self.talents.append("Melee Weapon Training (Universal)")
+            self.talents.append("Thrown Weapon Training (Universal)")
+            self.talents.append("Sound Constitution")
+            weapon = np.random.choice(['hellgun', 'hunting rifle', 'bolt pistol'])
+            if weapon == 'hellgun':
+                self.items.loc["hellgun"] = [1, 'Good-Craftsmanship', weapon]
+            elif weapon == 'hunting rifle':
+                self.items.loc["hunting rifle"] = [1, 'Best-Craftsmanship', weapon]
+            else:
+                self.items.loc["Bolt Pistol"] = [2, 'Best-Craftsmanship', weapon]
+            self.items.loc["Primitive Melee Weapon (of choice)"] = [1, 'Good-Craftsmanship',
+                                                                'primitive melee weapon + mono upgrade']
+            loot = np.random.choice(['wanted bounties', 'arms coffer', 'stimm'])
+            if loot == 'wanted bounties':
+                self.items.loc["Data-Slate Full of Wanted Bounties"] = [1, None, 'lots of wanted bounties']
+            elif loot == 'arms coffer':
+                self.items.loc["Arms Coffer"] = [1, None, 'arms coffer']
+            else:
+                self.items.loc["Stimm Doses"] = [3, None, 'stimm']
+            self.items.loc["Micro-Bead"] = [1, None, 'micro-bead']
+            self.items.loc["Void Suit"] = [1, None, 'void suit']
+            self.items.loc['Enforcer Light Carapace Armour'] = [1, None, 'armour']
+            self.items.loc["Bolt Shell Keepsake"] = [1, None, 'keepsake']
+            self.items.loc["Medikit"] = [1, None, 'medikit']
+            self.items.loc["Manacles"] = [1, None, 'manacles']
+
         elif self.origin[5] == "Void-Master":
             pass
+
         elif self.origin[5] == "Explorator":
             pass
+
         elif self.origin[5] == "Missionary":
             pass
+
         elif self.origin[5] == "Seneschal":
             pass
+
         elif self.origin[5] == "Navigator":
             pass
+
         else:
             self.add_skill("Command")
             self.add_skill("Commerce")
             self.add_skill("Charm")
-            self.add_skill("Common Lore (Imperium")
+            self.add_skill("Common Lore (Imperium)")
             self.add_skill("Evaluate")
             self.add_skill("Literacy")
             self.add_skill("Scholastic Lore (Astromancy)")
@@ -1017,25 +1082,25 @@ class Creature:
             self.talents.append("Melee Weapon Training (Universal)")
             weapon = np.random.choice(['laspistol', 'hand cannon', 'plasma pistol'])
             if weapon == 'laspistol':
-                self.items["Laspistol"] = [1, 'Best-Craftsmanship', weapon]
+                self.items.loc["Laspistol"] = [1, 'Best-Craftsmanship', weapon]
             elif weapon == 'hand cannon':
-                self.items["Hand Cannon"] = [1, 'Good-Craftsmanship', weapon]
+                self.items.loc["Hand Cannon"] = [1, 'Good-Craftsmanship', weapon]
             else:
-                self.items["Plasma Pistol"] = [1, 'Common-Craftsmanship', weapon]
+                self.items.loc["Plasma Pistol"] = [1, 'Common-Craftsmanship', weapon]
             weapon = np.random.choice(['mono-sword', 'power sword'])
             if weapon == 'mono-sword':
-                self.items["Mono-Sword"] = [1, 'Best-Craftsmanship', weapon]
+                self.items.loc["Mono-Sword"] = [1, 'Best-Craftsmanship', weapon]
             else:
-                self.items["Power Sword"] = [1, 'Common-Craftsmanship', weapon]
-            armor = np.random.choice(['enforcer light carapace', 'storm trooper carapace'])
-            if armor == 'enforcer light carapace':
-                self.items["Enforcer Light Carapace"] = [1, 'Best-Craftsmanship', armor]
+                self.items.loc["Power Sword"] = [1, 'Common-Craftsmanship', weapon]
+            armour = np.random.choice(['enforcer light carapace', 'storm trooper carapace'])
+            if armour == 'enforcer light carapace':
+                self.items.loc["Enforcer Light Carapace"] = [1, 'Best-Craftsmanship', armour]
             else:
-                self.items["Storm Trooper Carapace"] = [1, 'Best-Craftsmanship', armor]
-            self.items["Micro-Bead"] = [1, None, 'micro-bead']
-            self.items["Void Suit"] = [1, None, 'void suit']
-            self.items["Set of Fine Clothing"] = [1, None, 'clothing']
-            self.items["Xeno-Pelt Cloak"] = [1, None, 'cloak']
+                self.items.loc["Storm Trooper Carapace"] = [1, 'Best-Craftsmanship', armour]
+            self.items.loc["Micro-Bead"] = [1, None, 'micro-bead']
+            self.items.loc["Void Suit"] = [1, None, 'void suit']
+            self.items.loc["Set of Fine Clothing"] = [1, None, 'clothing']
+            self.items.loc["Xeno-Pelt Cloak"] = [1, None, 'cloak']
 
     def recalc_stats(self):
         for index in self.characteristics.index:
