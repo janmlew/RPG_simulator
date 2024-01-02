@@ -1123,7 +1123,7 @@ class Creature:
             self.items.loc["Sacred Unguents"] = [1, None, 'sacred unguents']
             self.items.loc["Combi-Tool"] = [1, None, 'combi-tool']
             self.items.loc["Dataslate"] = [1, None, 'dataslate']
-            self.items.loc["Servo-Skull Familiar"] = [1, None, 'familiar']  #TODO: See p. 375.
+            self.items.loc["Servo-Skull Familiar"] = [1, None, 'familiar']  # TODO: See p. 375.
 
         elif self.origin[5] == "Missionary":
             self.add_skill("Common Lore (Imperial Creed)")
