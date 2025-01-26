@@ -11,8 +11,6 @@ def throw_dice(number_of_dice: int = 1, sides: int = 6, difficulty: int = 0):
     """
     dice_list: list = []
     dice_list = [np.random.randint(1, sides+1) for die in range(1, number_of_dice+1)]
-    for die in dice_list:
-        if die == 6:
     return dice_list
 
 
