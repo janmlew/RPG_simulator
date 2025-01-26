@@ -14,23 +14,41 @@ def throw_dice(number_of_dice: int = 1, sides: int = 6, difficulty: int = 0):
     return dice_list
 
 
-def analyze_throw(dice_list: list, st:int = 0):
-    icon_list= []
-    wrath_result = "Emperor protects!"
+def analyze_throw(dice_list: list, difficulty_number: int = 0):
+    """
+    This function reads a list of thrown dice.
+    :param dice_list: self-explanatory
+    :param difficulty_number: This number is subtracted from dice sum to determine success / failure.
+    :return: Wrath dice result ("Critical!" v "Complication!" v "Emperor protects!") and the number of possible shifts.
+    """
     shifts_count = 0
+    throw_result = 0
+    # This loop sums up the results discounted for DN. If the result is > 0 then the test is successful.
     for die in dice_list:
         if die == 6:
-            icon_list.append(2)
-            shifts_count += 1
+            throw_result += 2
         elif die > 3:
-            icon_list.append(1)
-    if icon_list[0] == 1:
-        wrath_result = "Complication!"
-    elif icon_list[0] == 6:
-        wrath_result = "Critical!"
-    for icon in
-    print(f"Sum = {sum(icon_list)}, ")
+            throw_result += 1
+    throw_result_shifted = throw_result
+    # This loop checks whether there are some shifts possible.
+    for die in dice_list:
+        if (die == 6) & (throw_result_shifted-2 >= difficulty_number):
+            shifts_count += 1
+            throw_result_shifted -= 2
+    print(f"Sum = {sum(dice_list)}, Result = {throw_result}, Shifts = {shifts_count}, Result after shifts = "
+          f"{throw_result_shifted}.")
+    # Wrath die result check.
+    match dice_list[0]:
+        case 6:
+            wrath_result = "Critical!"
+        case 1:
+            wrath_result = "Complication!"
+        case _:
+            wrath_result = "Emperor protects!"
+    return wrath_result, shifts_count
 
 
-
-print(throw_dice(6))
+first_throw = throw_dice(6)
+print(first_throw)
+result, shifts = analyze_throw(first_throw, 3)
+print(result, shifts)
