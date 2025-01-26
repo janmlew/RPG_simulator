@@ -48,6 +48,13 @@ def analyze_throw(dice_list: list, difficulty_number: int = 0):
     return wrath_result, shifts_count
 
 
+critical_hit_names = ["Strzał w głowę", "Paskudna rana", "Mordercze cięcie", "Bezlitosny cios", "Dziki atak",
+                      "Bezwzględna wiwisekcja", "Wybebeszenie", "Morderczy atak", "Przełamujący cios", "Szkarłatny pył",
+                      "Zmiażdżenie kości", "Niepojęta rzeź", "Przerażająca detonacja", "Makabryczna amputacja"]
+critical_hit_dice_ranges = [[1, 6], [2, 3], [2, 6], [3, 3], [3, 6],
+                            [4, 3], [4, 5], [4, 6], [5, 3], [5, 5], [5, 6], [6, 3], [6, 5], [6, 6]]
+critical_hit_effects = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+
 first_throw = throw_dice(6)
 print(first_throw)
 result, shifts = analyze_throw(first_throw, 3)
