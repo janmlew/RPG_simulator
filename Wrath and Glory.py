@@ -1,24 +1,25 @@
 import numpy as np
-import pandas as pd
+# import pandas as pd
 
 
 def input_number(prompt: str):
     try:
         number = int(input(prompt))
         return number
-    except ValueError: pass
+    except ValueError:
+        pass
 
 
 def throw_dice(number_of_dice: int = 1, sides: int = 6):
     """
-    :param number_of_dice: How many dice to dice_list.
-    :param sides: Defaults to a 6-sided die.
+    :param number_of_dice: How many dice to dice_list. None is captured.
+    :param sides: Defaults to a 6-sided die. None is captured.
     :return: Returns a list of thrown dice.
     """
     number_of_dice: int = 1 if number_of_dice is None else number_of_dice  # Catch nulls.
     sides: int = 6 if sides is None else sides  # Catch nulls.
 
-    dice_list = [np.random.randint(1, sides+1) for die in range(1, number_of_dice+1)]
+    dice_list = [np.random.randint(1, sides + 1) for die in range(1, number_of_dice + 1)]
     return dice_list
 
 
@@ -26,7 +27,7 @@ def analyze_throw(dice_list: list, dn: int = 0):
     """
     This function reads a list of thrown dice.
     :param dice_list: self-explanatory
-    :param dn: This number is subtracted from dice sum to determine success / failure.
+    :param dn: This number is subtracted from dice sum to determine success / failure. None is captured.
     :return: Wrath dice result ("Critical!" v "Complication!" v "Emperor protects!") and the number of possible shifts.
     """
     dn: int = 0 if dn is None else dn  # Catch nulls.
