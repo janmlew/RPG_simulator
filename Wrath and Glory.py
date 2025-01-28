@@ -58,7 +58,13 @@ critical_hit_effects = [, , , , , , , , , , , , , , , , , , , , , , , ]
 player_states = ["Groza", "Krwawienie", "Odsłonięcie", "Oślepienie", "Oszołomienie", "Podpalenie", "Powalenie",
                  "Przygwożdżenie", "Strach", "Szał bojowy", "Unieruchomienie", "Wycieńczenie", "Zatrucie",
                  "Zdezorientowanie"]
-wound_states = ["Rana", "Rana śmiertelna", "Trauma"]
+effect_states = ["Rana", "Rana śmiertelna", "Trauma",
+                 "Jeśli przeżyje Trafienie krytyczne, natychmiast otrzymuje Trwały uraz",
+                 "Każda postać będąca w Zwarciu z celem musi wykonać Test Zręczności o ST 3",
+                 "Jeśli cel miał przy sobie jakiekolwiek materiały wybuchowe (np. granaty lub amunicję), następuje "
+                 "detonacja, wywołująca dodatkowo 1k3 Ran śmiertelnych"]
+glory_states = ["Rana", "Rana śmiertelna", "Trauma",
+                "Trafienie krytyczne wpływa na jeden dodatkowy cel w zasięgu 10 metrów"]
 
 first_throw = throw_dice(6)
 print(first_throw)
