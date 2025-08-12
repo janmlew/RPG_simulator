@@ -34,6 +34,13 @@ character_setup_list = ["Motywacje postaci",
                         "Tematyczne potwory",
                         "Haczyki narracyjne i ziarna opowieści"]
 
+archetype_list = ["Acolyte", "Acrobat", "Animal Whisperer", "Archivist", "Artisan", "Artist", "Barkeep", "Barrister",
+                  "Bounty Hunter", "Charlatan", "Cook", "Criminal", "Cultist", "Detective", "Emissary", "Entertainer",
+                  "Exile", "Explorer", "Farmer", "Folk Hero", "Fortune Teller", "Gambler", "Gladiator", "Gravedigger",
+                  "Guard", "Herbalist", "Hermit", "Hunter", "Knight", "Laborer", "Martial Disciple", "Merchant",
+                  "Medic", "Miner", "Noble", "Nomad", "Outlander", "Pirate", "Pilgrim", "Prisoner", "Sage / Scholar",
+                  "Sailor", "Scholar", "Scout", "Soldier", "Spy", "Teacher", "Tinker", "Urchin", "Warrior", "Weirdo"]
+
 continue_prompt = ""  # Initialize a loop continuation variable.
 while continue_prompt!="q":
     dice_count = input_number("How many dice? ")
