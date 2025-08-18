@@ -9,30 +9,27 @@ def input_number(prompt: str):
         pass
 
 
-def throw_dice(number_of_dice: int = 1, sides: int = 6):
+def throw_a_die(sides: int = 6):
     """
-    :param number_of_dice: How many dice to dice_list. None is captured.
     :param sides: Defaults to a 6-sided die. None is captured.
     :return: Returns a list of thrown dice.
     """
-    number_of_dice: int = 1 if number_of_dice is None else number_of_dice  # Catch nulls.
     sides: int = 6 if sides is None else sides  # Catch nulls.
 
-    dice_list = [np.random.randint(1, sides + 1) for die in range(1, number_of_dice + 1)]
-    return dice_list
+    return np.random.randint(1, sides + 1)
 
 
-character_setup_list = ["Motywacje postaci",
-                        "Zaczyn łazikowania",
-                        "Rozwój postaci",
-                        "Przyjazne frakcje",
-                        "Aktywa i sprzymierzeńcy",
-                        "Przedmioty magiczne i znaczące",
-                        "Organizacje przeciwne",
-                        "Rywale i wrogowie",
-                        "Miejsca pobudzające wyobraźnię",
-                        "Tematyczne potwory",
-                        "Haczyki narracyjne i ziarna opowieści"]
+character_setup_list = ["Motywacje postaci", 20,
+                        "Zaczyn łazikowania", 12,
+                        "Rozwój postaci", 8,
+                        "Przyjazne frakcje", 4,
+                        "Aktywa i sprzymierzeńcy", 6,
+                        "Przedmioty magiczne i znaczące", 10,
+                        "Organizacje przeciwne", 6,
+                        "Rywale i wrogowie", 6,
+                        "Miejsca pobudzające wyobraźnię", 6,
+                        "Tematyczne potwory", 6,
+                        "Haczyki narracyjne i ziarna opowieści", 20]
 
 archetype_list = ["Akolita", "Akrobata", "Zaklinacz zwierząt", "Archiwista", "Rzemieślnik", "Artysta", "Barman",
                   "Adwokat", "Łowca nagród", "Szarlatan", "Kucharz", "Przestępca", "Kultysta", "Detektyw", "Wysłannik",
@@ -5304,11 +5301,75 @@ weirdo_plot_hooks = {1: "No one knew he was working on some kind of monster zoo 
 19: "A wave of undead has been unleashed by someone trying to rig an election",
 20: "Though it's masters died millennia ago, the construct remains at its task without ceasing",}
 
-continue_prompt = ""  # Initialize a loop continuation variable.
-while continue_prompt!="q":
-    dice_count = input_number("How many dice? ")
-    sides_count = input_number("How many sides to dice? ")
-    dice_list = throw_dice(dice_count, sides_count)
-    print(f"List of the dice thrown: {dice_list}.")
-    print("Press enter to continue or type 'q' to quit.")
-    continue_prompt = input()
+archetypes_dict = {0: [acolyte_drives, acolyte_catalysts, acolyte_growth, acolyte_friends, acolyte_assets, acolyte_items, acolyte_antagonists, acolyte_rivals, acolyte_locs, acolyte_monsters, acolyte_plot_hooks],
+                   1: [acrobat_drives, acrobat_catalysts, acrobat_growth, acrobat_friends, acrobat_assets, acrobat_items, acrobat_antagonists, acrobat_rivals, acrobat_locs, acrobat_monsters, acrobat_plot_hooks],
+                   2: [animal_whisperer_drives, animal_whisperer_catalysts, animal_whisperer_growth, animal_whisperer_friends, animal_whisperer_assets, animal_whisperer_items, animal_whisperer_antagonists, animal_whisperer_rivals, animal_whisperer_locs, animal_whisperer_monsters, animal_whisperer_plot_hooks],
+                   3: [archivist_drives, archivist_catalysts, archivist_growth, archivist_friends, archivist_assets, archivist_items, archivist_antagonists, archivist_rivals, archivist_locs, archivist_monsters, archivist_plot_hooks],
+                   4: [artisan_drives, artisan_catalysts, artisan_growth, artisan_friends, artisan_assets, artisan_items, artisan_antagonists, artisan_rivals, artisan_locs, artisan_monsters, artisan_plot_hooks],
+                   5: [artist_drives, artist_catalysts, artist_growth, artist_friends, artist_assets, artist_items, artist_antagonists, artist_rivals, artist_locs, artist_monsters, artist_plot_hooks],
+                   6: [barkeep_drives, barkeep_catalysts, barkeep_growth, barkeep_friends, barkeep_assets, barkeep_items, barkeep_antagonists, barkeep_rivals, barkeep_locs, barkeep_monsters, barkeep_plot_hooks],
+                   7: [barrister_drives, barrister_catalysts, barrister_growth, barrister_friends, barrister_assets, barrister_items, barrister_antagonists, barrister_rivals, barrister_locs, barrister_monsters, barrister_plot_hooks],
+                   8: [bounty_hunter_drives, bounty_hunter_catalysts, bounty_hunter_growth, bounty_hunter_friends, bounty_hunter_assets, bounty_hunter_items, bounty_hunter_antagonists, bounty_hunter_rivals, bounty_hunter_locs, bounty_hunter_monsters, bounty_hunter_plot_hooks],
+                   9: [charlatan_drives, charlatan_catalysts, charlatan_growth, charlatan_friends, charlatan_assets, charlatan_items, charlatan_antagonists, charlatan_rivals, charlatan_locs, charlatan_monsters, charlatan_plot_hooks],
+                   10: [cook_drives, cook_catalysts, cook_growth, cook_friends, cook_assets, cook_items, cook_antagonists, cook_rivals, cook_locs, cook_monsters, cook_plot_hooks],
+                   11: [criminal_drives, criminal_catalysts, criminal_growth, criminal_friends, criminal_assets, criminal_items, criminal_antagonists, criminal_rivals, criminal_locs, criminal_monsters, criminal_plot_hooks],
+                   12: [cultist_drives, cultist_catalysts, cultist_growth, cultist_friends, cultist_assets, cultist_items, cultist_antagonists, cultist_rivals, cultist_locs, cultist_monsters, cultist_plot_hooks],
+                   13: [detective_drives, detective_catalysts, detective_growth, detective_friends, detective_assets, detective_items, detective_antagonists, detective_rivals, detective_locs, detective_monsters, detective_plot_hooks],
+                   14: [emmissary_drives, emmissary_catalysts, emmissary_growth, emmissary_friends, emmissary_assets, emmissary_items, emmissary_antagonists, emmissary_rivals, emmissary_locs, emmissary_monsters, emmissary_plot_hooks],
+                   15: [entertainer_drives, entertainer_catalysts, entertainer_growth, entertainer_friends, entertainer_assets, entertainer_items, entertainer_antagonists, entertainer_rivals, entertainer_locs, entertainer_monsters, entertainer_plot_hooks],
+                   16: [exile_drives, exile_catalysts, exile_growth, exile_friends, exile_assets, exile_items, exile_antagonists, exile_rivals, exile_locs, exile_monsters, exile_plot_hooks],
+                   17: [explorer_drives, explorer_catalysts, explorer_growth, explorer_friends, explorer_assets, explorer_items, explorer_antagonists, explorer_rivals, explorer_locs, explorer_monsters, explorer_plot_hooks],
+                   18: [farmer_drives, farmer_catalysts, farmer_growth, farmer_friends, farmer_assets, farmer_items, farmer_antagonists, farmer_rivals, farmer_locs, farmer_monsters, farmer_plot_hooks],
+                   19: [folk_hero_drives, folk_hero_catalysts, folk_hero_growth, folk_hero_friends, folk_hero_assets, folk_hero_items, folk_hero_antagonists, folk_hero_rivals, folk_hero_locs, folk_hero_monsters, folk_hero_plot_hooks],
+                   21: [fortune_teller_drives, fortune_teller_catalysts, fortune_teller_growth, fortune_teller_friends, fortune_teller_assets, fortune_teller_items, fortune_teller_antagonists, fortune_teller_rivals, fortune_teller_locs, fortune_teller_monsters, fortune_teller_plot_hooks],
+                   22: [gambler_drives, gambler_catalysts, gambler_growth, gambler_friends, gambler_assets, gambler_items, gambler_antagonists, gambler_rivals, gambler_locs, gambler_monsters, gambler_plot_hooks],
+                   23: [gladiator_drives, gladiator_catalysts, gladiator_growth, gladiator_friends, gladiator_assets, gladiator_items, gladiator_antagonists, gladiator_rivals, gladiator_locs, gladiator_monsters, gladiator_plot_hooks],
+                   24: [gravedigger_drives, gravedigger_catalysts, gravedigger_growth, gravedigger_friends, gravedigger_assets, gravedigger_items, gravedigger_antagonists, gravedigger_rivals, gravedigger_locs, gravedigger_monsters, gravedigger_plot_hooks],
+                   25: [guard_drives, guard_catalysts, guard_growth, guard_friends, guard_assets, guard_items, guard_antagonists, guard_rivals, guard_locs, guard_monsters, guard_plot_hooks],
+                   26: [herbalist_drives, herbalist_catalysts, herbalist_growth, herbalist_friends, herbalist_assets, herbalist_items, herbalist_antagonists, herbalist_rivals, herbalist_locs, herbalist_monsters, herbalist_plot_hooks],
+                   27: [hermit_drives, hermit_catalysts, hermit_growth, hermit_friends, hermit_assets, hermit_items, hermit_antagonists, hermit_rivals, hermit_locs, hermit_monsters, hermit_plot_hooks],
+                   28: [hunter_drives, hunter_catalysts, hunter_growth, hunter_friends, hunter_assets, hunter_items, hunter_antagonists, hunter_rivals, hunter_locs, hunter_monsters, hunter_plot_hooks],
+                   29: [knight_drives, knight_catalysts, knight_growth, knight_friends, knight_assets, knight_items, knight_antagonists, knight_rivals, knight_locs, knight_monsters, knight_plot_hooks],
+                   30: [laborer_drives, laborer_catalysts, laborer_growth, laborer_friends, laborer_assets, laborer_items, laborer_antagonists, laborer_rivals, laborer_locs, laborer_monsters, laborer_plot_hooks],
+                   31: [martial_disciple_drives, martial_disciple_catalysts, martial_disciple_growth, martial_disciple_friends, martial_disciple_assets, martial_disciple_items, martial_disciple_antagonists, martial_disciple_rivals, martial_disciple_locs, martial_disciple_monsters, martial_disciple_plot_hooks],
+                   32: [merchant_drives, merchant_catalysts, merchant_growth, merchant_friends, merchant_assets, merchant_items, merchant_antagonists, merchant_rivals, merchant_locs, merchant_monsters, merchant_plot_hooks],
+                   33: [medic_drives, medic_catalysts, medic_growth, medic_friends, medic_assets, medic_items, medic_antagonists, medic_rivals, medic_locs, medic_monsters, medic_plot_hooks],
+                   34: [miner_drives, miner_catalysts, miner_growth, miner_friends, miner_assets, miner_items, miner_antagonists, miner_rivals, miner_locs, miner_monsters, miner_plot_hooks],
+                   35: [noble_drives, noble_catalysts, noble_growth, noble_friends, noble_assets, noble_items, noble_antagonists, noble_rivals, noble_locs, noble_monsters, noble_plot_hooks],
+                   36: [nomad_drives, nomad_catalysts, nomad_growth, nomad_friends, nomad_assets, nomad_items, nomad_antagonists, nomad_rivals, nomad_locs, nomad_monsters, nomad_plot_hooks],
+                   37: [outlander_drives, outlander_catalysts, outlander_growth, outlander_friends, outlander_assets, outlander_items, outlander_antagonists, outlander_rivals, outlander_locs, outlander_monsters, outlander_plot_hooks],
+                   38: [pirate_drives, pirate_catalysts, pirate_growth, pirate_friends, pirate_assets, pirate_items, pirate_antagonists, pirate_rivals, pirate_locs, pirate_monsters, pirate_plot_hooks],
+                   39: [pilgrim_drives, pilgrim_catalysts, pilgrim_growth, pilgrim_friends, pilgrim_assets, pilgrim_items, pilgrim_antagonists, pilgrim_rivals, pilgrim_locs, pilgrim_monsters, pilgrim_plot_hooks],
+                   40: [prisoner_drives, prisoner_catalysts, prisoner_growth, prisoner_friends, prisoner_assets, prisoner_items, prisoner_antagonists, prisoner_rivals, prisoner_locs, prisoner_monsters, prisoner_plot_hooks],
+                   41: [sage_scholar_drives, sage_scholar_catalysts, sage_scholar_growth, sage_scholar_friends, sage_scholar_assets, sage_scholar_items, sage_scholar_antagonists, sage_scholar_rivals, sage_scholar_locs, sage_scholar_monsters, sage_scholar_plot_hooks],
+                   42: [sailor_drives, sailor_catalysts, sailor_growth, sailor_friends, sailor_assets, sailor_items, sailor_antagonists, sailor_rivals, sailor_locs, sailor_monsters, sailor_plot_hooks],
+                   43: [scout_drives, scout_catalysts, scout_growth, scout_friends, scout_assets, scout_items, scout_antagonists, scout_rivals, scout_locs, scout_monsters, scout_plot_hooks],
+                   44: [soldier_drives, soldier_catalysts, soldier_growth, soldier_friends, soldier_assets, soldier_items, soldier_antagonists, soldier_rivals, soldier_locs, soldier_monsters, soldier_plot_hooks],
+                   45: [spy_drives, spy_catalysts, spy_growth, spy_friends, spy_assets, spy_items, spy_antagonists, spy_rivals, spy_locs, spy_monsters, spy_plot_hooks],
+                   46: [teacher_drives, teacher_catalysts, teacher_growth, teacher_friends, teacher_assets, teacher_items, teacher_antagonists, teacher_rivals, teacher_locs, teacher_monsters, teacher_plot_hooks],
+                   47: [tinker_drives, tinker_catalysts, tinker_growth, tinker_friends, tinker_assets, tinker_items, tinker_antagonists, tinker_rivals, tinker_locs, tinker_monsters, tinker_plot_hooks],
+                   48: [urchin_drives, urchin_catalysts, urchin_growth, urchin_friends, urchin_assets, urchin_items, urchin_antagonists, urchin_rivals, urchin_locs, urchin_monsters, urchin_plot_hooks],
+                   49: [warrior_drives, warrior_catalysts, warrior_growth, warrior_friends, warrior_assets, warrior_items, warrior_antagonists, warrior_rivals, warrior_locs, warrior_monsters, warrior_plot_hooks],
+                   50: [weirdo_drives, weirdo_catalysts, weirdo_growth, weirdo_friends, weirdo_assets, weirdo_items, weirdo_antagonists, weirdo_rivals, weirdo_locs, weirdo_monsters, weirdo_plot_hooks]}
+
+prompt_selection = ""  # Initialize a loop continuation variable.
+while prompt_selection!= "q":
+    # dice_count = input_number("How many dice? ")
+    # sides_count = input_number("How many sides to dice? ")
+    # dice_list = throw_dice(dice_count, sides_count)
+    # print(f"List of the dice thrown: {dice_list}.")
+    print(f"Choose one of the following archetypes:")
+    for i in range(0, len(archetype_list)):
+        print(f"{i}: {archetype_list[i]}")
+    print(f"Otherwise, type the number [0-{len(archetype_list)}] associated with the archetype for which you would like to extract its randomized features:")
+    try:
+        prompt_selection = int(input())
+    except TypeError:
+        print("Please type a number.")
+        break
+    for i in range(0, len(character_setup_list), 2):
+        current_die = throw_a_die(character_setup_list[i + 1])
+        print(f"{character_setup_list[i]} (d{character_setup_list[i+1]}={current_die}) = {archetypes_dict[prompt_selection][int(i/2)][current_die]}.")
+    print(f"\nPlease review the results above. If you want to discontinue the selection process, type 'q'. Otherwise, press 'enter'.")
+    prompt_selection = input()
+
